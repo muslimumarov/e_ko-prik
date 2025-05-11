@@ -1,20 +1,21 @@
 import React from "react";
 import Navbar from "./layouts/base/navbar/Navbar.tsx";
-import Main from "./pages/main/Main.tsx";
-
+import Main from "./layouts/base/main/Main.tsx";
+import { BrowserRouter } from "react-router-dom";
 const App: React.FC = () => {
     return (
         <>
-            <div className="relative min-h-screen overflow-hidden ">
-                {/* Background image */}
-                <img
-                    src="/images/IMG_2016.JPG"
-                    alt="img"
-                    className="home-video"
-                />
-                <Navbar />
-                <Main />
-            </div>
+            <BrowserRouter>
+                <div className="relative min-h-screen overflow-hidden ">
+                    <img
+                        src="/images/IMG_2016.JPG"
+                        alt="img"
+                        className="home-video"
+                    />
+                    <Navbar />
+                    <Main />
+                </div>
+            </BrowserRouter>
         </>
     );
 };
