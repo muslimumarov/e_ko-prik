@@ -1,43 +1,53 @@
-import type {RouteObject} from "react-router-dom"
-import {useRoutes} from "react-router-dom";
-import {lazy} from "react";
+import { useRoutes } from "react-router-dom";
+import { lazy } from "react";
 import Monitoring from "./pages/monitoring/Monitoring.tsx";
-import InteraktivMap from "./pages/map/Map.tsx";
-import Laboratory from "./pages/labaratory/Labaratory.tsx";
+import InteraktivMap from "./pages/map/InteraktivMap.tsx";
 import Project from "./pages/project/Project.tsx";
 import Object from "./pages/obyekt/Object.tsx";
+import { MyMapPage } from "./components/Map/map.tsx";
+import Main from "./layouts/base/main/Main.tsx";
+import Labaratory from "./pages/labaratory/Labaratory.tsx"; // bu yerga qo‘shamiz
 
 const Reyting = lazy(() => import("./pages/reyting/Reyting.tsx"));
 
-
 function Route() {
-    const routes: RouteObject[] = [
+    const routes = [
+        {
+            path: "/",
+            element: <Main /> // 👈 Faqat bosh sahifada ko‘rinadi
+        },
         {
             path: "object",
-            element: <Object/>
+            element: <Object />,
         },
         {
             path: "monitoring",
-            element: <Monitoring/>
+            element: <Monitoring />,
         },
         {
             path: "map",
-            element: <InteraktivMap/>
+            element: <InteraktivMap />,
+            children: [
+                {
+                    path: "mymap",
+                    element: <MyMapPage />,
+                },
+            ],
         },
         {
             path: "reyting",
-            element: <Reyting/>
+            element: <Reyting />,
         },
         {
             path: "laboratory",
-            element: <Laboratory/>
+            element: <Labaratory     />,
         },
         {
             path: "project",
-            element: <Project/>
+            element: <Project />,
         },
-    ]
-    return useRoutes(routes)
+    ];
+    return useRoutes(routes);
 }
 
-export default Route
+export default Route;

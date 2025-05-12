@@ -42,7 +42,7 @@ const SearchInput: React.FC = () => {
                     type="submit"
                     className="absolute bottom-2.5 end-2.5 rounded-lg bg-cyan-700  px-4 py-2
     text-sm font-medium text-white hover:scale-105 hover:bg-cyan-800 focus:outline-none  focus:ring-0
-   dark:bg-cyan-900 dark:hover:bg-cyan-700"
+   dark:bg-cyan-600 dark:hover:bg-cyan-700"
                 >
                     {t("search")}
                 </button>
