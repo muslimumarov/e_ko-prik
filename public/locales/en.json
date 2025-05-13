@@ -1,6 +1,12 @@
 {
   "Login": "Login",
   "E-Bridge": "Welcome to the E-Bridge information system",
-  "search": "Search"
+  "search": "Search",
+  "interactiveMap": "Interactive Map",
+  "monitoring": "Monitoring",
+  "eEmployee": "E-Employee",
+  "archive": "Archive",
+  "eWarehouse": "E-Warehouse",
+  "surveillanceCameras": "Surveillance Cameras"
 }
 

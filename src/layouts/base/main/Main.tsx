@@ -1,17 +1,18 @@
 import React from "react";
-import {useTranslation} from "react-i18next";
 import SearchInput from "../../../components/searchInput/SearchInput.tsx";
 import {Link} from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 
 const Main: React.FC = () => {
     const {t} = useTranslation();
     const boxes = [
-        {title: 'Obyektlar', path: '/object'},
-        {title: 'Monitoring', path: '/monitoring'},
-        {title: 'Interaktiv xarita', path: '/map/mymap'},
-        {title: 'Elektron reyting', path: '/reyting'},
-        {title: 'Labaratoriya', path: '/laboratory'},
-        {title: 'Loyhalar', path: '/project'},
+        { title: t("interactiveMap"), path: "/map/myMap" },
+        { title: t("monitoring"), path: "/monitoring" },
+        { title: t("E-Xodim"), path: "/employee" },
+        { title: t("archive"), path: "/archive" },
+        { title: t("E-Ombor"), path: "/warehouse" },
+        { title: t("surveillanceCameras"), path: "/camera" }
     ];
     return (
         <main className="container relative z-40 mx-auto mt-40 px-4">

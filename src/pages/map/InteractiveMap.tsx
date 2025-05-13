@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const InteraktivMap: React.FC = () => {
+const InteractiveMap: React.FC = () => {
     return (
         <div className="pt-20"> {/* Navbar joyi uchun bo‘sh joy */}
             <Outlet /> {/* Bu yerda child sahifa (`/map/mymap`) ko‘rinadi */}
@@ -8,4 +8,4 @@ const InteraktivMap: React.FC = () => {
     );
 };
 
-export default InteraktivMap;
+export default InteractiveMap;

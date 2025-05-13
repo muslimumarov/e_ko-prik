@@ -1,8 +1,8 @@
 
-const Labaratory = () => {
+const Archive = () => {
     return (
         <div>Labaratory</div>
     );
 };
 
-export default Labaratory;
+export default Archive;

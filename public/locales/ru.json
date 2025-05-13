@@ -1,6 +1,12 @@
 {
   "Login": "Вход в систему",
   "E-Bridge": "Добро пожаловать в информационную систему E-Bridge",
-  "search": "Поиск"
+  "search": "Поиск",
+  "interactiveMap": "Интерактивная карта",
+  "monitoring": "Мониторинг",
+  "eEmployee": "Электронный сотрудник",
+  "archive": "Архив",
+  "eWarehouse": "Электронный склад",
+  "surveillanceCameras": "Камеры наблюдения"
 
 }

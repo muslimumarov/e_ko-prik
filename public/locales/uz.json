@@ -1,5 +1,11 @@
 {
   "Login": "Tizimga kirish",
   "E-Bridge": "E-Bridge axborot tizimiga xush kelibsiz",
-  "search": "Qidiruv"
+  "search": "Qidiruv",
+  "interactiveMap": "Interaktiv xarita",
+  "monitoring": "Monitoring",
+  "eEmployee": "E-Xodim",
+  "archive": "Arxiv",
+  "eWarehouse": "E-Ombor",
+  "surveillanceCameras": "Kuzatuv Kameralar"
 }
