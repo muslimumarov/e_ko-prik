@@ -14,7 +14,7 @@ export default {
   theme: {
     extend: {
       backdropBlur: {
-        blur: '3px', // yangi sinf
+        blur: "3px", // yangi sinf
       },
       screens: {
         mobil330: "340px",

@@ -1,6 +1,6 @@
 import { useThemeMode } from "flowbite-react";
 import { MoonIcon, SunIcon } from "lucide-react";
-import {ThemeMode} from "../enums/ThemeMode.ts";
+import { ThemeMode } from "../enums/ThemeMode.ts";
 
 const ThemeToggle = () => {
   const { mode, toggleMode } = useThemeMode();

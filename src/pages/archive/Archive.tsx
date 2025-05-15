@@ -1,8 +1,5 @@
-
 const Archive = () => {
-    return (
-        <div>Labaratory</div>
-    );
+  return <div>Labaratory</div>;
 };
 
 export default Archive;

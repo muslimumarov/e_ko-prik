@@ -1,8 +1,5 @@
-
 const Camera = () => {
-    return (
-        <div>Kuzatuv Kameralar</div>
-    );
+  return <div>Kuzatuv Kameralar</div>;
 };
 
 export default Camera;

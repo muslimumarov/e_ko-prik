@@ -1,67 +1,127 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L, { divIcon } from 'leaflet';
-import { MapPin } from 'lucide-react';
-import { renderToStaticMarkup } from 'react-dom/server'; // Lucide ikonka
-
-// Leaflet marker default ikonkasini sozlash (agar kerak bo‘lsa)
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-});
-
-// TypeScript interfeysi
-interface Location {
-    id: number;
-    name: string;
-    longitude: number;
-    latitude: number;
-}
+import React, { useEffect, useRef, useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  GeoJSON,
+  useMap,
+} from "react-leaflet";
+import { getBridgeData } from "./api";
+import { BridgeData, Location } from "./map.interfaces";
+import createLucideIcon from "../../assets/icons/iconLocation";
+import LocationModal from "./LocationModal";
+import StatisticPanel from "./StatisticPanel.tsx";
+import uzb from "../../data/uzb2.json";
+import L, {
+  GeoJSON as LeafletGeoJSON,
+  LatLngBoundsExpression,
+  LeafletMouseEvent,
+} from "leaflet";
 
 function MyMapPage() {
-    const [locations, setLocations] = useState<Location[]>([]);
+  const [bridge, setBridge] = useState<BridgeData | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const geoJsonRef = useRef<LeafletGeoJSON>(null);
+  const [zoomTo, setZoomTo] = useState<LatLngBoundsExpression | null>(null);
 
+  useEffect(() => {
+    getBridgeData(1).then(setBridge).catch(console.error);
+  }, []);
+
+  const handleMarkerClick = (loc: Location) => {
+    setSelectedLocation(loc);
+    setIsModalOpen(true);
+  };
+
+  const highlightStyle: L.PathOptions = {
+    weight: 2,
+    color: "#ff0000",
+    fillColor: "#ffcccc",
+    fillOpacity: 0.7,
+  };
+
+  const defaultStyle: L.PathOptions = {
+    weight: 1,
+    color: "#3388ff",
+    fillColor: "#cccccc",
+    fillOpacity: 0.5,
+  };
+
+  const onEachCountry = (feature: GeoJSON.Feature, layer: L.Layer) => {
+    layer.on({
+      mouseover: (e: LeafletMouseEvent) => {
+        const target = e.target as L.Path;
+        target.setStyle(highlightStyle);
+      },
+      mouseout: (e: LeafletMouseEvent) => {
+        const target = e.target as L.Path;
+        target.setStyle(defaultStyle);
+      },
+      click: (e: LeafletMouseEvent) => {
+        const layer = e.target as L.Polygon; // yoki L.Polyline, agar siz chiziqlar ishlatayotgan bo‘lsangiz
+        const bounds = layer.getBounds();
+        setZoomTo(bounds);
+      },
+    });
+
+    if (feature.properties && feature.properties.name) {
+      layer.bindTooltip(feature.properties.name);
+    }
+
+    (layer as L.Path).setStyle(defaultStyle);
+  };
+
+  const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
+    bounds,
+  }) => {
+    const map = useMap();
     useEffect(() => {
-        // Backenddan ma'lumotni olish
-        axios.get('http://192.168.100.230:3000/bridges/1/')
-            .then(response => {
-                setLocations(response.data.locations);
-                console.log(response.data.locations);
-            })
-            .catch(error => {
-                console.error('Error fetching locations:', error);
-            });
-    }, []);
+      map.fitBounds(bounds);
+    }, [map, bounds]);
+    return null;
+  };
 
-    // Lucide marker icon yasash
-    const createLucideIcon = () =>
-        divIcon({
-            html: renderToStaticMarkup(<MapPin size={24} color="red" />),
-            className: '',
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-        });
+  return (
+    <div className="relative overflow-hidden">
+      <MapContainer
+        center={[41.377491, 64.585258]}
+        zoom={6}
+        style={{ height: "100vh", width: "100%" }}
+      >
+        <TileLayer
+          attribution="&copy; OpenStreetMap contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {zoomTo && <MapZoomer bounds={zoomTo} />}
+        {bridge?.locations.map((loc) => (
+          <Marker
+            key={loc.id}
+            position={[loc.latitude, loc.longitude]}
+            icon={createLucideIcon()}
+            eventHandlers={{
+              click: () => handleMarkerClick(loc),
+            }}
+          />
+        ))}
+        <GeoJSON
+          data={uzb as GeoJSON.GeoJsonObject}
+          onEachFeature={onEachCountry}
+          ref={geoJsonRef}
+        />
+      </MapContainer>
 
-    return (
-        <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: "100vh", width: "100%" }}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
-            />
-            {locations.map((loc) => (
-                <Marker
-                    key={loc.id}
-                    position={[loc.latitude, loc.longitude]}
-                    icon={createLucideIcon()} // 🔥 icon prop to‘g‘ri joyda
-                >
-                    <Popup>{loc.name}</Popup>
-                </Marker>
-            ))}
-        </MapContainer>
-    );
+      <LocationModal
+        isOpen={isModalOpen}
+        location={selectedLocation}
+        bridge={bridge}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <StatisticPanel />
+    </div>
+  );
 }
 
 export default MyMapPage;
