@@ -1,5 +1,5 @@
 const Exodim = () => {
-  return <div>E-Xodim</div>;
+  return <div>E-Xodim testererererererereer</div>;
 };
 
 export default Exodim;
