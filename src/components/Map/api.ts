@@ -1,8 +1,6 @@
-// src/api.ts
 import axios from "axios";
-import { BridgeData, Statistics } from "./map.interfaces.ts";
+import { BridgeData, Statistica } from "./map.interfaces";
 
-// Axios instance
 const api = axios.create({
   baseURL: "http://192.168.100.230:3000",
   headers: {
@@ -10,22 +8,20 @@ const api = axios.create({
   },
 });
 
-/**
- * Ko‘prikning to‘liq ma’lumotlarini olib keladi (1 ta bridge)
- */
-export const getBridgeData = async (id: number): Promise<BridgeData> => {
-  const res = await api.get<BridgeData>(`/bridges/${id}/`);
+export const getBridgeData = async (
+  regionId: number,
+): Promise<BridgeData[]> => {
+  const res = await api.get<{ bridges: BridgeData[] }>(
+    `/region-bridges/${regionId}/`,
+  );
+  return res.data.bridges;
+};
+export const getStatisticsRegion = async (): Promise<Statistica> => {
+  const res = await api.get<Statistica>("/bridge-region-holat-statistics/");
   return res.data;
 };
 
-// holatlar paneli uchun api so'rov
-export const getBridgeHolatStatistics = async (): Promise<Statistics> => {
-  const res = await axios.get(
-    "http://192.168.100.230:3000/bridge-holat-statistics/",
-  );
-  return res.data;
-};
-export const getRegionBridges = async (regionId: number): Promise<any> => {
-  const res = await api.get(`/region-bridges/${regionId}`);
+export const getBridgeHolat = async (): Promise<Statistica> => {
+  const res = await api.get("/bridge-holat-statistics/");
   return res.data;
 };

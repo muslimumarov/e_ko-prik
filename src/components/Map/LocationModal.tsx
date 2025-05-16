@@ -81,7 +81,7 @@ const LocationModal: React.FC<Props> = ({
         <img
           src={image}
           alt="Ko‘prik rasmi"
-          className="h-60 w-full rounded object-cover"
+          className="h-48 w-full rounded object-cover"
         />
       </div>
     </div>
