@@ -1,5 +1,5 @@
 import React from "react";
-import { Location, BridgeData } from "./map.interfaces";
+import { Location, BridgeData } from "../interfaceslar/map.interfaces.ts";
 
 interface Props {
   isOpen: boolean;

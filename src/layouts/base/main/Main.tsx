@@ -2,7 +2,6 @@ import React from "react";
 import SearchInput from "../../../components/searchInput/SearchInput.tsx";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import DonutChart from "../../../assets/icons/DonutChart.tsx";
 
 const Main: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +25,6 @@ const Main: React.FC = () => {
           <SearchInput />
         </div>
       </div>
-      <DonutChart values={[50, 3, 104]} />
 
       <div className="mt-20 grid bg-[url('/your-bg.jpg')] bg-cover bg-center">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

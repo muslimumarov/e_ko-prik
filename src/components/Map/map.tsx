@@ -6,10 +6,13 @@ import {
   GeoJSON,
   useMap,
 } from "react-leaflet";
-import { getBridgeData, getStatisticsRegion } from "./api";
-import { BridgeData, Location, Statistica } from "./map.interfaces";
+import {
+  BridgeData,
+  Location,
+  Statistica,
+} from "./interfaceslar/map.interfaces.ts";
 import createLucideIcon from "../../assets/icons/iconLocation";
-import LocationModal from "./LocationModal";
+import LocationModal from "./Info-modal/LocationModal.tsx";
 import uzb from "../../data/uzb2.json";
 import L, {
   GeoJSON as LeafletGeoJSON,
@@ -17,8 +20,10 @@ import L, {
   LeafletMouseEvent,
 } from "leaflet";
 
-import StatisticPanel from "./StatisticPanel.tsx";
-import DonutChartWrapper from "./ DonutChartWrapper.tsx";
+import StatisticPanel from "./umumiy-holat/StatisticPanel.tsx";
+import DonutChartWrapper from "./progres-diagramma/ DonutChartWrapper.tsx";
+import regionCenters from "./kordinatalar/Kordinat.ts";
+import { getBridgeData, getStatisticsRegion } from "./map.api/api.ts";
 
 function MyMapPage() {
   const [bridges, setBridges] = useState<BridgeData[]>([]);
@@ -28,7 +33,8 @@ function MyMapPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const geoJsonRef = useRef<LeafletGeoJSON>(null);
   const [zoomTo, setZoomTo] = useState<LatLngBoundsExpression | null>(null);
-  const [statistics, setStatistics] = useState<Statistica>({});
+  const [statistics, setStatistics] = useState<Statistica[]>([]);
+
   useEffect(() => {
     getBridgeData(1).then(setBridges).catch(console.error);
     getStatisticsRegion().then(setStatistics).catch(console.error);
@@ -91,27 +97,12 @@ function MyMapPage() {
   const selectedBridge = bridges.find((bridge) =>
     bridge.locations.some((loc) => loc.id === selectedLocation?.id),
   );
-  const regionCenters: Record<string, [number, number]> = {
-    "Toshkent shahar": [41.311081, 69.240562],
-    "Toshkent viloyati": [41.0, 69.0],
-    Samarqand: [39.6542, 66.9597],
-    "Farg'ona": [40.3894, 71.7874],
-    Andijon: [40.7836, 72.3442],
-    Namangan: [40.9983, 71.6726],
-    Navoiy: [40.0844, 65.3792],
-    Sirdaryo: [40.8357, 68.6607],
-    Jizzax: [40.125, 67.25],
-    Qashqadaryo: [38.8333, 66.25],
-    Surxondaryo: [37.94, 67.57],
-    Buroxo: [40.5, 64.5], // Maxsus viloyat bo‘lsa
-    "Qoraqalpog'iston Respublikasi": [43.7689, 59.0015],
-  };
 
   return (
     <div className="relative overflow-hidden">
       <MapContainer
         center={[41.377491, 64.585258]}
-        zoom={6}
+        zoom={7}
         style={{ height: "100vh", width: "100%" }}
       >
         <TileLayer
@@ -134,17 +125,21 @@ function MyMapPage() {
           )),
         )}
 
-        {Object.entries(regionCenters).map(([region, center]) => (
-          <DonutChartWrapper
-            key={region}
-            position={center}
-            data={{
-              Jarayonda: statistics?.[region]?.Jarayonda ?? 0,
-              Rejalashtirilgan: statistics?.[region]?.Rejalashtirilgan ?? 0,
-              Tugallangan: statistics?.[region]?.Tugallangan ?? 0,
-            }}
-          />
-        ))}
+        {Object.entries(regionCenters).map(([region, center]) => {
+          const regionStat = statistics.find((item) => item[region]);
+
+          return (
+            <DonutChartWrapper
+              key={region}
+              position={center}
+              data={{
+                Jarayonda: regionStat?.[region]?.Jarayonda ?? 0,
+                Rejalashtirilgan: regionStat?.[region]?.Rejalashtirilgan ?? 0,
+                Tugallangan: regionStat?.[region]?.Tugallangan ?? 0,
+              }}
+            />
+          );
+        })}
 
         <GeoJSON
           data={uzb as GeoJSON.GeoJsonObject}

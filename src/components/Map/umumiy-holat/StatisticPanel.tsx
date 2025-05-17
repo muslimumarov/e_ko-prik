@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getBridgeHolat } from "./api";
 import { Construction, ClipboardList, CheckCircle } from "lucide-react";
-import { Statistic } from "./map.interfaces.ts";
+import { Statistic } from "../interfaceslar/map.interfaces.ts";
+import { getBridgeHolat } from "../map.api/api.ts";
 
 const StatisticPanel = () => {
   const [stats, setStats] = useState<Statistic | null>(null);
