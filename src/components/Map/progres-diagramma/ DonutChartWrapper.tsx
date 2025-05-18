@@ -1,9 +1,9 @@
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, ArcElement, Legend } from "chart.js";
 
-Chart.register(ArcElement, Tooltip, Legend);
+Chart.register(ArcElement, Legend);
 
 interface Props {
   data: { Jarayonda: number; Rejalashtirilgan: number; Tugallangan: number };
@@ -86,11 +86,17 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
       icon={customIcon}
       eventHandlers={onClick ? { click: onClick } : {}}
     >
-      <Popup>
+      <Tooltip
+        direction="top"
+        offset={[0, -10]}
+        opacity={1}
+        permanent={false}
+        sticky={true}
+      >
         <div style={{ width: 200, height: 200 }}>
           <Doughnut data={chartData} options={options} />
         </div>
-      </Popup>
+      </Tooltip>
     </Marker>
   );
 };

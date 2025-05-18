@@ -5,7 +5,7 @@ export interface Image {
 
 export interface Location {
   id: number;
-  name: string;
+  name: string | null;
   order: number;
   longitude: number;
   latitude: number;
@@ -39,15 +39,12 @@ export interface BridgeData {
   images: Image[];
   locations: Location[];
 }
-// Har bir viloyatning statistikasi
 export interface Statistic {
   Jarayonda?: number;
   Rejalashtirilgan?: number;
   Tugallangan?: number;
 }
 
-// Bitta viloyat: { "Toshkent": { ... } }
-export type Statistica = Record<string, Statistic>; // Bu faqat bitta object
+export type Statistica = Record<string, Statistic>; // { "Toshkent": { Jarayonda: 5, ... } }
 
-// Barcha viloyatlar: [ { ... }, { ... }, ... ]
-export type StatisticaResponse = Statistica[]; // Bu array!
+export type StatisticaResponse = Statistica[]; // Viloyatlar bo'yicha statistikalar ro'yxati
