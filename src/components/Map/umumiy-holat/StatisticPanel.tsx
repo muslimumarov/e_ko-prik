@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Construction, ClipboardList, CheckCircle } from "lucide-react";
-import { Statistic } from "../interfaceslar/map.interfaces.ts";
+import { holatStatistica } from "../interfaceslar/map.interfaces.ts";
 import { getBridgeHolat } from "../map.api/api.ts";
 
 const StatisticPanel = () => {
-  const [stats, setStats] = useState<Statistic | null>(null);
+  const [stats, setStats] = useState<holatStatistica | null>(null);
 
   useEffect(() => {
-    getBridgeHolat().then(setStats).catch(console.error);
+    getBridgeHolat()
+      .then((res) => setStats(res as holatStatistica))
+      .catch(console.error);
   }, []);
 
   if (!stats) return null;

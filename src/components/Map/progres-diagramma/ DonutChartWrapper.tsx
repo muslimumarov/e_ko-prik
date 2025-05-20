@@ -19,7 +19,7 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
     data.Tugallangan || 0,
   ];
 
-  const colors = ["#FF6384", "#36A2EB", "#FFCE56"];
+  const colors = ["#d3504e", "#49dd00", "#FFCE56"];
 
   const total = values.reduce((a, b) => a + b, 0);
   const iconHtml = `
@@ -76,8 +76,15 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
 
   const options = {
     plugins: {
-      tooltip: { enabled: false },
+      legend: {
+        labels: {
+          textAlign: "left" as const,
+          usePointStyle: true,
+          padding: 10,
+        },
+      },
     },
+    cutout: "65%",
   };
 
   return (
@@ -93,8 +100,21 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
         permanent={false}
         sticky={true}
       >
-        <div style={{ width: 200, height: 200 }}>
+        <div style={{ width: 200, height: 200, position: "relative" }}>
           <Doughnut data={chartData} options={options} />
+          <div
+            style={{
+              position: "absolute",
+              top: "65%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontWeight: "bold",
+              fontSize: "24px",
+              color: "#000",
+            }}
+          >
+            {total}
+          </div>
         </div>
       </Tooltip>
     </Marker>

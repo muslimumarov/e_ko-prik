@@ -16,16 +16,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-// import React from "react";
-// import InteractiveMap from "./InteractiveMap";
-//
-// const App: React.FC = () => {
-//     return (
-//         <div>
-//             <h1>Interaktiv Mamlakatlar Xaritasi</h1>
-//             <InteractiveMap />
-//         </div>
-//     );
-// };
-//
-// export default App;

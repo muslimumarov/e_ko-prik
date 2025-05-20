@@ -10,7 +10,7 @@ const regionCenters: Record<string, [number, number]> = {
   Jizzax: [40.125, 67.25],
   Qashqadaryo: [38.8333, 66.25],
   Surxondaryo: [37.94, 67.57],
-  Buroxo: [40.5, 64.5], // Maxsus viloyat bo‘lsa
+  Buxoro: [40.0, 63.5], // Maxsus viloyat bo‘lsa
   "Qoraqalpog'iston Respublikasi": [43.7689, 59.0015],
   Xorazm: [41.5517, 60.6333],
 };

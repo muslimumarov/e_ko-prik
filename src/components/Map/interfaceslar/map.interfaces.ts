@@ -26,8 +26,8 @@ export interface BridgeData {
   id: number;
   name: string;
   koprik_turi: string;
-  holat: string;
-  buyrutmachi: string;
+  holat: string | null;
+  buyrutmachi?: string;
   proekt: string | null;
   texnik_parametrlari: string | null;
   obyektning_umumiy_summasi: string | null;
@@ -39,12 +39,21 @@ export interface BridgeData {
   images: Image[];
   locations: Location[];
 }
-export interface Statistic {
+export interface HolatCounts {
+  Jarayonda: number;
+  Rejalashtirilgan: number;
+  Tugallangan: number;
+}
+
+export interface StatistikaType {
+  region_id: number;
+  region_name: string;
+  holat_counts: HolatCounts;
+}
+
+export type StatisticaResponse = StatistikaType[];
+export interface holatStatistica {
   Jarayonda?: number;
   Rejalashtirilgan?: number;
   Tugallangan?: number;
 }
-
-export type Statistica = Record<string, Statistic>; // { "Toshkent": { Jarayonda: 5, ... } }
-
-export type StatisticaResponse = Statistica[]; // Viloyatlar bo'yicha statistikalar ro'yxati

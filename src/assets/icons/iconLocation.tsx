@@ -2,11 +2,26 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { MapPin } from "lucide-react";
 import { divIcon } from "leaflet";
 
-const createLucideIcon = () =>
+export const IconRed = () =>
   divIcon({
-    html: renderToStaticMarkup(<MapPin size={24} color="red" />),
-    className: "",
-    iconSize: [24, 24],
-    iconAnchor: [12, 24],
+    html: renderToStaticMarkup(<MapPin size={55} color="red" />),
+    className: "bg-red",
+    iconSize: [34, 34],
+    iconAnchor: [22, 24],
   });
-export default createLucideIcon;
+
+export const IconYellow = () =>
+  divIcon({
+    html: renderToStaticMarkup(<MapPin size={55} color="#250d55" />),
+    className: "",
+    iconSize: [34, 34],
+    iconAnchor: [22, 24],
+  });
+
+export const IconGreen = () =>
+  divIcon({
+    html: renderToStaticMarkup(<MapPin size={55} color="green" />),
+    className: "",
+    iconSize: [34, 34],
+    iconAnchor: [22, 24],
+  });

@@ -4,7 +4,7 @@ import { Location, BridgeData } from "../interfaceslar/map.interfaces.ts";
 interface Props {
   isOpen: boolean;
   location: Location | null;
-  bridge: BridgeData | null;
+  bridge: BridgeData | undefined;
   onClose: () => void;
 }
 
@@ -16,8 +16,6 @@ const LocationModal: React.FC<Props> = ({
 }) => {
   if (!location || !bridge) return null;
 
-  const image = bridge.images[0]?.image;
-
   return (
     <div
       className={`fixed top-[82px] z-[1000] h-[95vh] w-80 bg-white shadow-lg transition-transform duration-300 dark:bg-blue-950 dark:text-amber-100 ${
@@ -25,15 +23,12 @@ const LocationModal: React.FC<Props> = ({
       }`}
     >
       <div className="flex items-center justify-between border-b p-4">
-        <h2 className="text-lg font-semibold">{location.name}</h2>
+        <h2 className="text-lg font-semibold">{bridge.name}</h2>
         <button onClick={onClose} className="text-xl font-bold text-red-500">
           &times;
         </button>
       </div>
-      <div className="space-y-2 overflow-hidden p-4">
-        <p>
-          <strong>ID:</strong> {location.id}
-        </p>
+      <div className="space-y-2 p-4">
         <p>
           <strong>Ko'prik nomi:</strong> {bridge.name}
         </p>
@@ -61,10 +56,7 @@ const LocationModal: React.FC<Props> = ({
           <strong>Boshlash:</strong>{" "}
           {bridge.boshlash_vaqti || "Ma'lumot mavjud emas"}
         </p>
-        <p>
-          <strong>Tugash:</strong>{" "}
-          {bridge.tugash_vaqti || "Ma'lumot mavjud emas"}
-        </p>
+
         <p>
           <strong>Asos hujjat:</strong>{" "}
           {bridge.asos_hujjat || "Ma'lumot mavjud emas"}
@@ -72,17 +64,21 @@ const LocationModal: React.FC<Props> = ({
         <p>
           <strong>Viloyat :</strong> {bridge.region.name}
         </p>
-        <p>
-          <strong>Tuman :</strong> {bridge.district.name}
-        </p>
+
         <p>
           <strong>Ko'prik Rasmi </strong>
         </p>
-        <img
-          src={image}
-          alt="Ko‘prik rasmi"
-          className="h-48 w-full rounded object-cover"
-        />
+        {bridge.images.map((image) => {
+          return (
+            <div key={image.id}>
+              <img
+                src={image.image}
+                alt="Ko‘prik rasmi"
+                className="h-48 w-full rounded object-cover"
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
