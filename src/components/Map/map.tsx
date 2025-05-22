@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -36,10 +36,21 @@ function MyMapPage() {
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  // Map ref
+  const mapRef = useRef<L.Map | null>(null);
+
+  // Map refni olish uchun useEffect
+  useEffect(() => {
+    // Bu useEffect faqat bir marta ishlaydi, mapRef currentni tekshiradi
+    if (!mapRef.current) return;
+    // mapRef.current bilan kerakli ishlarni bajarish mumkin
+  }, [mapRef.current]);
+
   const handlRowclick = (loc: Location) => {
     setSelectedLocation(loc);
     setIsOpen(true);
   };
+
   useEffect(() => {
     getStatisticsRegion()
       .then((data) => {
@@ -51,7 +62,6 @@ function MyMapPage() {
   useEffect(() => {
     if (regionId !== null) {
       console.log("Region ID:", regionId);
-      // boshqa foydalanishlar
     }
   }, [regionId]);
   useEffect(() => {
@@ -66,6 +76,7 @@ function MyMapPage() {
       }
     }
   }, [selectedRegion, statistics]);
+
   const defaultStyle: L.PathOptions = {
     weight: 1,
     color: "#3388ff",
@@ -106,7 +117,6 @@ function MyMapPage() {
         setZoomTo(bounds);
 
         const regionName = feature.properties?.NAME_1;
-        console.log(regionName);
         if (!regionName) return;
         setSelectedRegion(regionName);
       },
@@ -118,6 +128,7 @@ function MyMapPage() {
 
     (layer as L.Path).setStyle(defaultStyle);
   };
+
   const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
     bounds,
   }) => {
@@ -134,21 +145,29 @@ function MyMapPage() {
   const selectBridge = bridges.find((bridge) =>
     bridge.locations.some((loc) => loc.id === selectedLocation?.id),
   );
+
   const DEFAULT_CENTER: [number, number] = [41.377491, 64.585258];
   const DEFAULT_ZOOM = 6;
+
   return (
     <>
       <MapContainer
-        center={[41.377491, 64.585258]}
-        zoom={6}
+        center={DEFAULT_CENTER}
+        zoom={DEFAULT_ZOOM}
         style={{ height: "100vh", width: "100%" }}
         minZoom={6}
         maxZoom={15}
         maxBounds={[
-          [36.0, 55.0],
-          [46.0, 73.0],
+          [36.0, 49.1],
+          [46.599, 80.0],
         ]}
         maxBoundsViscosity={2.0}
+        // here ref-ni to'g'ri ulang:
+        ref={(node) => {
+          if (node) {
+            mapRef.current = node;
+          }
+        }}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
@@ -168,6 +187,10 @@ function MyMapPage() {
                   Rejalashtirilgan: holat_counts.Rejalashtirilgan ?? 0,
                   Tugallangan: holat_counts.Tugallangan ?? 0,
                 }}
+                onClick={() => {
+                  setSelectedRegion(region_name);
+                  mapRef.current?.setView(center, 9);
+                }}
               />
             );
           })}
@@ -181,16 +204,22 @@ function MyMapPage() {
               setRegionId(null);
               setBridges([]);
               setZoomTo(null);
+
+              // Xarita animatsion tarzda qaytsin
+              if (mapRef.current) {
+                mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
+                  duration: 10, // sekundlarda animatsiya davomiyligi
+                  easeLinearity: 10, // animatsiyaning tekisligi
+                });
+              }
             }}
           />
         )}
 
         <StatisticPanel />
 
-        {/* Zoom */}
         {zoomTo && <MapZoomer bounds={zoomTo} />}
 
-        {/* Ko‘priklar */}
         {bridges.flatMap((bridge) =>
           bridge.locations.map((loc) => (
             <Marker
@@ -203,18 +232,19 @@ function MyMapPage() {
             />
           )),
         )}
-        <LocationModal
-          location={selectedLocation}
-          bridge={selectBridge}
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        />
-        {/* Regionlar (GeoJSON) */}
+
         <GeoJSON
           data={uzb as GeoJSON.GeoJsonObject}
           onEachFeature={onEachCountry}
         />
-      </MapContainer>{" "}
+      </MapContainer>
+
+      <LocationModal
+        location={selectedLocation}
+        bridge={selectBridge}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }

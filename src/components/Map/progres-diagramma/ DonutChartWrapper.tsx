@@ -2,6 +2,7 @@ import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Legend } from "chart.js";
+import { useTranslation } from "react-i18next";
 
 Chart.register(ArcElement, Legend);
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const DonutChartWrapper = ({ data, position, onClick }: Props) => {
+  const { t } = useTranslation();
   const values = [
     data.Rejalashtirilgan || 0,
     data.Jarayonda || 0,
@@ -62,13 +64,13 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
   });
 
   const chartData = {
-    labels: ["Rejalashtirilgan", "Jarayonda", "Tugallangan"],
+    labels: [t("planned"), t("in_progress"), t("completed")],
     datasets: [
       {
         data: values,
         backgroundColor: colors,
         hoverOffset: 0,
-        borderWidth: 0,
+        borderWidth: 5,
         cutout: "65%",
       },
     ],
@@ -110,6 +112,7 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
               transform: "translate(-50%, -50%)",
               fontWeight: "bold",
               fontSize: "24px",
+              borderRadius: "10%", // to'liq doira
               color: "#000",
             }}
           >

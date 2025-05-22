@@ -1,5 +1,8 @@
 import React from "react";
-import { Location, BridgeData } from "../interfaceslar/map.interfaces.ts";
+import { useTranslation } from "react-i18next";
+import { BridgeData, Location } from "../interfaceslar/map.interfaces.ts";
+import CardCaption from "../../../core/components/card/CardCaption.tsx";
+import { X } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -14,71 +17,120 @@ const LocationModal: React.FC<Props> = ({
   bridge,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   if (!location || !bridge) return null;
 
   return (
     <div
-      className={`fixed top-[82px] z-[1000] h-[95vh] w-80 bg-white shadow-lg transition-transform duration-300 dark:bg-blue-950 dark:text-amber-100 ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      }`}
+      className={`custom-scrollbar fixed top-[82px] z-[1000] h-[95vh] w-96 overflow-y-auto bg-white shadow-lg
+                 transition-all duration-[1220ms] ease-in-out dark:bg-blue-950 dark:text-amber-100                  
+                 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      style={{ pointerEvents: "auto", touchAction: "auto" }}
     >
-      <div className="flex items-center justify-between border-b p-4">
-        <h2 className="text-lg font-semibold">{bridge.name}</h2>
-        <button onClick={onClose} className="text-xl font-bold text-red-500">
-          &times;
+      <div className="relative border-b p-4 pl-8">
+        {/* Close (X) Button */}
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 text-2xl font-bold "
+        >
+          <X />
         </button>
+
+        {/* Title */}
+        <div>
+          <h2 className="text-xl text-[#f35a02]">
+            <strong>{t("bridgeName")}:</strong>
+            <br />
+            <span className="text-[18px] text-[#744817] dark:text-amber-200">
+              {bridge.name}
+            </span>
+          </h2>
+        </div>
       </div>
-      <div className="space-y-2 p-4">
-        <p>
-          <strong>Ko'prik nomi:</strong> {bridge.name}
-        </p>
-        <p>
-          <strong>Ko'prik turi:</strong> {bridge.koprik_turi}
-        </p>
-        <p>
-          <strong>Holat:</strong> {bridge.holat}
-        </p>
-        <p>
-          <strong>Buyurtmachi:</strong> {bridge.buyrutmachi}
-        </p>
-        <p>
-          <strong>Proekt:</strong> {bridge.proekt || "Ma'lumot mavjud emas"}
-        </p>
-        <p>
-          <strong>Texnik parametrlari:</strong>{" "}
-          {bridge.texnik_parametrlari || "Ma'lumot mavjud emas"}
-        </p>
-        <p>
-          <strong>Umumiy summa:</strong>{" "}
-          {bridge.obyektning_umumiy_summasi || "Ma'lumot mavjud emas"}
-        </p>
-        <p>
-          <strong>Boshlash:</strong>{" "}
-          {bridge.boshlash_vaqti || "Ma'lumot mavjud emas"}
-        </p>
 
-        <p>
-          <strong>Asos hujjat:</strong>{" "}
-          {bridge.asos_hujjat || "Ma'lumot mavjud emas"}
+      <div className="mb-9  h-auto gap-2 space-y-2  overflow-hidden p-4    pl-8 text-lg text-[#f35a02]">
+        <p className={"dark:text-amber-200"}>
+          <strong>{t("bridgeType")}:</strong>
+          <br />{" "}
+          <span className={"dark:text-amber-200text-[#744817]"}>
+            {bridge.koprik_turi || t("noData")}
+          </span>
         </p>
         <p>
-          <strong>Viloyat :</strong> {bridge.region.name}
+          <strong>{t("status")}:</strong>
+          <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.holat || t("noData")}
+          </span>{" "}
         </p>
-
         <p>
-          <strong>Ko'prik Rasmi </strong>
+          <strong>{t("customer")}:</strong>
+          <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.buyrutmachi || t("noData")}
+          </span>
         </p>
-        {bridge.images.map((image) => {
-          return (
-            <div key={image.id}>
-              <img
-                src={image.image}
-                alt="Ko‘prik rasmi"
-                className="h-48 w-full rounded object-cover"
-              />
-            </div>
-          );
-        })}
+        <p>
+          <strong>{t("project")}:</strong>
+          <br />{" "}
+          <a
+            target={"_blank"}
+            className={"underline dark:text-amber-200"}
+            href={bridge.proekt || t("noData")}
+          >
+            {t("Loyhaga Havola")}
+          </a>
+        </p>
+        <p>
+          <strong>{t("technicalParameters")}:</strong>
+          <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.texnik_parametrlari || t("noData")}
+          </span>
+        </p>
+        <p>
+          <strong>{t("totalSum")}:</strong>
+          <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.obyektning_umumiy_summasi || t("noData")}
+          </span>
+        </p>
+        <p>
+          <strong>{t("start")}:</strong> <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.boshlash_vaqti || t("noData")}
+          </span>
+        </p>
+        <p>
+          <strong>{t("mainDocument")}:</strong>
+          <br />{" "}
+          <a
+            className={"underline dark:text-amber-200"}
+            target={"_blank"}
+            href={bridge.asos_hujjat || t("noData")}
+          >
+            {t("Hujjatga Havola")}
+          </a>
+        </p>
+        <p>
+          <strong>{t("region")}:</strong>
+          <br />{" "}
+          <span className={"text-[#744817] dark:text-amber-200"}>
+            {bridge.region.name || t("noData")}
+          </span>
+        </p>
+        <p>
+          <strong className={"text-[#f35a02]"}>
+            {" "}
+            {t("bridgeImage") || t("noData")}
+          </strong>
+        </p>
+        {bridge.images.map((image) => (
+          <div key={image.id}>
+            <CardCaption src={image.image} />
+          </div>
+        ))}
       </div>
     </div>
   );

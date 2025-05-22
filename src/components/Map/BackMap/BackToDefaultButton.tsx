@@ -19,21 +19,11 @@ const BackToDefaultButton: React.FC<BackToDefaultButtonProps> = ({
     map.flyTo(center, zoom, { duration: 1 });
     onClick(); // Holatlarni tozalovchi funksiya
   };
-
   return (
     <button
       onClick={handleClick}
-      style={{
-        position: "absolute",
-        top: "10px",
-        right: "10px",
-        zIndex: 1000,
-        backgroundColor: "white",
-        padding: "8px 12px",
-        borderRadius: "5px",
-        border: "1px solid #ccc",
-        cursor: "pointer",
-      }}
+      className="absolute right-[10px] top-[10px] z-[1000] cursor-pointer rounded border
+            border-gray-300  bg-white px-3 py-2 text-black dark:bg-[#250d55] dark:text-amber-200"
     >
       📌 Butun O'zbekiston
     </button>

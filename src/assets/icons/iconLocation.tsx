@@ -27,6 +27,7 @@
 //   });
 import { renderToStaticMarkup } from "react-dom/server";
 import { divIcon } from "leaflet";
+
 const getSvg = (color: string) => `
   <svg fill="${color}" width="47" height="47" viewBox="0 0 395.71 395.71" xmlns="http://www.w3.org/2000/svg">
     <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738
@@ -51,7 +52,7 @@ export const IconRed = () =>
 export const IconYellow = () =>
   divIcon({
     html: renderToStaticMarkup(
-      <div dangerouslySetInnerHTML={{ __html: getSvg("#e1a415") }} />,
+      <div dangerouslySetInnerHTML={{ __html: getSvg("#f35a02") }} />,
     ),
     className: "",
     iconSize: [34, 34],
