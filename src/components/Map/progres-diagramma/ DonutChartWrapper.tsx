@@ -9,11 +9,12 @@ Chart.register(ArcElement, Legend);
 interface Props {
   data: { Jarayonda: number; Rejalashtirilgan: number; Tugallangan: number };
   position: [number, number];
+  regionName: string;
   onClick?: () => void;
   options?: number;
 }
 
-const DonutChartWrapper = ({ data, position, onClick }: Props) => {
+const DonutChartWrapper = ({ data, position, regionName, onClick }: Props) => {
   const { t } = useTranslation();
   const values = [
     data.Rejalashtirilgan || 0,
@@ -71,7 +72,7 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
         backgroundColor: colors,
         hoverOffset: 0,
         borderWidth: 5,
-        cutout: "65%",
+        cutout: "60%",
       },
     ],
   };
@@ -95,23 +96,27 @@ const DonutChartWrapper = ({ data, position, onClick }: Props) => {
       icon={customIcon}
       eventHandlers={onClick ? { click: onClick } : {}}
     >
-      <Tooltip
-        direction="top"
-        offset={[0, -10]}
-        opacity={1}
-        permanent={false}
-        sticky={true}
-      >
-        <div style={{ width: 200, height: 200, position: "relative" }}>
+      <Tooltip direction="top" opacity={1} permanent={false} sticky={true}>
+        <div style={{ width: 200, height: 217, position: "relative" }}>
+          <div
+            style={{
+              fontWeight: "bold",
+              fontSize: "16px",
+              textAlign: "center",
+              color: "#333",
+            }}
+          >
+            {regionName}
+          </div>
           <Doughnut data={chartData} options={options} />
           <div
             style={{
               position: "absolute",
-              top: "65%",
+              top: "70%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               fontWeight: "bold",
-              fontSize: "24px",
+              fontSize: "19px",
               borderRadius: "10%", // to'liq doira
               color: "#000",
             }}

@@ -25,5 +25,6 @@
   "in_progress": "In Progress",
   "completed": "Completed",
   "projectLink": "Project Link",
-  "documentLink": "Document Link"
+  "documentLink": "Document Link",
+  "noBridgeImages": "No bridge images available"
 }

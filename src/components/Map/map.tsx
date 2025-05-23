@@ -182,6 +182,7 @@ function MyMapPage() {
               <DonutChartWrapper
                 key={region_name}
                 position={center}
+                regionName={region_name}
                 data={{
                   Jarayonda: holat_counts.Jarayonda ?? 0,
                   Rejalashtirilgan: holat_counts.Rejalashtirilgan ?? 0,

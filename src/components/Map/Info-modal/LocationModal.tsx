@@ -76,7 +76,7 @@ const LocationModal: React.FC<Props> = ({
           <br />{" "}
           <a
             target={"_blank"}
-            className={"underline dark:text-amber-200"}
+            className={"text-[#744817]  underline dark:text-amber-200"}
             href={bridge.proekt || t("noData")}
           >
             {t("Loyhaga Havola")}
@@ -106,7 +106,7 @@ const LocationModal: React.FC<Props> = ({
           <strong>{t("mainDocument")}:</strong>
           <br />{" "}
           <a
-            className={"underline dark:text-amber-200"}
+            className={"text-[#744817] underline  dark:text-amber-200"}
             target={"_blank"}
             href={bridge.asos_hujjat || t("noData")}
           >
@@ -126,11 +126,15 @@ const LocationModal: React.FC<Props> = ({
             {t("bridgeImage") || t("noData")}
           </strong>
         </p>
-        {bridge.images.map((image) => (
-          <div key={image.id}>
-            <CardCaption src={image.image} />
-          </div>
-        ))}
+        {bridge.images.length === 0 ? (
+          <p className={"text-sm text-[#744817]"}>{t("noBridgeImages")}</p>
+        ) : (
+          bridge.images.map((image) => (
+            <div key={image.id}>
+              <CardCaption src={image.image} />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

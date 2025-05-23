@@ -25,5 +25,6 @@
   "in_progress": "В процессе",
   "completed": "Завершено",
   "projectLink": "Ссылка на проект",
-  "documentLink": "Ссылка на документ"
+  "documentLink": "Ссылка на документ",
+  "noBridgeImages": "Изображения моста отсутствуют"
 }
