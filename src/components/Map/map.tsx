@@ -136,7 +136,7 @@ function MyMapPage() {
     const map = useMap();
     useEffect(() => {
       map.flyToBounds(bounds, {
-        duration: 1,
+        duration: 0.8,
         easeLinearity: 0.25,
       });
     }, [map, bounds]);
@@ -210,8 +210,8 @@ function MyMapPage() {
               // Xarita animatsion tarzda qaytsin
               if (mapRef.current) {
                 mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
-                  duration: 10, // sekundlarda animatsiya davomiyligi
-                  easeLinearity: 10, // animatsiyaning tekisligi
+                  duration: 0.5, // sekundlarda animatsiya davomiyligi
+                  easeLinearity: 0.25, // animatsiyaning tekisligi
                 });
               }
             }}
