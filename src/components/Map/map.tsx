@@ -5,6 +5,7 @@ import {
   GeoJSON,
   useMap,
   Marker,
+  Polyline,
 } from "react-leaflet";
 import L, { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
 import {
@@ -21,9 +22,9 @@ import {
   IconRed,
   IconYellow,
 } from "../../assets/icons/iconLocation.tsx";
-import DonutChartWrapper from "./progres-diagramma/ DonutChartWrapper.tsx";
 import LocationModal from "./Info-modal/LocationModal.tsx";
 import BackToDefaultButton from "./BackMap/BackToDefaultButton.tsx";
+import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper.tsx";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -92,9 +93,9 @@ function MyMapPage() {
   const getIconByHolat = (holat: string) => {
     switch (holat) {
       case "Jarayonda":
-        return IconGreen();
-      case "Tugallangan":
         return IconYellow();
+      case "Tugallangan":
+        return IconGreen();
       case "Rejalashtirilgan":
         return IconRed();
       default:
@@ -156,7 +157,7 @@ function MyMapPage() {
         zoom={DEFAULT_ZOOM}
         style={{ height: "100vh", width: "100%" }}
         minZoom={6}
-        maxZoom={15}
+        maxZoom={20}
         maxBounds={[
           [36.0, 49.1],
           [46.599, 80.0],
@@ -221,18 +222,45 @@ function MyMapPage() {
 
         {zoomTo && <MapZoomer bounds={zoomTo} />}
 
-        {bridges.flatMap((bridge) =>
-          bridge.locations.map((loc) => (
-            <Marker
-              key={`bridge-${bridge.id}-loc-${loc.id}`}
-              position={[loc.latitude, loc.longitude]}
-              icon={getIconByHolat(bridge.holat ?? "")}
-              eventHandlers={{
-                click: () => handlRowclick(loc),
-              }}
-            />
-          )),
-        )}
+        {bridges.flatMap((bridge) => {
+          const locations = bridge.locations;
+          const holatColor = {
+            Jarayonda: "#f35a02",
+            Tugallangan: "green",
+            Rejalashtirilgan: "red",
+          }[bridge.holat ?? "Rejalashtirilgan"];
+
+          const polyline =
+            locations.length >= 2 ? (
+              <Polyline
+                key={`polyline-${bridge.id}`}
+                positions={locations.map((loc) => [
+                  loc.latitude - 0.00006,
+                  loc.longitude + 0.00002,
+                ])} // marker "tagidan" chiqadi
+                pathOptions={{
+                  color: holatColor,
+                  weight: 5,
+                  // dashArray: "25, 15",
+                  opacity: 10,
+                }}
+              />
+            ) : null;
+
+          return [
+            ...locations.map((loc) => (
+              <Marker
+                key={`bridge-${bridge.id}-loc-${loc.id}`}
+                position={[loc.latitude, loc.longitude]}
+                icon={getIconByHolat(bridge.holat ?? "")}
+                eventHandlers={{
+                  click: () => handlRowclick(loc),
+                }}
+              />
+            )),
+            polyline,
+          ];
+        })}
 
         <GeoJSON
           data={uzb as GeoJSON.GeoJsonObject}
