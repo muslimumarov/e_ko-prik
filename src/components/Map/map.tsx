@@ -82,12 +82,12 @@ function MyMapPage() {
     weight: 1,
     color: "#3388ff",
     fillColor: "#cccccc",
-    fillOpacity: 0.5,
+    fillOpacity: 0.6,
   };
   const highlightStyle: L.PathOptions = {
     weight: 2,
     color: "#ff0000",
-    fillColor: "#ffcccc",
+    fillColor: "#e1a9a9",
     fillOpacity: 0.7,
   };
   const getIconByHolat = (holat: string) => {
@@ -149,6 +149,14 @@ function MyMapPage() {
 
   const DEFAULT_CENTER: [number, number] = [41.377491, 64.585258];
   const DEFAULT_ZOOM = 6;
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.flyTo(DEFAULT_CENTER, 6.3, {
+        duration: 1,
+        easeLinearity: 0.25,
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -156,7 +164,7 @@ function MyMapPage() {
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
         style={{ height: "100vh", width: "100%" }}
-        minZoom={6}
+        minZoom={6.4}
         maxZoom={20}
         maxBounds={[
           [36.0, 49.1],

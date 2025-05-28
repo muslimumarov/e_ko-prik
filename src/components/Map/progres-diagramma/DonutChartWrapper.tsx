@@ -106,7 +106,7 @@ const DonutChartWrapper = ({ data, position, regionName, onClick }: Props) => {
               color: "#333",
             }}
           >
-            {regionName}
+            {t(`regions.${regionName}`)}
           </div>
           <Doughnut data={chartData} options={options} />
           <div

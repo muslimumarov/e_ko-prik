@@ -22,8 +22,8 @@ const BackToDefaultButton: React.FC<BackToDefaultButtonProps> = ({
   return (
     <button
       onClick={handleClick}
-      className="absolute right-[10px] top-[10px] z-[1000] cursor-pointer rounded border
-            border-gray-300  bg-white px-3 py-2 text-black dark:bg-[#250d55] dark:text-amber-200"
+      className="absolute right-[30px] top-[20px] z-[1000] cursor-pointer rounded border
+            border-amber-100  px-3 py-2 text-black backdrop-blur dark:bg-[#250d55] dark:text-amber-200"
     >
       📌 Butun O'zbekiston
     </button>

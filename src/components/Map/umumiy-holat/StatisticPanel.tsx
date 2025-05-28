@@ -17,7 +17,7 @@ const StatisticPanel = () => {
   if (!stats) return null;
 
   return (
-    <div className="absolute bottom-36 right-8 z-[999] grid grid-cols-1 gap-3 rounded-2xl bg-white/80 p-4 text-gray-800 shadow-lg backdrop-blur-md dark:bg-blue-950/80 dark:text-amber-100">
+    <div className="absolute z-[999] grid grid-cols-1 gap-3 rounded-2xl border border-amber-100 p-4 text-gray-800 shadow-lg backdrop-blur dark:bg-blue-950/80 dark:text-amber-100 mobil330:bottom-36 mobil330:right-8  md:bottom-40 md:right-[99px]">
       <div className="flex items-center gap-2">
         <ClipboardList className="text-red-500" />
         <span>

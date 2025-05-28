@@ -107,3 +107,13 @@
 .text-color {
   color: #fff5c2;
 }
+.always-blur {
+  filter: blur(4px);
+}
+
+.leaflet-tile {
+  filter: blur(3px) brightness(80%);
+}
+.my-map .leaflet-tile {
+  filter: blur(3px) brightness(80%);
+}

@@ -24,21 +24,24 @@ export interface District {
 
 export interface BridgeData {
   id: number;
-  name: string;
-  koprik_turi: string;
+  name: string; // Qo'shildi, server javobida bor
+  region: Region;
+  district: District;
   holat: string | null;
-  buyrutmachi?: string;
-  proekt: string | null;
-  texnik_parametrlari: string | null;
-  obyektning_umumiy_summasi: string | null;
+  loyiha: string | null; // yangi, null bo'lishi mumkin
+  pudratchi: string | null; // yangi, null bo'lishi mumkin
+  loyihachi: string | null; // yangi, null bo'lishi mumkin
   boshlash_vaqti: string | null;
   tugash_vaqti: string | null;
   asos_hujjat: string | null;
-  region: Region;
-  district: District;
+  buyurtmachi?: string; // buyrutmachi deb o'zgardi (optional)
+  texnik_parametrlari: string | null;
+  obyektning_umumiy_summasi?: string | null; // optional, agar kerak bo'lsa
   images: Image[];
   locations: Location[];
+  vaqtinchalik_yol_sxemasi?: string | null; // optional, server javobida bor, hozircha null
 }
+
 export interface HolatCounts {
   Jarayonda: number;
   Rejalashtirilgan: number;
@@ -52,6 +55,7 @@ export interface StatistikaType {
 }
 
 export type StatisticaResponse = StatistikaType[];
+
 export interface holatStatistica {
   Jarayonda?: number;
   Rejalashtirilgan?: number;
