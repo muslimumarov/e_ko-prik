@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -12,10 +12,9 @@ import {
   BridgeData,
   Location,
   StatisticaResponse,
-} from "./interfaceslar/map.interfaces.ts";
+} from "./interfaces/map.interfaces.ts";
 import regionCenters from "./kordinatalar/Kordinat.ts";
 import uzb from "../../data/uzb2.json";
-import { getBridgeData, getStatisticsRegion } from "./map.api/api.ts";
 import StatisticPanel from "./umumiy-holat/StatisticPanel.tsx";
 import {
   IconGreen,
@@ -23,8 +22,9 @@ import {
   IconYellow,
 } from "../../assets/icons/iconLocation.tsx";
 import LocationModal from "./Info-modal/LocationModal.tsx";
-import BackToDefaultButton from "./BackMap/BackToDefaultButton.tsx";
 import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper.tsx";
+import { getBridgeData, getStatisticsRegion } from "./map.api/api.ts";
+import BackToDefaultButton from "./BackMap/BackToDefaultButton.tsx";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -41,11 +41,15 @@ function MyMapPage() {
   const mapRef = useRef<L.Map | null>(null);
 
   // Map refni olish uchun useEffect
-  useEffect(() => {
-    // Bu useEffect faqat bir marta ishlaydi, mapRef currentni tekshiradi
+
+  const handleMapReady = () => {
     if (!mapRef.current) return;
-    // mapRef.current bilan kerakli ishlarni bajarish mumkin
-  }, [mapRef.current]);
+  };
+  //mapRefni olish uchun useEffect
+  useEffect(() => {
+    if (!mapRef.current) return;
+    handleMapReady();
+  }, []);
 
   const handlRowclick = (loc: Location) => {
     setSelectedLocation(loc);
@@ -60,11 +64,7 @@ function MyMapPage() {
       })
       .catch(console.error);
   }, []);
-  useEffect(() => {
-    if (regionId !== null) {
-      console.log("Region ID:", regionId);
-    }
-  }, [regionId]);
+  console.log(regionId);
   useEffect(() => {
     if (selectedRegion && statistics.length > 0) {
       const found = statistics.find(
@@ -143,12 +143,18 @@ function MyMapPage() {
     return null;
   };
 
-  const selectBridge = bridges.find((bridge) =>
-    bridge.locations.some((loc) => loc.id === selectedLocation?.id),
-  );
+  const selectBridge = useMemo(() => {
+    return bridges.find((bridge) =>
+      bridge.locations.some((loc) => loc.id === selectedLocation?.id),
+    );
+  }, [bridges, selectedLocation]);
 
-  const DEFAULT_CENTER: [number, number] = [41.377491, 64.585258];
+  const DEFAULT_CENTER = useMemo<[number, number]>(
+    () => [41.377491, 64.585258],
+    [],
+  );
   const DEFAULT_ZOOM = 6;
+
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo(DEFAULT_CENTER, 6.3, {
@@ -156,7 +162,7 @@ function MyMapPage() {
         easeLinearity: 0.25,
       });
     }
-  }, []);
+  }, [DEFAULT_CENTER, DEFAULT_ZOOM]);
 
   return (
     <>

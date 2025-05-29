@@ -1,7 +1,7 @@
 import {
   BridgeData,
   StatisticaResponse,
-} from "../interfaceslar/map.interfaces.ts";
+} from "../interfaces/map.interfaces.ts";
 import { api } from "../../../core/hooks/apiUrl.ts";
 
 export const getBridgeData = async (

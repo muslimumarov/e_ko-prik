@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Construction, ClipboardList, CheckCircle } from "lucide-react";
-import { holatStatistica } from "../interfaceslar/map.interfaces.ts";
+import { holatStatistica } from "../interfaces/map.interfaces.ts";
 import { getBridgeHolat } from "../map.api/api.ts";
 import { useTranslation } from "react-i18next"; // qo‘shildi
 

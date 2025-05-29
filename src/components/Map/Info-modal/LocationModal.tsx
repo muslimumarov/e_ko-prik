@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { BridgeData, Location } from "../interfaceslar/map.interfaces.ts";
+import { BridgeData, Location } from "../interfaces/map.interfaces.ts";
 import CardCaption from "../../../core/components/card/CardCaption.tsx";
 import { ArrowRight, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 // import {useState} from "react";
-// import {Location} from "../interfaceslar/map.interfaces.ts";
+// import {Location} from "../interfaces/map.interfaces.ts";
 //
 // const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 // const [isModalOpen, setIsModalOpen] = useState(false);
