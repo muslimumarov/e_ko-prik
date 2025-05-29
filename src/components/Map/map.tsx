@@ -37,46 +37,26 @@ function MyMapPage() {
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // Map ref
   const mapRef = useRef<L.Map | null>(null);
-
-  // Map refni olish uchun useEffect
-
-  const handleMapReady = () => {
-    if (!mapRef.current) return;
-  };
-  //mapRefni olish uchun useEffect
-  useEffect(() => {
-    if (!mapRef.current) return;
-    handleMapReady();
-  }, []);
-
-  const handlRowclick = (loc: Location) => {
-    setSelectedLocation(loc);
-    setIsOpen(true);
-  };
 
   useEffect(() => {
     getStatisticsRegion()
-      .then((data) => {
-        setStatistics(data);
-        console.log(data);
-      })
+      .then((data) => setStatistics(data))
       .catch(console.error);
   }, []);
-  console.log(regionId);
+
+  // Region tanlanganda, statistika va ko'priklarni yangilash
   useEffect(() => {
     if (selectedRegion && statistics.length > 0) {
       const found = statistics.find(
         (item) => item.region_name === selectedRegion,
       );
-
-      if (found) {
+      if (found && found.region_id !== regionId) {
         setRegionId(found.region_id);
         getBridgeData(found.region_id).then(setBridges).catch(console.error);
       }
     }
-  }, [selectedRegion, statistics]);
+  }, [selectedRegion, statistics, regionId]);
 
   const defaultStyle: L.PathOptions = {
     weight: 1,
@@ -90,6 +70,7 @@ function MyMapPage() {
     fillColor: "#e1a9a9",
     fillOpacity: 0.7,
   };
+
   const getIconByHolat = (holat: string) => {
     switch (holat) {
       case "Jarayonda":
@@ -102,15 +83,15 @@ function MyMapPage() {
         return IconRed();
     }
   };
+
+  // GeoJSON har bir region uchun eventlar
   const onEachCountry = (feature: GeoJSON.Feature, layer: L.Layer) => {
     layer.on({
       mouseover: (e: LeafletMouseEvent) => {
-        const target = e.target as L.Path;
-        target.setStyle(highlightStyle);
+        (e.target as L.Path).setStyle(highlightStyle);
       },
       mouseout: (e: LeafletMouseEvent) => {
-        const target = e.target as L.Path;
-        target.setStyle(defaultStyle);
+        (e.target as L.Path).setStyle(defaultStyle);
       },
       click: (e: LeafletMouseEvent) => {
         const polygon = e.target as L.Polygon;
@@ -123,13 +104,14 @@ function MyMapPage() {
       },
     });
 
-    if (feature.properties?.name) {
-      layer.bindTooltip(feature.properties.name);
+    if (feature.properties?.NAME_1) {
+      layer.bindTooltip(feature.properties.NAME_1);
     }
 
     (layer as L.Path).setStyle(defaultStyle);
   };
 
+  // Xarita zoomlash komponenti
   const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
     bounds,
   }) => {
@@ -143,6 +125,7 @@ function MyMapPage() {
     return null;
   };
 
+  // Tanlangan ko'prikni topish (Memo bilan optimallashtirish)
   const selectBridge = useMemo(() => {
     return bridges.find((bridge) =>
       bridge.locations.some((loc) => loc.id === selectedLocation?.id),
@@ -157,12 +140,18 @@ function MyMapPage() {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.flyTo(DEFAULT_CENTER, 6.3, {
+      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM + 0.3, {
         duration: 1,
         easeLinearity: 0.25,
       });
     }
   }, [DEFAULT_CENTER, DEFAULT_ZOOM]);
+
+  // Marker bosilganda LocationModal ochish
+  const handleMarkerClick = (loc: Location) => {
+    setSelectedLocation(loc);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -177,7 +166,6 @@ function MyMapPage() {
           [46.599, 80.0],
         ]}
         maxBoundsViscosity={2.0}
-        // here ref-ni to'g'ri ulang:
         ref={(node) => {
           if (node) {
             mapRef.current = node;
@@ -189,6 +177,7 @@ function MyMapPage() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        {/* Donut chartlar faqat region tanlanmaganida ko'rsatiladi */}
         {!selectedRegion &&
           statistics.map(({ region_name, holat_counts }) => {
             const center = regionCenters[region_name];
@@ -211,6 +200,7 @@ function MyMapPage() {
             );
           })}
 
+        {/* Back button faqat region tanlanganda */}
         {selectedRegion && (
           <BackToDefaultButton
             center={DEFAULT_CENTER}
@@ -220,12 +210,10 @@ function MyMapPage() {
               setRegionId(null);
               setBridges([]);
               setZoomTo(null);
-
-              // Xarita animatsion tarzda qaytsin
               if (mapRef.current) {
                 mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
-                  duration: 0.5, // sekundlarda animatsiya davomiyligi
-                  easeLinearity: 0.25, // animatsiyaning tekisligi
+                  duration: 0.5,
+                  easeLinearity: 0.25,
                 });
               }
             }}
@@ -236,6 +224,7 @@ function MyMapPage() {
 
         {zoomTo && <MapZoomer bounds={zoomTo} />}
 
+        {/* Ko'priklar va ularning markerlari */}
         {bridges.flatMap((bridge) => {
           const locations = bridge.locations;
           const holatColor = {
@@ -251,12 +240,11 @@ function MyMapPage() {
                 positions={locations.map((loc) => [
                   loc.latitude - 0.00006,
                   loc.longitude + 0.00002,
-                ])} // marker "tagidan" chiqadi
+                ])}
                 pathOptions={{
                   color: holatColor,
                   weight: 5,
-                  // dashArray: "25, 15",
-                  opacity: 10,
+                  opacity: 1,
                 }}
               />
             ) : null;
@@ -268,7 +256,7 @@ function MyMapPage() {
                 position={[loc.latitude, loc.longitude]}
                 icon={getIconByHolat(bridge.holat ?? "")}
                 eventHandlers={{
-                  click: () => handlRowclick(loc),
+                  click: () => handleMarkerClick(loc),
                 }}
               />
             )),
