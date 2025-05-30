@@ -1,5 +1,5 @@
 import { SelectInterface } from "../interfaces/select.interfaces.ts";
-import { Language } from "../../components/enums/Language.ts";
+import { Language } from "../components/enums/Language.ts";
 
 export const LANGUAGES: SelectInterface[] = [
   {

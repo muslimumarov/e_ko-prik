@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Construction, ClipboardList, CheckCircle } from "lucide-react";
-import { holatStatistica } from "../interfaces/map.interfaces.ts";
-import { getBridgeHolat } from "../map.api/api.ts";
+import { holatStatistica } from "../../../core/interfaces/interfaces.ts";
+import { getBridgeHolat } from "../../../core/hooks/api.ts";
 import { useTranslation } from "react-i18next"; // qo‘shildi
 
 const StatisticPanel = () => {

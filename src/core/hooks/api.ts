@@ -1,8 +1,5 @@
-import {
-  BridgeData,
-  StatisticaResponse,
-} from "../interfaces/map.interfaces.ts";
-import { api } from "../../../core/hooks/apiUrl.ts";
+import { BridgeData, StatisticaResponse } from "../interfaces/interfaces.ts";
+import { api } from "./apiUrl.ts";
 
 export const getBridgeData = async (
   regionId: number,

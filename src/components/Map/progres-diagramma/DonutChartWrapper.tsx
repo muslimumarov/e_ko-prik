@@ -103,7 +103,7 @@ const DonutChartWrapper = ({ data, position, regionName, onClick }: Props) => {
               fontWeight: "bold",
               fontSize: "16px",
               textAlign: "center",
-              color: "#333",
+              color: "#f35a02",
             }}
           >
             {t(`regions.${regionName}`)}

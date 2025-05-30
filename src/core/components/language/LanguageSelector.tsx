@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Dropdown } from "flowbite-react";
-import { LANGUAGES } from "../../core/constants/language.constans.ts";
-import { Language } from "../../components/enums/Language.ts";
+import { LANGUAGES } from "../../constants/language.constans.ts";
+import { Language } from "../enums/Language.ts";
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();

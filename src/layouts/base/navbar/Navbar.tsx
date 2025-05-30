@@ -4,8 +4,8 @@ import gerb from "../../../../public/images/home-gerb.0379468a.svg";
 import flag from "../../../../public/images/download.png";
 import { Button } from "flowbite-react";
 import { useTranslation } from "react-i18next";
-import ThemeToggle from "../../../components/darkMode/ThemeToggle.tsx";
-import LanguageSelector from "../../components/LanguageSelector.tsx";
+import ThemeToggle from "../../../core/components/darkMode/ThemeToggle.tsx";
+import LanguageSelector from "../../../core/components/language/LanguageSelector.tsx";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();

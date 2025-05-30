@@ -12,9 +12,9 @@ import {
   BridgeData,
   Location,
   StatisticaResponse,
-} from "./interfaces/map.interfaces.ts";
+} from "../../core/interfaces/interfaces.ts";
 import regionCenters from "./kordinatalar/Kordinat.ts";
-import uzb from "../../data/uzb2.json";
+import uzb from "../../core/data/uzb2.json";
 import StatisticPanel from "./umumiy-holat/StatisticPanel.tsx";
 import {
   IconGreen,
@@ -23,7 +23,7 @@ import {
 } from "../../assets/icons/iconLocation.tsx";
 import LocationModal from "./Info-modal/LocationModal.tsx";
 import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper.tsx";
-import { getBridgeData, getStatisticsRegion } from "./map.api/api.ts";
+import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api.ts";
 import BackToDefaultButton from "./BackMap/BackToDefaultButton.tsx";
 
 function MyMapPage() {
@@ -103,10 +103,6 @@ function MyMapPage() {
         setSelectedRegion(regionName);
       },
     });
-
-    // if (feature.properties?.NAME_1) {
-    //   layer.bindTooltip(feature.properties.NAME_1);
-    // }
 
     (layer as L.Path).setStyle(defaultStyle);
   };
