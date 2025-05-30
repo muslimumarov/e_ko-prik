@@ -104,9 +104,9 @@ function MyMapPage() {
       },
     });
 
-    if (feature.properties?.NAME_1) {
-      layer.bindTooltip(feature.properties.NAME_1);
-    }
+    // if (feature.properties?.NAME_1) {
+    //   layer.bindTooltip(feature.properties.NAME_1);
+    // }
 
     (layer as L.Path).setStyle(defaultStyle);
   };

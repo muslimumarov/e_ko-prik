@@ -32,7 +32,7 @@ const SearchInput: React.FC = () => {
         <input
           type="search"
           id="default-search"
-          className=" text-md block w-80 rounded-lg border border-gray-300 bg-white/10  p-4 ps-10 text-sm  text-white
+          className=" text-md block w-80 rounded-lg border border-gray-300 bg-white/10  p-4 ps-10 text-sm  text-black
     placeholder:text-white focus:border-blue-500 focus:ring-amber-200 dark:border-gray-600 dark:bg-blue-950 dark:text-white  dark:placeholder:text-white
      dark:focus:ring-blue-50 md:w-96"
           placeholder={t("search")}
