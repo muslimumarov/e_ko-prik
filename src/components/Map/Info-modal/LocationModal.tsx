@@ -106,7 +106,7 @@ const LocationModal: React.FC<Props> = ({
         <p>
           <strong>{t("tugallangan")}:</strong> <br />{" "}
           <span className={"text-[#744817] dark:text-amber-200"}>
-            {bridge.tugash_vaqti || t("noData")}
+            {bridge.tugash_vaqti || t("-")}
           </span>
         </p>
         <p>
