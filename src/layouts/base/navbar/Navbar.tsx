@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto flex justify-between px-4 py-3">
         <div className="flex w-full items-center justify-between">
           <div className="no-copy">
-            <a href="#" className="flex items-center justify-center gap-5">
+            <a href="/" className="flex items-center justify-center gap-5">
               <img
                 src={gerb}
                 alt="Ko'prik qurulish"
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
               <img
                 src={flag}
                 alt="Ko'prik qurulish"
-                className="h-14 mobil330:hidden sm:block" // 150x10 px
+                className="h-14 mobil330:hidden sm:block" // 150x10
               />
               <img src={Logo} alt="Ko'prik qurulish" className="h-12" />
             </a>

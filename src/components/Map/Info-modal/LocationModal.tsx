@@ -114,7 +114,6 @@ const LocationModal: React.FC<Props> = ({
           <br />{" "}
           <a
             className={"text-[#744817] underline  dark:text-amber-200"}
-            target={"_blank"}
             href={bridge.asos_hujjat || t("noData")}
           >
             {t("Hujjatga Havola")}
@@ -125,7 +124,6 @@ const LocationModal: React.FC<Props> = ({
           <br />{" "}
           <a
             className={"text-[#744817] underline  dark:text-amber-200"}
-            target={"_blank"}
             href={bridge.vaqtinchalik_yol_sxemasi || t("noData")}
           >
             {t("Hujjatga Havola")}

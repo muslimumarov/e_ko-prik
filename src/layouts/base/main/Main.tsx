@@ -8,7 +8,7 @@ const Main: React.FC = () => {
   const boxes = [
     { title: t("interactiveMap"), path: "/map/myMap" },
     { title: t("monitoring"), path: "/monitoring" },
-    { title: t("E-Xodim"), path: "/employee" },
+    { title: t("E-Xodim"), path: "https://hrm.kuprikqurilish.uz/" },
     { title: t("archive"), path: "/archive" },
     { title: t("E-Ombor"), path: "/warehouse" },
     { title: t("surveillanceCameras"), path: "/camera" },
