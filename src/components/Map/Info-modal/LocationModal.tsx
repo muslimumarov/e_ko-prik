@@ -24,7 +24,7 @@ const LocationModal: React.FC<Props> = ({
   const handleClick = () => {
     navigate("/archive");
   };
-
+  console.log(bridge);
   if (!location || !bridge) return null;
 
   return (

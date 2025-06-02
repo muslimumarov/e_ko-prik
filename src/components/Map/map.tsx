@@ -8,6 +8,7 @@ import {
   Polyline,
 } from "react-leaflet";
 import L, { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
+
 import {
   BridgeData,
   Location,
@@ -36,15 +37,12 @@ function MyMapPage() {
     null,
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const mapRef = useRef<L.Map | null>(null);
-
   useEffect(() => {
     getStatisticsRegion()
       .then((data) => setStatistics(data))
       .catch(console.error);
   }, []);
-
   // Region tanlanganda, statistika va ko'priklarni yangilash
   useEffect(() => {
     if (selectedRegion && statistics.length > 0) {
@@ -57,7 +55,6 @@ function MyMapPage() {
       }
     }
   }, [selectedRegion, statistics, regionId]);
-
   const defaultStyle: L.PathOptions = {
     weight: 1,
     color: "#3388ff",
@@ -70,7 +67,6 @@ function MyMapPage() {
     fillColor: "#e1a9a9",
     fillOpacity: 0.7,
   };
-
   const getIconByHolat = (holat: string) => {
     switch (holat) {
       case "Jarayonda":
@@ -83,7 +79,6 @@ function MyMapPage() {
         return IconRed();
     }
   };
-
   // GeoJSON har bir region uchun eventlar
   const onEachCountry = (feature: GeoJSON.Feature, layer: L.Layer) => {
     layer.on({
@@ -106,7 +101,6 @@ function MyMapPage() {
 
     (layer as L.Path).setStyle(defaultStyle);
   };
-
   // Xarita zoomlash komponenti
   const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
     bounds,
@@ -120,20 +114,17 @@ function MyMapPage() {
     }, [map, bounds]);
     return null;
   };
-
   // Tanlangan ko'prikni topish (Memo bilan optimallashtirish)
   const selectBridge = useMemo(() => {
     return bridges.find((bridge) =>
       bridge.locations.some((loc) => loc.id === selectedLocation?.id),
     );
   }, [bridges, selectedLocation]);
-
   const DEFAULT_CENTER = useMemo<[number, number]>(
     () => [41.377491, 64.585258],
     [],
   );
   const DEFAULT_ZOOM = 6;
-
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM + 0.3, {
@@ -143,11 +134,21 @@ function MyMapPage() {
     }
   }, [DEFAULT_CENTER, DEFAULT_ZOOM]);
 
-  // Marker bosilganda LocationModal ochish
-  const handleMarkerClick = (loc: Location) => {
-    setSelectedLocation(loc);
-    setIsOpen(true);
-  };
+  function calculatePolylineCenter(
+    locations: Location[],
+  ): [number, number] | null {
+    if (locations.length === 0) return null;
+
+    if (locations.length === 1) {
+      const loc = locations[0];
+      return [loc.latitude, loc.longitude];
+    }
+
+    const latSum = locations.reduce((sum, loc) => sum + loc.latitude, 0);
+    const lngSum = locations.reduce((sum, loc) => sum + loc.longitude, 0);
+
+    return [latSum / locations.length, lngSum / locations.length];
+  }
 
   return (
     <>
@@ -223,14 +224,36 @@ function MyMapPage() {
         {/* Ko'priklar va ularning markerlari */}
         {bridges.flatMap((bridge) => {
           const locations = bridge.locations;
+
           const holatColor = {
             Jarayonda: "#f35a02",
             Tugallangan: "green",
             Rejalashtirilgan: "red",
           }[bridge.holat ?? "Rejalashtirilgan"];
 
-          const polyline =
-            locations.length >= 2 ? (
+          if (locations.length === 1) {
+            // Faqat 1 ta nuqta bo‘lsa marker chiziladi
+            const loc = locations[0];
+            return [
+              <Marker
+                key={`single-marker-${bridge.id}`}
+                position={[loc.latitude, loc.longitude]}
+                icon={getIconByHolat(bridge.holat ?? "")}
+                eventHandlers={{
+                  click: () => {
+                    setSelectedLocation(loc);
+                    setIsOpen(true);
+                  },
+                }}
+              />,
+            ];
+          }
+
+          if (locations.length >= 2) {
+            // 2 ta yoki undan ko‘p nuqta bo‘lsa poliliniya va markaz marker chiziladi
+            const polylineCenter = calculatePolylineCenter(locations);
+
+            return [
               <Polyline
                 key={`polyline-${bridge.id}`}
                 positions={locations.map((loc) => [
@@ -242,22 +265,29 @@ function MyMapPage() {
                   weight: 5,
                   opacity: 1,
                 }}
-              />
-            ) : null;
+              />,
+              polylineCenter && (
+                <Marker
+                  key={`center-marker-${bridge.id}`}
+                  position={polylineCenter}
+                  icon={getIconByHolat(bridge.holat ?? "")}
+                  eventHandlers={{
+                    click: () => {
+                      const centerLoc = {
+                        ...locations[0], // birinchi loc ni nusxa olib
+                        latitude: polylineCenter[0],
+                        longitude: polylineCenter[1],
+                      };
+                      setSelectedLocation(centerLoc); // ❗️set null emas!
+                      setIsOpen(true);
+                    },
+                  }}
+                />
+              ),
+            ];
+          }
 
-          return [
-            ...locations.map((loc) => (
-              <Marker
-                key={`bridge-${bridge.id}-loc-${loc.id}`}
-                position={[loc.latitude, loc.longitude]}
-                icon={getIconByHolat(bridge.holat ?? "")}
-                eventHandlers={{
-                  click: () => handleMarkerClick(loc),
-                }}
-              />
-            )),
-            polyline,
-          ];
+          return []; // Agar location bo'lmasa hech narsa chizilmaydi
         })}
 
         <GeoJSON
