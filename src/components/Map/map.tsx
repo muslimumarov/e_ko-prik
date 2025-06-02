@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, Fragment } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -13,19 +13,19 @@ import {
   BridgeData,
   Location,
   StatisticaResponse,
-} from "../../core/interfaces/interfaces.ts";
-import regionCenters from "./kordinatalar/Kordinat.ts";
+} from "../../core/interfaces/interfaces";
+import regionCenters from "./kordinatalar/Kordinat";
 import uzb from "../../core/data/uzb2.json";
-import StatisticPanel from "./umumiy-holat/StatisticPanel.tsx";
+import StatisticPanel from "./umumiy-holat/StatisticPanel";
 import {
   IconGreen,
   IconRed,
   IconYellow,
-} from "../../assets/icons/iconLocation.tsx";
-import LocationModal from "./Info-modal/LocationModal.tsx";
-import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper.tsx";
-import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api.ts";
-import BackToDefaultButton from "./BackMap/BackToDefaultButton.tsx";
+} from "../../assets/icons/iconLocation";
+import LocationModal from "./Info-modal/LocationModal";
+import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper";
+import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api";
+import BackToDefaultButton from "./BackMap/BackToDefaultButton";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -38,12 +38,17 @@ function MyMapPage() {
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const mapRef = useRef<L.Map | null>(null);
+
+  const DEFAULT_CENTER = useMemo<[number, number]>(
+    () => [41.377491, 64.585258],
+    [],
+  );
+  const DEFAULT_ZOOM = 6;
+
   useEffect(() => {
-    getStatisticsRegion()
-      .then((data) => setStatistics(data))
-      .catch(console.error);
+    getStatisticsRegion().then(setStatistics).catch(console.error);
   }, []);
-  // Region tanlanganda, statistika va ko'priklarni yangilash
+
   useEffect(() => {
     if (selectedRegion && statistics.length > 0) {
       const found = statistics.find(
@@ -54,19 +59,28 @@ function MyMapPage() {
         getBridgeData(found.region_id).then(setBridges).catch(console.error);
       }
     }
-  }, [selectedRegion, statistics, regionId]);
-  const defaultStyle: L.PathOptions = {
-    weight: 1,
-    color: "#3388ff",
-    fillColor: "#cccccc",
-    fillOpacity: 0.6,
-  };
-  const highlightStyle: L.PathOptions = {
-    weight: 2,
-    color: "#ff0000",
-    fillColor: "#e1a9a9",
-    fillOpacity: 0.7,
-  };
+  }, [selectedRegion, statistics]);
+
+  const defaultStyle: L.PathOptions = useMemo(
+    () => ({
+      weight: 1,
+      color: "#3388ff",
+      fillColor: "#cccccc",
+      fillOpacity: 0.6,
+    }),
+    [],
+  );
+
+  const highlightStyle: L.PathOptions = useMemo(
+    () => ({
+      weight: 2,
+      color: "#ff0000",
+      fillColor: "#e1a9a9",
+      fillOpacity: 0.7,
+    }),
+    [],
+  );
+
   const getIconByHolat = (holat: string) => {
     switch (holat) {
       case "Jarayonda":
@@ -79,7 +93,7 @@ function MyMapPage() {
         return IconRed();
     }
   };
-  // GeoJSON har bir region uchun eventlar
+
   const onEachCountry = (feature: GeoJSON.Feature, layer: L.Layer) => {
     layer.on({
       mouseover: (e: LeafletMouseEvent) => {
@@ -89,42 +103,32 @@ function MyMapPage() {
         (e.target as L.Path).setStyle(defaultStyle);
       },
       click: (e: LeafletMouseEvent) => {
-        const polygon = e.target as L.Polygon;
-        const bounds = polygon.getBounds();
-        setZoomTo(bounds);
-
         const regionName = feature.properties?.NAME_1;
         if (!regionName) return;
         setSelectedRegion(regionName);
+        const polygon = e.target as L.Polygon;
+        setZoomTo(polygon.getBounds());
       },
     });
-
     (layer as L.Path).setStyle(defaultStyle);
   };
-  // Xarita zoomlash komponenti
+
   const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
     bounds,
   }) => {
     const map = useMap();
     useEffect(() => {
-      map.flyToBounds(bounds, {
-        duration: 0.8,
-        easeLinearity: 0.25,
-      });
+      map.flyToBounds(bounds, { duration: 0.8, easeLinearity: 0.25 });
     }, [map, bounds]);
     return null;
   };
-  // Tanlangan ko'prikni topish (Memo bilan optimallashtirish)
+
   const selectBridge = useMemo(() => {
     return bridges.find((bridge) =>
       bridge.locations.some((loc) => loc.id === selectedLocation?.id),
     );
   }, [bridges, selectedLocation]);
-  const DEFAULT_CENTER = useMemo<[number, number]>(
-    () => [41.377491, 64.585258],
-    [],
-  );
-  const DEFAULT_ZOOM = 6;
+
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM + 0.3, {
@@ -134,24 +138,16 @@ function MyMapPage() {
     }
   }, [DEFAULT_CENTER, DEFAULT_ZOOM]);
 
-  function calculatePolylineCenter(
+  const calculatePolylineCenter = (
     locations: Location[],
-  ): [number, number] | null {
-    if (locations.length === 0) return null;
-
-    if (locations.length === 1) {
-      const loc = locations[0];
-      return [loc.latitude, loc.longitude];
-    }
-
+  ): [number, number] | null => {
+    if (!locations.length) return null;
     const latSum = locations.reduce((sum, loc) => sum + loc.latitude, 0);
     const lngSum = locations.reduce((sum, loc) => sum + loc.longitude, 0);
-
     return [latSum / locations.length, lngSum / locations.length];
-  }
-
+  };
   return (
-    <>
+    <Fragment>
       <MapContainer
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
@@ -163,18 +159,13 @@ function MyMapPage() {
           [46.599, 80.0],
         ]}
         maxBoundsViscosity={2.0}
-        ref={(node) => {
-          if (node) {
-            mapRef.current = node;
-          }
-        }}
+        ref={(node) => (mapRef.current = node)}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* Donut chartlar faqat region tanlanmaganida ko'rsatiladi */}
         {!selectedRegion &&
           statistics.map(({ region_name, holat_counts }) => {
             const center = regionCenters[region_name];
@@ -197,7 +188,6 @@ function MyMapPage() {
             );
           })}
 
-        {/* Back button faqat region tanlanganda */}
         {selectedRegion && (
           <BackToDefaultButton
             center={DEFAULT_CENTER}
@@ -207,12 +197,10 @@ function MyMapPage() {
               setRegionId(null);
               setBridges([]);
               setZoomTo(null);
-              if (mapRef.current) {
-                mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
-                  duration: 0.5,
-                  easeLinearity: 0.25,
-                });
-              }
+              mapRef.current?.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
+                duration: 0.5,
+                easeLinearity: 0.25,
+              });
             }}
           />
         )}
@@ -221,22 +209,21 @@ function MyMapPage() {
 
         {zoomTo && <MapZoomer bounds={zoomTo} />}
 
-        {/* Ko'priklar va ularning markerlari */}
         {bridges.flatMap((bridge) => {
           const locations = bridge.locations;
-
           const holatColor = {
             Jarayonda: "#f35a02",
             Tugallangan: "green",
             Rejalashtirilgan: "red",
           }[bridge.holat ?? "Rejalashtirilgan"];
 
+          if (!locations.length) return [];
+
           if (locations.length === 1) {
-            // Faqat 1 ta nuqta bo‘lsa marker chiziladi
             const loc = locations[0];
             return [
               <Marker
-                key={`single-marker-${bridge.id}`}
+                key={`marker-${bridge.id}`}
                 position={[loc.latitude, loc.longitude]}
                 icon={getIconByHolat(bridge.holat ?? "")}
                 eventHandlers={{
@@ -249,45 +236,36 @@ function MyMapPage() {
             ];
           }
 
-          if (locations.length >= 2) {
-            // 2 ta yoki undan ko‘p nuqta bo‘lsa poliliniya va markaz marker chiziladi
-            const polylineCenter = calculatePolylineCenter(locations);
+          const polylineCenter = calculatePolylineCenter(locations);
 
-            return [
-              <Polyline
-                key={`polyline-${bridge.id}`}
-                positions={locations.map((loc) => [
-                  loc.latitude - 0.00006,
-                  loc.longitude + 0.00002,
-                ])}
-                pathOptions={{
-                  color: holatColor,
-                  weight: 5,
-                  opacity: 1,
+          return [
+            <Polyline
+              key={`polyline-${bridge.id}`}
+              positions={locations.map((loc) => [
+                loc.latitude - 0.00006,
+                loc.longitude + 0.00002,
+              ])}
+              pathOptions={{ color: holatColor, weight: 5, opacity: 1 }}
+            />,
+            polylineCenter && (
+              <Marker
+                key={`center-${bridge.id}`}
+                position={polylineCenter}
+                icon={getIconByHolat(bridge.holat ?? "")}
+                eventHandlers={{
+                  click: () => {
+                    const centerLoc = {
+                      ...locations[0],
+                      latitude: polylineCenter[0],
+                      longitude: polylineCenter[1],
+                    };
+                    setSelectedLocation(centerLoc);
+                    setIsOpen(true);
+                  },
                 }}
-              />,
-              polylineCenter && (
-                <Marker
-                  key={`center-marker-${bridge.id}`}
-                  position={polylineCenter}
-                  icon={getIconByHolat(bridge.holat ?? "")}
-                  eventHandlers={{
-                    click: () => {
-                      const centerLoc = {
-                        ...locations[0], // birinchi loc ni nusxa olib
-                        latitude: polylineCenter[0],
-                        longitude: polylineCenter[1],
-                      };
-                      setSelectedLocation(centerLoc); // ❗️set null emas!
-                      setIsOpen(true);
-                    },
-                  }}
-                />
-              ),
-            ];
-          }
-
-          return []; // Agar location bo'lmasa hech narsa chizilmaydi
+              />
+            ),
+          ];
         })}
 
         <GeoJSON
@@ -302,7 +280,7 @@ function MyMapPage() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
-    </>
+    </Fragment>
   );
 }
 

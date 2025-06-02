@@ -25,7 +25,7 @@ const LocationModal: React.FC<Props> = ({
     navigate("/archive");
   };
   if (!location || !bridge) return null;
-
+  console.log(bridge);
   return (
     <div
       className={`custom-scrollbar fixed top-[82px] z-[1000] h-[95vh] w-96 overflow-y-auto rounded border border-amber-100 shadow-lg backdrop-blur
@@ -72,7 +72,7 @@ const LocationModal: React.FC<Props> = ({
           <strong>{t("customer")}:</strong>
           <br />{" "}
           <span className={"text-[#744817] dark:text-amber-200"}>
-            {bridge.buyurtmachi || t("noData")}
+            {bridge.buyrutmachi || t("noData")}
           </span>
         </p>
         <p>

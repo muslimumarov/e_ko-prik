@@ -32,9 +32,9 @@ export interface BridgeData {
   pudratchi: string | null; // yangi, null bo'lishi mumkin
   loyihachi: string | null; // yangi, null bo'lishi mumkin
   boshlash_vaqti: string | null;
-  tugash_vaqti: string | null;
-  asos_hujjat: string | null;
-  buyurtmachi?: string; // buyrutmachi deb o'zgardi (optional)
+  tugash_vaqti?: string | null;
+  asos_hujjat?: string | null;
+  buyrutmachi?: string;
   texnik_parametrlari: string | null;
   obyektning_umumiy_summasi?: string | null; // optional, agar kerak bo'lsa
   images: Image[];
