@@ -7,6 +7,9 @@ const InteractiveMap = lazy(() => import("./pages/map/InteractiveMap.tsx"));
 const MyMapPage = lazy(() => import("./components/Map/map.tsx"));
 const Camera = lazy(() => import("./pages/camera/Camera.tsx"));
 const Archive = lazy(() => import("./pages/archive/Archive.tsx"));
+const ArchiveDetail = lazy(
+  () => import("./pages/archive/archive-detail/ArchiveDetail.tsx"),
+);
 const Exodim = lazy(() => import("./pages/employee/Employee.tsx"));
 const Eombor = lazy(() => import("./pages/warehouse/Warehouse.tsx"));
 
@@ -38,6 +41,12 @@ function Route() {
     {
       path: "archive",
       element: <Archive />,
+      children: [
+        {
+          path: "archiveDetails",
+          element: <ArchiveDetail />,
+        },
+      ],
     },
     {
       path: "warehouse",
