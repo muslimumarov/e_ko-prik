@@ -90,18 +90,23 @@ const ArchiveDetail = () => {
                 initial={{ x: -10 }}
                 animate={{ x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-2xl font-bold text-gray-800 dark:text-white"
+                className="font-bold text-gray-800 dark:text-white mobil330:text-[18px] sm:text-2xl"
               >
                 {bridge.name}
               </motion.h1>
-              <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <a
+              <motion.a
+                className={"no-copy"}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span
                   onClick={() => navigate(-1)}
-                  className="mb-6 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-cyan-600 px-4 py-2 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl dark:bg-cyan-600"
+                  className="sm:text-md mb-6  inline-flex cursor-pointer items-center gap-2  rounded-xl border px-4 py-2 font-semibold
+                  text-black transition-all duration-200 dark:text-white mobil330:text-[12px] "
                 >
                   <ArrowLeft size={16} />
                   {t("Orqaga")}
-                </a>
+                </span>
               </motion.a>
             </div>
             <div className="mt-2 flex items-center  text-gray-600 dark:text-white">
@@ -180,7 +185,9 @@ const ArchiveDetail = () => {
                     </motion.div>
                   ))
                 ) : (
-                  <p>{t("Joylashuv maʼlumotlari mavjud emas")}</p>
+                  <p className={"dark:text-white"}>
+                    {t("Joylashuv maʼlumotlari mavjud emas")}
+                  </p>
                 )}
               </motion.div>
 

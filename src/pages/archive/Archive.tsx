@@ -32,7 +32,14 @@ const Archive: React.FC = () => {
   return (
     <Fragment>
       <div className="container relative top-24 mx-auto ">
-        <div className=" grid w-full gap-4 p-4 mobil330:grid-cols-1  md:grid-cols-2 lg:grid-cols-4">
+        <h1
+          className={
+            "mb-9 mt-14 text-center font-bold text-amber-200 dark:text-[#f35a02] mobil330:text-[18px] sm:text-5xl"
+          }
+        >
+          Arxiv Malumotlar
+        </h1>
+        <div className=" mb-9 grid w-full gap-4 p-4 mobil330:grid-cols-1  md:grid-cols-2 lg:grid-cols-4">
           {/* Selectlar qismi */}
           <select
             className="rounded-lg border border-gray-300 bg-white/70 p-2 backdrop-blur-md"
@@ -95,18 +102,18 @@ const Archive: React.FC = () => {
           </div>
         </div>
 
-        <div className="my-10 flex flex-col justify-between">
-          <div className="grid grid-cols-1 gap-4 px-5 pb-7 sm:grid-cols-2 md:grid-cols-4">
+        <div className=" mb-28 flex flex-col justify-between">
+          <div className="grid grid-cols-1 gap-4 px-5 pb-7   mobil330:px-10 sm:h-full  sm:grid-cols-2 sm:px-4 md:grid-cols-4">
             {card?.results?.map((box) => (
               <div
                 key={box.id}
-                className="cursor-pointer rounded-xl border border-white/20 shadow-md backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-blue-950
+                className="mobil330:h-35 cursor-pointer rounded-xl border border-white/20 shadow-md  backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-blue-950 sm:h-auto
 "
                 onClick={() => handleClick(box.id)} // click event to navigate
               >
                 <img
-                  className={"h-32 w-full rounded-t-md "}
-                  src={box.images?.image || "/no-image.png"}
+                  className={"h-32 w-full rounded-t-md  mobil330:h-48 "}
+                  src={box.images?.image || "/images/IMG_2016.JPG"}
                   alt={box.name}
                 />
                 <h2 className={"p-4 text-amber-300 dark:text-[#f35a02]"}>
@@ -119,24 +126,26 @@ const Archive: React.FC = () => {
           </div>
           <div className="flex items-center justify-center gap-4">
             <button
-              onClick={() =>
-                card?.previous &&
-                setCurrentUrl(
-                  card.previous.replace(import.meta.env.VITE_API_URL, ""),
-                )
-              }
+              onClick={() => {
+                if (card?.previous) {
+                  setCurrentUrl(
+                    card.previous.replace(import.meta.env.VITE_API_URL, ""),
+                  );
+                }
+              }}
               disabled={!card?.previous}
               className="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow backdrop-blur-md disabled:opacity-50"
             >
               Oldingi
             </button>
             <button
-              onClick={() =>
-                card?.next &&
-                setCurrentUrl(
-                  card.next.replace(import.meta.env.VITE_API_URL, ""),
-                )
-              }
+              onClick={() => {
+                if (card?.next) {
+                  setCurrentUrl(
+                    card.next.replace(import.meta.env.VITE_API_URL, ""),
+                  );
+                }
+              }}
               disabled={!card?.next}
               className="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow backdrop-blur-md disabled:opacity-50"
             >
