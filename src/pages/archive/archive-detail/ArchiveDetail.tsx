@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../core/hooks/apiUrl";
 import { BridgeData } from "../../../core/interfaces/interfaces.ts";
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const ArchiveDetail = () => {
@@ -12,7 +12,7 @@ const ArchiveDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchBridgeDetails = async () => {
       try {
@@ -68,7 +68,7 @@ const ArchiveDetail = () => {
         <div className="fixed inset-0 -z-10 overflow-hidden">
           <img
             src={bridge.images[0].image}
-            alt={t("Orqa fon")}
+            alt={t("Orqafon")}
             className="size-full object-cover opacity-20 blur-xl"
           />
         </div>
@@ -81,21 +81,32 @@ const ArchiveDetail = () => {
         className="container  relative mx-auto h-auto px-4 py-6"
       >
         <motion.div
-          whileHover={{ scale: 1.01 }}
+          // whileHover={{ scale: 1.01 }}
           className=" relative top-24 mb-24 overflow-hidden  rounded-lg bg-white bg-opacity-90 shadow-xl backdrop-blur-sm"
         >
-          <div className="border-b bg-gradient-to-r from-blue-50 to-gray-50 px-6 py-4 dark:from-blue-900 dark:to-gray-900">
-            <motion.h1
-              initial={{ x: -10 }}
-              animate={{ x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-2xl font-bold text-gray-800 dark:text-white"
-            >
-              {bridge.name}
-            </motion.h1>
+          <div className="border-b bg-amber-50 bg-gradient-to-r px-6 py-4 dark:bg-blue-950">
+            <div className="flex   justify-between">
+              <motion.h1
+                initial={{ x: -10 }}
+                animate={{ x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-2xl font-bold text-gray-800 dark:text-white"
+              >
+                {bridge.name}
+              </motion.h1>
+              <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a
+                  onClick={() => navigate(-1)}
+                  className="mb-6 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-cyan-600 px-4 py-2 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl dark:bg-cyan-600"
+                >
+                  <ArrowLeft size={16} />
+                  {t("Orqaga")}
+                </a>
+              </motion.a>
+            </div>
             <div className="mt-2 flex items-center  text-gray-600 dark:text-white">
               <motion.span whileHover={{ scale: 1.05 }} className="mr-4">
-                <span className="font-bold">{t("Region")}:</span>{" "}
+                <span className="font-bold">{t("Hudud")}:</span>{" "}
                 {bridge.region?.name}
               </motion.span>
               <motion.span whileHover={{ scale: 1.05 }}>
@@ -105,7 +116,7 @@ const ArchiveDetail = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-gray-50 p-6 dark:from-blue-900 dark:to-gray-900">
+          <div className="bg-amber-50 bg-gradient-to-r p-6 dark:bg-blue-950">
             <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
               <motion.div
                 initial={{ opacity: 0 }}
@@ -113,11 +124,11 @@ const ArchiveDetail = () => {
                 transition={{ delay: 0.3 }}
               >
                 <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  {t("Asosiy Maʼlumotlar")}
+                  {t("Asosiy ma'lumotlar")}
                 </h2>
                 <div className="space-y-2 dark:text-gray-200">
                   {[
-                    { label: t("Holat"), value: bridge.holat },
+                    { label: t("Holati"), value: bridge.holat },
                     { label: t("Buyurtmachi"), value: bridge.buyrutmachi },
                     { label: t("Loyiha"), value: bridge.loyiha },
                     { label: t("Pudratchi"), value: bridge.pudratchi },
@@ -162,7 +173,7 @@ const ArchiveDetail = () => {
                       </p>
                       <p className={"dark:text-gray-200"}>
                         <span className="font-medium dark:text-gray-200">
-                          {t("Kоordinatalar")}:
+                          {t("Koordinatalar")}:
                         </span>{" "}
                         {location.latitude}, {location.longitude}
                       </p>
@@ -179,7 +190,7 @@ const ArchiveDetail = () => {
                 transition={{ delay: 0.4 }}
               >
                 <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  {t("Loyiha fayllarini yuklash")}
+                  {t("Loyha Fayllarini Yuklash")}
                 </h2>
 
                 {bridge.asos_hujjat || bridge.vaqtinchalik_yol_sxemasi ? (
@@ -192,20 +203,18 @@ const ArchiveDetail = () => {
                     {bridge.asos_hujjat && (
                       <a
                         href={bridge.asos_hujjat}
-                        className="flex items-center gap-2 text-blue-600 underline dark:text-amber-200"
+                        className="flex items-center gap-2 text-black underline dark:text-amber-200"
                       >
-                        <Download size={18} /> {t("Asosiy hujjat")}
+                        <Download size={18} /> {t("Asosiy Hujjat")}
                       </a>
                     )}
 
                     {bridge.vaqtinchalik_yol_sxemasi && (
                       <a
                         href={bridge.vaqtinchalik_yol_sxemasi}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-blue-600 underline dark:text-amber-200"
+                        className="flex items-center gap-2 text-black underline dark:text-amber-200"
                       >
-                        <Download size={18} /> {t("Vaqtinchalik yo‘l sxemasi")}
+                        <Download size={18} /> {t("Vaqtinchalik Yo‘l Sxemasi")}
                       </a>
                     )}
                   </motion.div>
@@ -224,10 +233,10 @@ const ArchiveDetail = () => {
                 transition={{ delay: 0.6 }}
                 className="mb-6"
               >
-                <h2 className="mb-3 text-lg font-semibold text-gray-700">
+                <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
                   {t("Texnik parametrlar")}
                 </h2>
-                <p className="whitespace-pre-line">
+                <p className="whitespace-pre-line font-bold text-gray-700 dark:text-gray-200">
                   {bridge.texnik_parametrlari}
                 </p>
               </motion.div>
