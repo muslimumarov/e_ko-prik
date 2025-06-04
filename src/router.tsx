@@ -37,16 +37,13 @@ function Route() {
       path: "monitoring",
       element: <Monitoring />,
     },
-
     {
       path: "archive",
       element: <Archive />,
-      children: [
-        {
-          path: "archiveDetails",
-          element: <ArchiveDetail />,
-        },
-      ],
+    },
+    {
+      path: "archivedetails/:id", // 🔥 MUHIM TUZATISH
+      element: <ArchiveDetail />,
     },
     {
       path: "warehouse",
