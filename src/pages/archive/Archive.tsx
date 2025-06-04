@@ -100,11 +100,12 @@ const Archive: React.FC = () => {
             {card?.results?.map((box) => (
               <div
                 key={box.id}
-                className="cursor-pointer rounded-xl border border-white/20 shadow-md backdrop-blur-md dark:bg-blue-950"
+                className="cursor-pointer rounded-xl border border-white/20 shadow-md backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-blue-950
+"
                 onClick={() => handleClick(box.id)} // click event to navigate
               >
                 <img
-                  className={"h-32 w-full rounded-t-md"}
+                  className={"h-32 w-full rounded-t-md "}
                   src={box.images?.image || "/no-image.png"}
                   alt={box.name}
                 />

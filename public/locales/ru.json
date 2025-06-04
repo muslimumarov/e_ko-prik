@@ -63,5 +63,24 @@
     "Jizzax": "Джизакская область",
     "Sirdaryo": "Сырдарьинская область",
     "Qoraqalpog'iston Respublikasi": "Республика Каракалпакстан"
-  }
+  },
+  "Hudud": "Регион",
+  "Tuman": "Район",
+  "Asosiy ma'lumotlar": "Основная информация",
+  "Holati": "Состояние",
+  "Buyurtmachi": "Заказчик",
+  "Loyiha": "Проект",
+  "Pudratchi": "Подрядчик",
+  "Joylashuv": "Расположение",
+  "Nomi": "Название",
+  "Koordinatalar": "Координаты",
+  "Joylashuv haqida ma'lumot mavjud emas": "Информация о расположении недоступна",
+  "Loyha Fayllarini Yuklash": "Загрузить файлы проекта",
+  "Asosiy Hujjat": "Основной документ",
+  "Vaqtinchalik Yo‘l Sxemasi": "Временная схема движения",
+  "Hujjat mavjud emas": "Документ отсутствует",
+  "Texnik parametrlar": "Технические параметры",
+  "Rasmlar": "Изображения",
+  "Ko'prik topilmadi": "Мост не найден",
+  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ошибка при получении данных о мосте"
 }

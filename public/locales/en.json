@@ -62,5 +62,24 @@
     "Jizzax": "Jizzakh region",
     "Sirdaryo": "Syrdarya region",
     "Qoraqalpog'iston Respublikasi": "Republic of Karakalpakstan"
-  }
+  },
+  "Hudud": "Region",
+  "Tuman": "District",
+  "Asosiy ma'lumotlar": "Main information",
+  "Holati": "Status",
+  "Buyurtmachi": "Client",
+  "Loyiha": "Project",
+  "Pudratchi": "Contractor",
+  "Joylashuv": "Location",
+  "Nomi": "Name",
+  "Koordinatalar": "Coordinates",
+  "Joylashuv haqida ma'lumot mavjud emas": "Location information is not available",
+  "Loyha Fayllarini Yuklash": "Upload project files",
+  "Asosiy Hujjat": "Main document",
+  "Vaqtinchalik Yo‘l Sxemasi": "Temporary road scheme",
+  "Hujjat mavjud emas": "No document available",
+  "Texnik parametrlar": "Technical parameters",
+  "Rasmlar": "Images",
+  "Ko'prik topilmadi": "Bridge not found",
+  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "An error occurred while fetching bridge details"
 }

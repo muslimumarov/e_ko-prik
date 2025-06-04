@@ -40,14 +40,15 @@ const LocationModal: React.FC<Props> = ({
     <p>
       <strong>{label}:</strong>
       <br />
-      <a
-        className="text-[#744817] underline dark:text-amber-200"
-        href={url || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {t("Hujjatga Havola")}
-      </a>
+      {url ? (
+        <a className="text-[#744817] underline dark:text-amber-200" href={url}>
+          {t("Hujjatga Havola")}
+        </a>
+      ) : (
+        <span className="text-[#744817] dark:text-amber-200">
+          {t("noData")}
+        </span>
+      )}
     </p>
   );
 
