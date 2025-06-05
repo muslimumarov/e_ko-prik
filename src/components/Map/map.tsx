@@ -26,6 +26,7 @@ import LocationModal from "./Info-modal/LocationModal";
 import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper";
 import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api";
 import BackToDefaultButton from "./BackMap/BackToDefaultButton";
+import { useModalStore } from "../../store/modalStore.ts";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -36,7 +37,8 @@ function MyMapPage() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null,
   );
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { openModal } = useModalStore();
   const mapRef = useRef<L.Map | null>(null);
 
   const DEFAULT_CENTER = useMemo<[number, number]>(
@@ -45,10 +47,18 @@ function MyMapPage() {
   );
   const DEFAULT_ZOOM = 6;
 
+  // Birinchi renderda localStorage dan o'qish va statistikani olish
   useEffect(() => {
     getStatisticsRegion().then(setStatistics).catch(console.error);
+
+    const savedRegion = localStorage.getItem("selectedRegion");
+    if (savedRegion) setSelectedRegion(savedRegion);
+
+    const savedLocation = localStorage.getItem("selectedLocation");
+    if (savedLocation) setSelectedLocation(JSON.parse(savedLocation));
   }, []);
 
+  // selectedRegion yoki statistics o'zgarganda bridges va regionId ni o'rnatish
   useEffect(() => {
     if (selectedRegion && statistics.length > 0) {
       const found = statistics.find(
@@ -59,7 +69,27 @@ function MyMapPage() {
         getBridgeData(found.region_id).then(setBridges).catch(console.error);
       }
     }
-  }, [selectedRegion, statistics]);
+  }, [selectedRegion, statistics, regionId]);
+
+  // Tanlangan region va location ni localStorage ga yozish
+  useEffect(() => {
+    if (selectedRegion) {
+      localStorage.setItem("selectedRegion", selectedRegion);
+    } else {
+      localStorage.removeItem("selectedRegion");
+    }
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      localStorage.setItem(
+        "selectedLocation",
+        JSON.stringify(selectedLocation),
+      );
+    } else {
+      localStorage.removeItem("selectedLocation");
+    }
+  }, [selectedLocation]);
 
   const defaultStyle: L.PathOptions = useMemo(
     () => ({
@@ -130,13 +160,15 @@ function MyMapPage() {
   }, [bridges, selectedLocation]);
 
   useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM + 0.3, {
-        duration: 1,
-        easeLinearity: 0.25,
-      });
+    if (selectedRegion && mapRef.current) {
+      const center = regionCenters[selectedRegion];
+      if (center) {
+        mapRef.current.flyTo(center, 9, { duration: 0.5 });
+      }
+    } else if (!selectedRegion && mapRef.current) {
+      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 0.5 });
     }
-  }, [DEFAULT_CENTER, DEFAULT_ZOOM]);
+  }, [selectedRegion]);
 
   const calculatePolylineCenter = (
     locations: Location[],
@@ -146,6 +178,7 @@ function MyMapPage() {
     const lngSum = locations.reduce((sum, loc) => sum + loc.longitude, 0);
     return [latSum / locations.length, lngSum / locations.length];
   };
+
   return (
     <Fragment>
       <MapContainer
@@ -229,7 +262,7 @@ function MyMapPage() {
                 eventHandlers={{
                   click: () => {
                     setSelectedLocation(loc);
-                    setIsOpen(true);
+                    openModal();
                   },
                 }}
               />,
@@ -260,7 +293,7 @@ function MyMapPage() {
                       longitude: polylineCenter[1],
                     };
                     setSelectedLocation(centerLoc);
-                    setIsOpen(true);
+                    openModal();
                   },
                 }}
               />
@@ -274,12 +307,7 @@ function MyMapPage() {
         />
       </MapContainer>
 
-      <LocationModal
-        location={selectedLocation}
-        bridge={selectBridge}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      <LocationModal location={selectedLocation} bridge={selectBridge} />
     </Fragment>
   );
 }

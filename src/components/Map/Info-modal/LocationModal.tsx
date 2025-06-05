@@ -5,23 +5,18 @@ import { BridgeData, Location } from "../../../core/interfaces/interfaces.ts";
 import CardCaption from "../../../core/components/card/CardCaption.tsx";
 import { ArrowRight, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useModalStore } from "../../../store/modalStore.ts";
 
 interface Props {
-  isOpen: boolean;
   location: Location | null;
   bridge?: BridgeData;
-  onClose: () => void;
 }
 
-const LocationModal: React.FC<Props> = ({
-  isOpen,
-  location,
-  bridge,
-  onClose,
-}) => {
+const LocationModal: React.FC<Props> = ({ location, bridge }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const { isOpen, closeModal } = useModalStore();
+  if (!isOpen) return null;
   if (!location || !bridge) return null;
 
   const handleClick = () => navigate("/archive");
@@ -61,7 +56,7 @@ const LocationModal: React.FC<Props> = ({
     >
       <div className="relative border-b p-4 pl-8">
         <button
-          onClick={onClose}
+          onClick={closeModal}
           className="absolute right-4 top-4 text-2xl font-bold"
         >
           <X />
