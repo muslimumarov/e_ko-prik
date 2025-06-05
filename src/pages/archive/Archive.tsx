@@ -102,7 +102,7 @@ const Archive: React.FC = () => {
           </div>
         </div>
 
-        <div className=" mb-28 flex flex-col justify-between">
+        <div className=" mb-28 flex flex-col justify-between ">
           <div className="grid grid-cols-1 gap-4 px-5 pb-7   mobil330:px-10 sm:h-full  sm:grid-cols-2 sm:px-4 md:grid-cols-4">
             {card?.results?.map((box) => (
               <div
@@ -112,7 +112,7 @@ const Archive: React.FC = () => {
                 onClick={() => handleClick(box.id)} // click event to navigate
               >
                 <img
-                  className={"h-32 w-full rounded-t-md  mobil330:h-48 "}
+                  className={"w-full rounded-t-md mobil330:h-48  sm:h-40 "}
                   src={box.images?.image || "/images/IMG_2016.JPG"}
                   alt={box.name}
                 />

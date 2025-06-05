@@ -101,8 +101,8 @@ const ArchiveDetail = () => {
               >
                 <span
                   onClick={() => navigate(-1)}
-                  className="sm:text-md mb-6  inline-flex cursor-pointer items-center gap-2  rounded-xl border px-4 py-2 font-semibold
-                  text-black transition-all duration-200 dark:text-white mobil330:text-[12px] "
+                  className="sm:text-md dark:borer-white  mb-6 inline-flex cursor-pointer items-center  gap-2 rounded-xl border border-gray-600 px-4
+                  py-2 font-semibold text-black transition-all duration-200 dark:text-white mobil330:text-[12px] "
                 >
                   <ArrowLeft size={16} />
                   {t("Orqaga")}
