@@ -6,12 +6,28 @@ import { useTranslation } from "react-i18next";
 const Main: React.FC = () => {
   const { t } = useTranslation();
   const boxes = [
-    { title: t("interactiveMap"), path: "/map/myMap" },
-    { title: t("monitoring"), path: "/monitoring" },
-    { title: t("E-Xodim"), path: "https://hrm.kuprikqurilish.uz/" },
-    { title: t("archive"), path: "/archive" },
-    { title: t("E-Ombor"), path: "/warehouse" },
-    { title: t("surveillanceCameras"), path: "/camera" },
+    {
+      title: t("interactiveMap"),
+      path: "/map/myMap",
+      img: "images/uzbimg.png",
+    },
+    {
+      title: t("monitoring"),
+      path: "/monitoring",
+      img: "/images/monitoring.4eab7f5f.png",
+    },
+    {
+      title: t("E-Xodim"),
+      path: "https://hrm.kuprikqurilish.uz/",
+      img: "images/recruitment.png",
+    },
+    { title: t("archive"), path: "/archive", img: "/images/archive.png" },
+    { title: t("E-Ombor"), path: "/warehouse", img: "/images/server-data.png" },
+    {
+      title: t("surveillanceCameras"),
+      path: "/camera",
+      img: "/images/security-camera.png",
+    },
   ];
   return (
     <main className="container relative z-40 mx-auto mt-40 px-4">
@@ -32,9 +48,17 @@ const Main: React.FC = () => {
             <Link
               key={index}
               to={box.path}
-              className="flex h-52 items-center justify-center rounded-xl bg-white/10 p-6 text-center text-xl font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-white/20 sm:w-[290px] md:w-[390px] lg:w-[350px] xl:w-[400px]"
+              className="flex h-56 items-center justify-center rounded-xl bg-white/10 p-6 text-center text-xl font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-white/20 sm:w-[290px] md:w-[390px] lg:w-[350px] xl:w-[400px]"
             >
-              {box.title}
+              <img
+                src={box.img}
+                alt={box.title}
+                className="absolute bottom-0 right-0  w-44 object-cover"
+              />
+              <span className={"absolute left-3 top-3 text-2xl font-bold"}>
+                {" "}
+                {box.title}
+              </span>
             </Link>
           ))}
         </div>
