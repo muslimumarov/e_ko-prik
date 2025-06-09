@@ -15,7 +15,7 @@ const Login = () => {
           alt="Ko'prik qurilish logo"
           className="mb-11  mt-40 h-28 w-72"
         />
-        <div className="w-full max-w-md rounded-lg bg-white p-10 shadow-md">
+        <div className="w-full max-w-md rounded-lg p-10 shadow-md backdrop-blur">
           <form
             // onSubmit={handleSubmit(onSubmit)}
             className="mx-auto max-w-sm"
