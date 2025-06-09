@@ -1,6 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import { lazy } from "react";
 import Main from "./layouts/base/main/Main.tsx";
+import Login from "./layouts/auth/login/Login.tsx";
 
 const Monitoring = lazy(() => import("./pages/monitoring/Monitoring.tsx"));
 const InteractiveMap = lazy(() => import("./pages/map/InteractiveMap.tsx"));
@@ -15,6 +16,10 @@ const Eombor = lazy(() => import("./pages/warehouse/Warehouse.tsx"));
 
 function Route() {
   const routes = [
+    {
+      path: "login",
+      element: <Login />,
+    },
     {
       path: "/",
       element: <Main />,

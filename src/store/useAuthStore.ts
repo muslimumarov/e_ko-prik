@@ -1,36 +1,33 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import cookiesStorage from "./storages/cookieStorage.ts";
+import { ACCESS_TOKEN_KEY } from "./constants/storage.constants.ts";
+import { REFRESH_TOKEN_KEY } from "./constants/storage.constants.ts";
 
-type AuthStoreState = {
-  accessToken: string | null;
-  refreshToken: string | null;
-  setAccessToken: (_accessToken: AuthStoreState["accessToken"]) => void;
-  setRefreshToken: (_refreshToken: AuthStoreState["refreshToken"]) => void;
-  clearToken: () => void;
+const useAuthStore = () => {
+  const accessToken = cookiesStorage.getItem(ACCESS_TOKEN_KEY) || null;
+  const refreshToken = cookiesStorage.getItem(REFRESH_TOKEN_KEY) || null;
+
+  const setAccessToken = (token: string | null = null) => {
+    if (token) {
+      cookiesStorage.setItem(ACCESS_TOKEN_KEY, token);
+    } else {
+      cookiesStorage.removeItem(ACCESS_TOKEN_KEY);
+    }
+  };
+
+  const setRefreshToken = (token: string | null = null) => {
+    if (token) {
+      cookiesStorage.setItem(REFRESH_TOKEN_KEY, token);
+    } else {
+      cookiesStorage.removeItem(REFRESH_TOKEN_KEY);
+    }
+  };
+
+  return {
+    accessToken,
+    setAccessToken,
+    refreshToken,
+    setRefreshToken,
+  };
 };
-
-const useAuthStore = create<AuthStoreState>()(
-  persist(
-    (set) => ({
-      accessToken: null,
-      refreshToken: null,
-      setAccessToken: (accessToken) => {
-        set({
-          accessToken,
-        });
-      },
-      setRefreshToken: (refreshToken) => {
-        set({ refreshToken });
-      },
-      clearToken: () => {
-        set({ accessToken: null, refreshToken: null });
-      },
-    }),
-    {
-      name: "authStore",
-      storage: createJSONStorage(() => localStorage),
-    },
-  ),
-);
 
 export default useAuthStore;

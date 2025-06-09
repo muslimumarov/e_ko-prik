@@ -48,12 +48,12 @@ const Main: React.FC = () => {
             <Link
               key={index}
               to={box.path}
-              className="flex h-56 items-center justify-center rounded-xl bg-white/10 p-6 text-center text-xl font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-white/20 sm:w-[290px] md:w-[390px] lg:w-[350px] xl:w-[400px]"
+              className="flex h-64 items-center justify-center rounded-xl bg-white/10 p-6 text-center text-xl font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-white/20 sm:w-[290px] md:w-[390px] lg:w-[350px] xl:w-[400px]"
             >
               <img
                 src={box.img}
                 alt={box.title}
-                className="absolute bottom-0 right-0  w-44 object-cover"
+                className="absolute bottom-0 right-0  w-48 object-cover"
               />
               <span className={"absolute left-3 top-3 text-2xl font-bold"}>
                 {" "}
