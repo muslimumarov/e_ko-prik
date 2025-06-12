@@ -15,7 +15,6 @@ function Route() {
     { path: "/login", element: <Login /> },
     { path: "/map", element: <InteractiveMap /> },
     { path: "/map/myMap", element: <MyMapPage /> },
-
     {
       path: "/",
       element: <Main />,

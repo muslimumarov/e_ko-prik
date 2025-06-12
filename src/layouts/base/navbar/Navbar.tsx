@@ -14,9 +14,9 @@ const Navbar: React.FC = () => {
   const handleAuthClick = () => {
     if (isAuthenticated) {
       logout();
-      navigate("/login");
+      navigate("login");
     } else {
-      navigate("/login");
+      navigate("login");
     }
   };
   const { isAuthenticated, logout } = useAuthStore();

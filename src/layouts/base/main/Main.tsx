@@ -23,7 +23,7 @@ const Main: React.FC = () => {
     {
       title: t("interactiveMap"),
       path: "/map/myMap",
-      img: "images/uzbimg.png",
+      img: "images/xaritaUzb.png",
       isPublic: true,
     },
     {
@@ -70,7 +70,7 @@ const Main: React.FC = () => {
   };
 
   return (
-    <main className="container relative z-40 mx-auto mt-40 px-4">
+    <main className="container relative z-40 mx-auto mb-40 mt-40 px-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="max-w-2xl">
           <h1 className="font-bold text-white mobil330:mb-3 mobil330:text-3xl sm:text-4xl lg:text-5xl">
@@ -101,11 +101,10 @@ const Main: React.FC = () => {
                   </div>
                 )}
 
-                {/* Asosiy mazmun */}
                 <img
                   src={box.img}
                   alt={box.title}
-                  className="absolute bottom-0 right-0 w-48 object-cover"
+                  className="absolute bottom-0 right-0 w-60 object-cover"
                 />
                 <span className="absolute left-3 top-3 z-20 text-2xl font-bold">
                   {box.title}

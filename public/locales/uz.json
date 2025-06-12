@@ -72,5 +72,10 @@
   "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ko‘prik tafsilotlarini olishda xatolik yuz berdi",
   "Logout": "Chiqish",
   "AccessDenied": "Sizga ruxsat yo‘q! Login qilishingiz shart.",
-  "Back": "Ortga"
+  "Back": "Ortga",
+  "Aksiyadorlik": "Aksiyadorlik Jamiyati",
+  "Manzilimiz": "Manzilimiz: Toshkent shahar, Chilonzor tumani, Bog'iston ko'chasi, 10-A, 100054",
+  "title": "GPS kuzatuv tizimi",
+  "description": "Zamonaviy GPS texnologiyamiz orqali uskunalar harakatini real vaqtda kuzating.",
+  "button": "Xizmatlarni ko‘rish"
 }

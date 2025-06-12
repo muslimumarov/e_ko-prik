@@ -84,5 +84,10 @@
   "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "An error occurred while fetching bridge details",
   "Logout": "Logout",
   "AccessDenied": "Access denied! You must log in.",
-  "Back": "Back"
+  "Back": "Back",
+  "Aksiyadorlik": "Joint Stock Company",
+  "Manzilimiz": "Our address: Tashkent city, Chilanzar district, Bogiston street, 10-A, 100054",
+  "title": "Real-time GPS Tracking",
+  "description": "Monitor equipment movement in real-time with our advanced GPS technology.",
+  "button": "Explore Features"
 }

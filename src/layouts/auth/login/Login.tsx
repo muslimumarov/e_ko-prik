@@ -44,7 +44,7 @@ export const Login = () => {
     navigate("/");
   };
   return (
-    <div className="container relative mx-auto">
+    <div className=" mx-auto h-screen bg-blue-950 ">
       {loginMessage && (
         <div
           className={`fixed right-0 top-20 z-50 rounded px-4 py-2 text-sm text-white shadow-md transition-all duration-300
@@ -54,12 +54,14 @@ export const Login = () => {
         </div>
       )}
       <div className="flex flex-col items-center justify-between ">
-        <img
-          src={logo}
-          alt="Ko'prik qurilish logo"
-          className="mb-11 mt-40 h-28 w-72"
-        />
-        <div className="w-full max-w-md rounded-lg p-10 shadow-md backdrop-blur">
+        <a href="/">
+          <img
+            src={logo}
+            alt="Ko'prik qurilish logo"
+            className="mb-11 mt-40 h-28 w-72"
+          />
+        </a>
+        <div className="w-full max-w-md rounded-lg border-amber-100 p-0  shadow-md backdrop-blur">
           <form onSubmit={handleSubmit}>
             <MyInput
               className={"mb-5"}
