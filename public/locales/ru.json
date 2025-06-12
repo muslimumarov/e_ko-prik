@@ -82,5 +82,8 @@
   "Texnik parametrlar": "Технические параметры",
   "Rasmlar": "Изображения",
   "Ko'prik topilmadi": "Мост не найден",
-  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ошибка при получении данных о мосте"
+  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ошибка при получении данных о мосте",
+  "Logout": "Выход",
+  "AccessDenied": "Доступ запрещён! Вы должны войти в систему.",
+  "Back": "Назад"
 }

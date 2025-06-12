@@ -1,64 +1,51 @@
 import { useRoutes } from "react-router-dom";
-import { lazy } from "react";
 import Main from "./layouts/base/main/Main.tsx";
-import Login from "./layouts/auth/login/Login.tsx";
-
-const Monitoring = lazy(() => import("./pages/monitoring/Monitoring.tsx"));
-const InteractiveMap = lazy(() => import("./pages/map/InteractiveMap.tsx"));
-const MyMapPage = lazy(() => import("./components/Map/map.tsx"));
-const Camera = lazy(() => import("./pages/camera/Camera.tsx"));
-const Archive = lazy(() => import("./pages/archive/Archive.tsx"));
-const ArchiveDetail = lazy(
-  () => import("./pages/archive/archive-detail/ArchiveDetail.tsx"),
-);
-const Exodim = lazy(() => import("./pages/employee/Employee.tsx"));
-const Eombor = lazy(() => import("./pages/warehouse/Warehouse.tsx"));
+import { Login } from "./layouts/auth/login/Login.tsx";
+import InteractiveMap from "./pages/map/InteractiveMap.tsx";
+import MyMapPage from "./components/Map/map.tsx";
+import Monitoring from "./pages/monitoring/Monitoring.tsx";
+import Archive from "./pages/archive/Archive.tsx";
+import ArchiveDetail from "./pages/archive/archive-detail/ArchiveDetail.tsx";
+import Exodim from "./pages/employee/Employee.tsx";
+import Eombor from "./pages/warehouse/Warehouse.tsx";
+import Camera from "./pages/camera/Camera.tsx"; // ✅ to‘g‘rilangan import
 
 function Route() {
   const routes = [
-    {
-      path: "login",
-      element: <Login />,
-    },
+    { path: "/login", element: <Login /> },
+    { path: "/map", element: <InteractiveMap /> },
+    { path: "/map/myMap", element: <MyMapPage /> },
+
     {
       path: "/",
       element: <Main />,
     },
     {
-      path: "map",
-      element: <InteractiveMap />,
-      children: [
-        {
-          path: "myMap",
-          element: <MyMapPage />,
-        },
-      ],
-    },
-    {
-      path: "employee",
-      element: <Exodim />,
-    },
-    {
-      path: "monitoring",
+      path: "/monitoring",
       element: <Monitoring />,
     },
     {
-      path: "archive",
+      path: "/archive",
       element: <Archive />,
     },
     {
-      path: "archivedetails/:id", // 🔥 MUHIM TUZATISH
+      path: "/archivedetails/:id",
       element: <ArchiveDetail />,
     },
     {
-      path: "warehouse",
+      path: "/employee",
+      element: <Exodim />,
+    },
+    {
+      path: "/warehouse",
       element: <Eombor />,
     },
     {
-      path: "project",
+      path: "/camera",
       element: <Camera />,
     },
   ];
+
   return useRoutes(routes);
 }
 

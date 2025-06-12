@@ -69,5 +69,8 @@
   "Texnik parametrlar": "Texnik parametrlar",
   "Rasmlar": "Rasmlar",
   "Ko'prik topilmadi": "Ko'prik topilmadi",
-  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ko‘prik tafsilotlarini olishda xatolik yuz berdi"
+  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "Ko‘prik tafsilotlarini olishda xatolik yuz berdi",
+  "Logout": "Chiqish",
+  "AccessDenied": "Sizga ruxsat yo‘q! Login qilishingiz shart.",
+  "Back": "Ortga"
 }

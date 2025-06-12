@@ -7,12 +7,20 @@ import { useTranslation } from "react-i18next";
 import ThemeToggle from "../../../core/components/darkMode/ThemeToggle.tsx";
 import LanguageSelector from "../../../core/components/language/LanguageSelector.tsx";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../../store/useAuthStore.ts";
 
 const Navbar: React.FC = () => {
-  const Navigate = useNavigate();
-  const handleRowClick = () => {
-    Navigate("/login");
+  const navigate = useNavigate();
+  const handleAuthClick = () => {
+    if (isAuthenticated) {
+      logout();
+      navigate("/login");
+    } else {
+      navigate("/login");
+    }
   };
+  const { isAuthenticated, logout } = useAuthStore();
+
   const { t } = useTranslation();
   return (
     <header className="fixed left-0 top-0 z-[9999] w-full bg-white/10 shadow-md backdrop-blur dark:bg-blue-950">
@@ -38,11 +46,11 @@ const Navbar: React.FC = () => {
             {/*<Notification />*/}
             <ThemeToggle />
             <Button
-              onClick={handleRowClick}
+              onClick={handleAuthClick}
               className="no-copy flex  max-h-10  max-w-[18.125rem] items-center justify-center border-transparent
                               hover:scale-105  focus:ring-0 "
             >
-              {t("Login")}
+              {isAuthenticated ? t("Logout") : t("Login")}
             </Button>
           </div>
         </div>

@@ -81,5 +81,8 @@
   "Texnik parametrlar": "Technical parameters",
   "Rasmlar": "Images",
   "Ko'prik topilmadi": "Bridge not found",
-  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "An error occurred while fetching bridge details"
+  "Ko‘prik tafsilotlarini olishda xatolik yuz berdi": "An error occurred while fetching bridge details",
+  "Logout": "Logout",
+  "AccessDenied": "Access denied! You must log in.",
+  "Back": "Back"
 }
