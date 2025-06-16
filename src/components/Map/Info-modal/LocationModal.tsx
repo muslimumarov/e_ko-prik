@@ -1,4 +1,3 @@
-// LocationModal.tsx
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { BridgeData, Location } from "../../../core/interfaces/interfaces.ts";
@@ -16,10 +15,21 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isOpen, closeModal } = useModalStore();
-  if (!isOpen) return null;
-  if (!location || !bridge) return null;
 
-  const handleClick = () => navigate("/archive");
+  if (!isOpen || !location || !bridge) return null;
+
+  const handleClick = () => {
+    // const token = localStorage.getItem("token");
+    //
+    // if (!token) {
+    //   localStorage.setItem("redirectBridgeId", bridge.id?.toString() || "");
+    //   return navigate("/login");
+    // }
+
+    navigate(`/archive/${bridge.id}`);
+    // closeModal();
+  };
+  console.log(bridge.id);
 
   const dataItem = (label: string, value?: string | null) => (
     <p>
@@ -36,7 +46,12 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
       <strong>{label}:</strong>
       <br />
       {url ? (
-        <a className="text-[#744817] underline dark:text-amber-200" href={url}>
+        <a
+          className="text-[#744817] underline dark:text-amber-200"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("Hujjatga Havola")}
         </a>
       ) : (
@@ -49,9 +64,9 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
 
   return (
     <div
-      className={`custom-scrollbar fixed top-[82px] z-[1000] h-[95vh] w-96 overflow-y-auto rounded border border-amber-100 shadow-lg backdrop-blur
-        transition-all duration-[1220ms] ease-in-out dark:bg-blue-950 dark:text-amber-100
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      className={`custom-scrollbar fixed top-[82px] z-[1000] h-[95vh] w-96 overflow-y-auto rounded border border-amber-100 shadow-lg backdrop-blur transition-all duration-700 ease-in-out dark:bg-blue-950 dark:text-amber-100 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
       style={{ pointerEvents: "auto", touchAction: "auto" }}
     >
       <div className="relative border-b p-4 pl-8">
@@ -73,7 +88,7 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
       <div className="mb-9 space-y-2 p-4 pl-8 text-lg text-[#f35a02]">
         {dataItem(
           t("region"),
-          `${bridge.region?.name}, ${bridge.district?.name}`,
+          `${bridge.region?.name || ""}, ${bridge.district?.name || ""}`,
         )}
         {dataItem(t("status"), bridge.holat)}
         {dataItem(t("customer"), bridge.buyrutmachi)}

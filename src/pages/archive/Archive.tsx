@@ -26,7 +26,7 @@ const Archive: React.FC = () => {
 
   // HandleClick funksiyasi id bilan archiveDetails sahifasiga o‘tadi
   const handleClick = (id: number) => {
-    navigate(`/archivedetails/${id}`);
+    navigate(`/archive/${id}`);
   };
 
   return (

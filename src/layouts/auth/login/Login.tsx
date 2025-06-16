@@ -27,7 +27,17 @@ export const Login = () => {
         type: "success",
         text: "Tizimga muvaffaqiyatli kirdingiz",
       });
-      setTimeout(() => navigate("/"), 1000); // 1 sekunddan so‘ng navigatsiya
+
+      const redirectId = localStorage.getItem("redirectBridgeId");
+
+      setTimeout(() => {
+        if (redirectId) {
+          localStorage.removeItem("redirectBridgeId");
+          navigate(`/archive?id=${redirectId}`);
+        } else {
+          navigate("/"); // default sahifa
+        }
+      }, 1000); // 1 sekunddan keyin o'tkazish
     } else {
       setLoginMessage({ type: "error", text: "Login yoki parol noto‘g‘ri" });
     }
@@ -81,7 +91,7 @@ export const Login = () => {
               }
               placeholder="Enter password"
             />
-            <div className={"align-center mt-5 flex justify-center gap-4"}>
+            <div className={"align-center mt-5 flex  justify-center gap-4"}>
               <Button className={""} type="submit">
                 {t("Login")}
               </Button>
