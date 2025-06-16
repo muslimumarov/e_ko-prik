@@ -1,14 +1,42 @@
 import gpsImg from "../../../../public/images/location-sign-svgrepo-com.svg";
 import { motion } from "framer-motion";
 import { t } from "i18next";
-import { Link } from "react-router-dom";
+import useAuthStore from "../../../store/useAuthStore.ts";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { LockKeyhole } from "lucide-react";
+
 const GpsPromo = () => {
+  const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+
+  const box = {
+    isPublic: false, // bu yerda ruxsat kerakmi-yo‘qmi belgilaysan
+  };
+
+  const handleClick = () => {
+    if (!box.isPublic && !isAuthenticated) {
+      toast.warning("Sizga ruxsat yo‘q");
+      navigate("/login");
+      return;
+    }
+    window.location.href = "https://gps.kuprikqurilish.uz";
+  };
+
+  const isLocked = !isAuthenticated && !box.isPublic;
+
   return (
-    <Link
-      to="https://gps.kuprikqurilish.uz/"
-      target="_blank"
+    <motion.div
+      onClick={handleClick}
       className="relative block h-[308px] w-full max-w-[400px] overflow-hidden rounded-2xl p-6 shadow-lg"
     >
+      {isLocked && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-black/60 text-white opacity-0 transition-opacity hover:opacity-100">
+          <LockKeyhole size={40} color="red" className="mb-2" />
+          <p className="text-sm">Sizga ruxsat yo‘q</p>
+        </div>
+      )}
+      {/* Qolgan animatsion qismlar o‘zgarishsiz */}
       <motion.div
         className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-900/50"
         initial={{ opacity: 0.8 }}
@@ -68,10 +96,8 @@ const GpsPromo = () => {
           {t("title")}
         </h3>
         <motion.p
-          className="mt-4 text-sm  dark:text-white"
-          whileHover={{
-            x: 5,
-          }}
+          className="mt-4 text-sm dark:text-white"
+          whileHover={{ x: 5 }}
           transition={{ duration: 0.3 }}
         >
           {t("description")}
@@ -90,10 +116,7 @@ const GpsPromo = () => {
           <motion.span
             className="ml-2 inline-block"
             animate={{ x: [0, 4, 0] }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.5,
-            }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
           >
             →
           </motion.span>
@@ -120,7 +143,7 @@ const GpsPromo = () => {
           }}
         />
       ))}
-    </Link>
+    </motion.div>
   );
 };
 

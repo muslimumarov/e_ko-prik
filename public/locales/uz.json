@@ -77,5 +77,6 @@
   "Manzilimiz": "Manzilimiz: Toshkent shahar, Chilonzor tumani, Bog'iston ko'chasi, 10-A, 100054",
   "title": "GPS kuzatuv tizimi",
   "description": "Zamonaviy GPS texnologiyamiz orqali uskunalar harakatini real vaqtda kuzating.",
-  "button": "Xizmatlarni ko‘rish"
+  "button": "Xizmatlarni ko‘rish",
+  "interractivMap": "Qurilish jarayonlarini aks ettiruvchi interaktiv xarita"
 }

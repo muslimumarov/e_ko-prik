@@ -4,11 +4,15 @@ import xarita from "../../../../public/images/xaritaUzb.png";
 import file from "../../../../public/images/file.png";
 import nazorat from "../../../../public/images/nazorat.png";
 import statistic from "../../../../public/images/statjs.png";
-import arxiv from "../../../../public/images/archive.png";
+import arxiv from "../../../../public/images/arxiv2.png";
 import transport from "../../../../public/images/transport.jpeg";
 import qurulish from "../../../../public/images/qurulish.jpg";
 import avtomobil from "../../../../public/images/avtomobily.jpg";
 import gerb from "../../../../public/images/home-gerb.0379468a.svg";
+import { useEffect, useState } from "react";
+import { holatStatistica } from "../../../core/interfaces/interfaces.ts";
+import { getBridgeHolat } from "../../../core/hooks/api.ts";
+
 const PartnersAndBenefits = () => {
   const { t } = useTranslation();
 
@@ -63,7 +67,13 @@ const PartnersAndBenefits = () => {
       icon: arxiv,
     },
   ];
-
+  const [stats, setStats] = useState<holatStatistica | null>(null);
+  useEffect(() => {
+    getBridgeHolat()
+      .then((res) => setStats(res as holatStatistica))
+      .catch(console.error);
+  }, []);
+  if (!stats) return null;
   return (
     <section className=" bg-orange-200 px-4  py-12 dark:bg-blue-950">
       <div className={"container mx-auto"}>
@@ -72,20 +82,20 @@ const PartnersAndBenefits = () => {
           <img src={xarita} alt="" />
         </div>
         <div className="mt-16">
-          <h2 className="mb-10  text-4xl font-bold text-black">
+          <h2 className="mb-10  text-4xl font-bold text-black dark:text-white">
             {t("Tizim Afzalliklari")}
           </h2>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {advantages.map((advantage, index) => (
               <div
                 key={index}
-                className="flex rounded-xl  bg-white/10 p-6 text-center text-white transition hover:shadow-lg"
+                className="flex rounded-xl  bg-blue-950/10 p-6 text-center text-white transition hover:shadow-lg dark:bg-white/10"
               >
                 <div className="mr-14">
                   <h3 className="mb-3 text-left text-xl font-semibold text-red-500">
                     {advantage.title}
                   </h3>
-                  <p className="text-left text-black">
+                  <p className="text-left text-black dark:text-white">
                     {advantage.description}
                   </p>
                 </div>
@@ -95,7 +105,7 @@ const PartnersAndBenefits = () => {
           </div>
         </div>
 
-        <div className="mt-20 rounded-xl bg-gray-500 bg-gradient-to-r p-8 dark:bg-blue-950">
+        <div className="mt-20 rounded-xl  bg-blue-950/40 p-8 dark:bg-red-300/10">
           <h2 className="mb-8 text-center text-3xl font-bold text-white">
             {t("Statistika")}
           </h2>
@@ -103,35 +113,37 @@ const PartnersAndBenefits = () => {
             <table className="w-full text-white">
               <thead>
                 <tr className="border-b border-white/20">
-                  <th className="p-4 text-left">{t("Tugallangan")}</th>
-                  <th className="p-4 text-left">{t("Faol  ")}</th>
-                  <th className="p-4 text-left">{t("rejalashtirilgan")}</th>
-                  <th className="p-4 text-left">{t("umumiy")}</th>
+                  <th className="p-4 text-left">
+                    {t("Tugallangan")}: {stats.Tugallangan}
+                  </th>
+                  <th className="p-4 text-left">
+                    {t("Jarayonda")}: {stats.Jarayonda}
+                  </th>
+                  <th className="p-4 text-left">
+                    {t("rejalashtirilgan")}: {stats.Rejalashtirilgan}
+                  </th>
+                  <th className="p-4 text-left">{t("umumiy")}: ...</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td className="p-4">53.92 trln</td>
-                  <td className="p-4">771.73 mln</td>
-                  <td className="p-4">51.24 trln</td>
-                  <td className="p-4">2.68 trln</td>
-                </tr>
-              </tbody>
             </table>
+            <p className=" mt-5 text-center text-white ">
+              Butun O'zbekishton bo'yicha KO'PRIKQURULISH AJ ga tegishli ko'prik
+              qurulishlari statistikasi
+            </p>
           </div>
         </div>
         <div className="mb-20">
-          <h2 className="my-16 text-center text-3xl font-bold text-black">
+          <h2 className="my-16 text-center text-3xl font-bold text-black dark:text-white">
             {t("Bizning Hamkorlarimiz")}
           </h2>
-          <div className="grid grid-cols-1 gap-8 rounded-xl border bg-orange-200  sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 rounded-xl    sm:grid-cols-2">
             {partners.map((partner, index) => (
               <a
                 key={index}
                 href={partner.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex  items-center justify-between rounded-lg border-black bg-white/10 p-6 transition hover:bg-white/20"
+                className="flex  items-center justify-between rounded-lg border-black bg-amber-900/20 p-6  transition dark:bg-amber-300/10 "
               >
                 <p className="mt-4 text-center text-black dark:text-white">
                   {partner.name}

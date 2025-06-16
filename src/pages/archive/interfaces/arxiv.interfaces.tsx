@@ -7,6 +7,7 @@ export interface BridgeArxiv {
   id: number;
   name: string;
   images: ImageArxiv | null;
+  boshlash_vaqti?: string;
 }
 
 export interface BridgesResponseArxiv {
@@ -14,4 +15,12 @@ export interface BridgesResponseArxiv {
   next: string | null;
   previous: string | null;
   results: BridgeArxiv[];
+}
+export interface BridgeFilters {
+  region: string;
+  holat: string;
+  search: string;
+  date?: string;
+  limit?: number;
+  offset?: number;
 }

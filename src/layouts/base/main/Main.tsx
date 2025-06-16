@@ -1,77 +1,60 @@
+// Main.tsx
 import React from "react";
 import SearchInput from "../../../components/searchInput/SearchInput.tsx";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useAuthStore from "../../../store/useAuthStore.ts";
-import { toast } from "react-toastify";
-import { LockKeyhole } from "lucide-react";
+import MainBoxList from "./MainBoxList.tsx";
 import PartnersAndBenefits from "../article/PartnersAndBenefits.tsx";
-
-interface Box {
-  title: string;
-  path: string;
-  img: string;
-  isPublic?: boolean;
-  isExternal?: boolean;
-}
 
 const Main: React.FC = () => {
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuthStore();
-  const navigate = useNavigate();
 
-  const boxes: Box[] = [
+  const boxes = [
     {
       title: t("interactiveMap"),
+      description: t("interractivMap"),
       path: "/map/myMap",
       img: "images/xaritaUzb.png",
       isPublic: true,
     },
     {
       title: t("monitoring"),
+      description: t("Obyektlar holatini kuzatuvchi axborot tizimi"),
       path: "/monitoring",
       img: "/images/monitoring.4eab7f5f.png",
       isPublic: false,
     },
     {
       title: t("E-Xodim"),
+      description: t("Xodimlar faoliyatini boshqarish tizimi"),
       path: "https://hrm.kuprikqurilish.uz/",
       img: "images/recruitment.png",
       isExternal: true,
     },
     {
       title: t("archive"),
+      description: t("Arxiv: Qurilish hujjatlari bazasi"),
       path: "/archive",
-      img: "/images/archive.png",
+      img: "/images/arxiv2.png",
       isPublic: true,
     },
     {
       title: t("E-Ombor"),
+      description: t("Ombor boshqaruvida avtomatlashtirilgan axborot tizimi"),
       path: "/warehouse",
-      img: "/images/server-data.png",
+      img: "/images/ombor.png",
       isPublic: false,
     },
     {
       title: t("surveillanceCameras"),
+      description: t(
+        "Obyektlar holatini real vaqt rejimida kuzatuvchi video nazorat tizimi",
+      ),
       path: "/camera",
-      img: "/images/security-camera.png",
+      img: "/images/camera2.png",
       isPublic: false,
     },
   ];
-
-  const handleClick = (box: Box) => {
-    if (!box.isPublic && !isAuthenticated) {
-      toast.warning("Sizga ruxsat yo‘q");
-      navigate("/login");
-      return;
-    }
-
-    if (box.isExternal) {
-      window.open(box.path, "_blank");
-    } else {
-      navigate(box.path);
-    }
-  };
 
   return (
     <div>
@@ -92,38 +75,7 @@ const Main: React.FC = () => {
               <SearchInput />
             </div>
           </div>
-          <div className="mt-20 grid bg-[url('/your-bg.jpg')] bg-cover bg-center">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {boxes.map((box, index) => {
-                const isLocked = !isAuthenticated && !box.isPublic;
-
-                return (
-                  <div
-                    key={index}
-                    onClick={() => handleClick(box)}
-                    className="relative flex h-64 cursor-pointer items-center justify-center rounded-xl bg-white/10 p-6 text-center text-xl font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-white/20 sm:w-[290px] md:w-[390px] lg:w-[350px] xl:w-[400px]"
-                  >
-                    {/* Hoverda ko‘rsatiladigan blok */}
-                    {isLocked && (
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-black/60 text-white opacity-0 transition-opacity hover:opacity-100">
-                        <LockKeyhole size={40} color="red" className="mb-2" />
-                        <p className="text-sm">{t("AccessDenied")}</p>
-                      </div>
-                    )}
-
-                    <img
-                      src={box.img}
-                      alt={box.title}
-                      className="absolute bottom-0 right-0 w-60 object-cover"
-                    />
-                    <span className="absolute left-3 top-3 z-20 text-2xl font-bold">
-                      {box.title}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <MainBoxList boxes={boxes} />
           <Outlet />
         </div>
       </div>

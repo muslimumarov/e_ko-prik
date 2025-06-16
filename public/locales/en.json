@@ -89,5 +89,6 @@
   "Manzilimiz": "Our address: Tashkent city, Chilanzar district, Bogiston street, 10-A, 100054",
   "title": "Real-time GPS Tracking",
   "description": "Monitor equipment movement in real-time with our advanced GPS technology.",
-  "button": "Explore Features"
+  "button": "Explore Features",
+  "interractivMap": "Interactive map showing construction processes"
 }
