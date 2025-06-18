@@ -90,5 +90,18 @@
   "title": "Real-time GPS Tracking",
   "description": "Monitor equipment movement in real-time with our advanced GPS technology.",
   "button": "Explore Features",
-  "interractivMap": "Interactive map showing construction processes"
+  "xarita": "An interactive map showing the location and general information of construction sites across the republic",
+  "monitor": "Information system for monitoring the condition of engineering structures",
+  "xodim": "Employee activity management system",
+  "arxiv": "Electronic database of archived construction project data",
+  "ombor": "Automated warehouse management information system",
+  "camera": "Online broadcast of construction sites",
+  "Hamkor": "Partner organizations",
+  "Tizim": "System advantages",
+  "tizimdesc": "Statistical information by objects, Location points of objects, Detailed information about the objects, Online broadcast of active objects, Distribution of objects by regions",
+  "Monitoringdesc": "Purpose of the monitoring system: Continuous monitoring of the condition of bridge-like structures, Early detection of potential risks, Long-term data storage, Extending the service life of structures, Minimizing labor force, Integration with the E-bridge platform",
+  "xodimDesc": "Formation of an electronic database of employees of the society and system organizations, Maintaining electronic attendance records of employees, Statistical information about employees, Information about important dates, Integration with the E-bridge platform",
+  "gpsDsc": "Strengthening the control of special equipment belonging to society and system organizations. Preventing the use of equipment beyond the specified workload. Information on the proper condition of equipment. Remote control capabilities for equipment. Integration with the E-bridge platform.",
+  "omborDesc": "Electronic control of the consumption of construction materials stored in the warehouses of society and system organizations. Prevent unauthorized consumption of products. Stay constantly informed about remaining products in warehouses. Integration with 1C accounting software. Integration with the E-bridge platform",
+  "archiveDesc": "The ability to store archival data related to the organization's activities for a long time., Ensuring a high level of archival data security., Easy search of archival data., Constant statistical information based on archived data., Integration with the E-bridge platform."
 }

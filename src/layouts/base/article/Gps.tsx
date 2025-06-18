@@ -28,7 +28,7 @@ const GpsPromo = () => {
   return (
     <motion.div
       onClick={handleClick}
-      className="relative block h-[308px] w-full max-w-[400px] overflow-hidden rounded-2xl p-6 shadow-lg"
+      className="relative block h-full w-full max-w-[400px] overflow-hidden rounded-2xl p-6 shadow-lg sm:h-[308px]"
     >
       {isLocked && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-black/60 text-white opacity-0 transition-opacity hover:opacity-100">

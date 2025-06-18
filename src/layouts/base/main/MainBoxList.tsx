@@ -63,7 +63,7 @@ const MainBoxList: React.FC<Props> = ({ boxes }) => {
               <strong className="absolute left-5 top-5 z-20 text-3xl ">
                 {box.title}
               </strong>
-              <span className="text-1xl absolute left-5 top-14 z-20 pr-2 text-left font-extralight">
+              <span className="absolute left-5 top-14 z-20 pr-2 text-left text-[17px] font-extralight">
                 {box.description}
               </span>
             </div>

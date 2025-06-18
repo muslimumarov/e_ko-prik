@@ -54,7 +54,7 @@ export const Login = () => {
     navigate("/");
   };
   return (
-    <div className=" mx-auto h-screen bg-blue-950 ">
+    <div className=" mx-auto h-screen px-5 dark:bg-blue-950 ">
       {loginMessage && (
         <div
           className={`fixed right-0 top-20 z-50 rounded px-4 py-2 text-sm text-white shadow-md transition-all duration-300
