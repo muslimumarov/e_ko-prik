@@ -50,7 +50,7 @@ const Archive: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="container relative top-24 mx-auto ">
+      <div className="container relative top-24 mx-auto">
         <h1 className="mb-9 mt-14 text-center font-bold text-[#f35a02]  dark:text-black sm:text-5xl">
           Arxiv Ma'lumotlar
         </h1>
@@ -150,7 +150,7 @@ const Archive: React.FC = () => {
                   alt={box.name}
                   className="w-full rounded-t-md sm:h-40"
                 />
-                <h2 className="p-4 text-amber-300 dark:text-[#f35a02]">
+                <h2 className="p-4 text-black dark:text-[#f35a02]">
                   {box.name.length > 70
                     ? box.name.slice(0, 70) + "..."
                     : box.name}
