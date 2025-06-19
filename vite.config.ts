@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
       open: true,
       proxy: {
         "/api": {
-          target: env.VITE_API_PROXY, // faqat developmentda ishlatiladi
+          target: env.VITE_API_PROXY,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },

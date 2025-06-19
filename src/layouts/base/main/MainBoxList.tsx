@@ -60,10 +60,10 @@ const MainBoxList: React.FC<Props> = ({ boxes }) => {
                 alt={box.title}
                 className="absolute bottom-0 right-0 w-44 object-cover"
               />
-              <strong className="absolute left-5 top-5 z-20 text-3xl ">
+              <strong className="absolute left-5 top-5 z-20 text-3xl text-amber-200 ">
                 {box.title}
               </strong>
-              <span className="absolute left-5 top-14 z-20 pr-2 text-left text-[17px] font-extralight">
+              <span className="absolute left-5 top-14 z-20 pr-2 text-left text-[16px] font-bold text-amber-200 dark:text-white">
                 {box.description}
               </span>
             </div>

@@ -78,7 +78,7 @@
   "title": "GPS kuzatuv tizimi",
   "description": "Zamonaviy GPS texnologiyamiz orqali uskunalar harakatini real vaqtda kuzating.",
   "button": "Xizmatlarni ko‘rish",
-  "xarita": "Respublika bo'ylab qurilish obyektlarining joylashuvi va umumiy ma'lumotlarini aks ettiruvchi interaktiv xarita",
+  "xarita": "Obyektlarining joylashuvi va umumiy ma'lumotlarini aks ettiruvchi interaktiv xarita",
   "monitor": "Muhandislik inshootlarining holatini monitoring qiluvchi axborot tizimi",
   "xodim": "Xodimlar faoliyatini boshqarish tizimi",
   "arxiv": "Qurilish obyektlarining arxiv ma'lumotlari elektron bazasi",
@@ -86,6 +86,8 @@
   "omborDesc": "Jamiyat va tizim tashkilotlar bazalaridagi omborlarda saqlanayotgan qurilish mahsulotlari sarfining elektron nazorati. Uzboshimchalik bilan mahsulotlar sarflanishiga chek qo‘yish. Omborlardagi qoldiq mahsulotlar haqida doimiy xabardor bo‘lish. 1C buxgalteriya dasturiga bog‘lash. E-bridge platformasiga integratsiyalash.",
   "camera": "Qurilish obyektlarining onlayn translatsiyasi",
   "Hamkor": "Hamkor tashkilotlar",
+  "Monitoringdesc": "Monitoring tizimining maqsadi: Ko‘prik inshootlari holatini doimiy nazorat qilish, Yuzaga kelishi mumkin bo‘lgan xatarlarni erta aniqlash, Ma’lumotlarni uzoq muddat saqlash, Inshootlar xizmat muddatini uzaytirish, Ishchi kuchini minimallashtirish, E-bridge platformasi bilan integratsiya",
+  "tizimdesc": "Obyektlar bo‘yicha statistik ma’lumotlar, Obyektlarning joylashuv nuqtalari, Obyektlar haqida to‘liq ma’lumot, Faol obyektlarning onlayn translyatsiyasi, Hududlar bo‘yicha obyektlar taqsimoti",
   "xodimDesc": "Jamiyat va tizim tashkilotlari xodimlarining elektron ma'lumotlar bazasini shakllantirish, Xodimlarning davomatini elektron ko‘rinishda yuritish, Xodimlar haqida statistik ma’lumotlar, Muhim sanalar to‘g‘risida ma’lumot, E-bridge platformasiga integratsiyalash",
   "gpsDsc": "Jamiyat va tizim tashkilotlariga tegishli maxsus texnikalar nazoratini kuchaytirish. Texnikalardan belgilangan ish hajmidan tashqari foydalanmaslik. Texnikalarning soz holatda ekanligi to‘g‘risida ma'lumotlar. Masofadan turib texnikalarni boshqarish imkoniyati. E-bridge platformasiga integratsiyalash.",
   "archiveDesc": "Jamiyat faoliyatiga doir arxiv ma'lumotlarni uzoq vaqt davomida saqlash imkoniyati., Arxiv ma'lumotlar xavfsizligini yuqori darajada ta'minlash., Arxiv ma'lumotlarni oson topish., Arxiv ma'lumotlar asosida doimiy statistik ma'lumotlar., E-bridge platformasiga integratsiyalash."

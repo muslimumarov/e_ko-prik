@@ -14,7 +14,7 @@ const SearchInput: React.FC = () => {
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
           <svg
-            className="size-4 text-white dark:text-gray-400"
+            className="size-4 text-amber-200 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -33,7 +33,7 @@ const SearchInput: React.FC = () => {
           type="search"
           id="default-search"
           className=" text-md block w-80 rounded-lg border border-gray-300 bg-white/10  p-4 ps-10 text-sm  text-black
-    placeholder:text-white focus:border-blue-500 focus:ring-amber-200 dark:border-gray-600 dark:bg-blue-950 dark:text-white  dark:placeholder:text-white
+    placeholder:text-black focus:border-blue-500 focus:ring-amber-200 dark:border-gray-600 dark:bg-blue-950 dark:text-white  dark:placeholder:text-white
      dark:focus:ring-blue-50 md:w-96"
           placeholder={t("search")}
           required
