@@ -180,7 +180,6 @@ const PartnersAndBenefits = () => {
               <a
                 key={index}
                 href={partner.url}
-                target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-between rounded-xl border border-transparent bg-gradient-to-br from-amber-800/10 to-yellow-900/10 p-6 shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-xl dark:from-yellow-300/10 dark:to-yellow-100/5"
               >
