@@ -55,7 +55,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center  px-4 dark:bg-blue-950">
+    <div className="flex h-screen w-full items-center justify-center bg-gray-500   px-4 dark:bg-blue-950">
       {loginMessage && (
         <div
           className={`fixed right-4 top-20 z-50 rounded-md px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 sm:top-24 ${

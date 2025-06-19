@@ -99,21 +99,27 @@ const PartnersAndBenefits = () => {
           <h2 className="mb-10  text-center text-4xl font-bold text-black dark:text-white sm:text-left">
             {t("Tizim")}
           </h2>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {advantages.map((advantage, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between rounded-xl  bg-blue-950/10 p-6 text-center text-white transition hover:shadow-lg dark:bg-white/10"
+                className="group rounded-2xl bg-white/10 p-6 shadow-md transition duration-300 hover:shadow-xl dark:bg-white/5"
               >
-                <div className="mr-14">
-                  <h3 className="mb-3 text-left text-xl font-semibold text-red-500">
-                    {advantage.title}
-                  </h3>
-                  <p className="text-left text-black dark:text-white">
+                <div className="flex h-full flex-col items-start justify-between">
+                  <div className="mb-4 flex items-center gap-4">
+                    <img
+                      src={advantage.icon}
+                      alt="icon"
+                      className="h-14 w-14 rounded-full bg-white/20 p-2 shadow-md transition group-hover:scale-105 sm:h-16 sm:w-16"
+                    />
+                    <h3 className="text-xl font-semibold text-red-500 dark:text-red-400">
+                      {advantage.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm leading-relaxed text-black dark:text-white">
                     {advantage.description}
                   </p>
                 </div>
-                <img src={advantage.icon} alt="icon" className="h-28 w-44" />
               </div>
             ))}
           </div>

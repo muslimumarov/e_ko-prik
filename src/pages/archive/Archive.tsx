@@ -50,7 +50,7 @@ const Archive: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="container relative top-24 mx-auto">
+      <div className="container relative top-24 mx-auto ">
         <h1 className="mb-9 mt-14 text-center font-bold text-[#f35a02]  dark:text-black sm:text-5xl">
           Arxiv Ma'lumotlar
         </h1>
