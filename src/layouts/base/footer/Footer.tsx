@@ -71,10 +71,10 @@ const Footer = () => {
                     {t("Ishonch telefoni")}
                   </span>
                   <a
-                    href="tel:+998555021010"
+                    href="tel:+99871-203-26-26"
                     className="text-lg font-semibold transition-colors hover:text-blue-300"
                   >
-                    946221444
+                    71-203-26-26
                   </a>
                 </div>
               </div>
