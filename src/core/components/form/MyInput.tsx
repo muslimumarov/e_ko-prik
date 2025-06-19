@@ -1,97 +1,69 @@
-import { useMemo, useState } from "react";
-import { Label, TextInput, TextInputProps } from "flowbite-react";
+import React, { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { FieldValues } from "react-hook-form";
-import { InputProps } from "../../interfaces/input-props.interface.ts";
 
-export type MyInputProps<T extends FieldValues> = InputProps<T> &
-  TextInputProps;
+interface MyInputProps {
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: "text" | "password" | "email"; // boshqa turlar qo‘shish mumkin
+  label?: string;
+  required?: boolean;
+  error?: string;
+}
 
-const MyInput = <T extends FieldValues>({
-  register,
-  error,
+const MyInput: React.FC<MyInputProps> = ({
   name,
-  rules = {},
-  helperText,
-  required,
-  label,
+  value,
+  onChange,
+  placeholder = "",
   type = "text",
-  ...props
-}: MyInputProps<T>) => {
-  const [showPassword, setShowPassword] = useState(false);
+  label,
+  required = false,
+  error,
+}) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const isPassword = type === "password";
-
-  const rightIcon = useMemo(
-    () =>
-      isPassword
-        ? () => (
-            <PasswordEyeIcon
-              showPassword={showPassword}
-              isPassword={isPassword}
-              onChangeVisibility={setShowPassword}
-            />
-          )
-        : props.rightIcon,
-    [isPassword, showPassword, props.rightIcon],
-  );
-
-  const theme = {
-    field: {
-      input: {
-        base: "block w-full border border-gray-300 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent",
-      },
-    },
-  };
+  const inputType = isPassword && showPassword ? "text" : type;
 
   return (
-    <Label className={"block"} color={error ? "failure" : "default"}>
+    <div className="mb-5">
       {label && (
-        <div className={"mb-2"}>
-          {label} {required && <span className={"text-red-600"}>*</span>}
-        </div>
+        <label
+          htmlFor={name}
+          className="mb-2 block text-sm font-medium text-white"
+        >
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
       )}
-      {name && register ? (
-        <div className="relative">
-          <TextInput
-            {...props}
-            {...register(name, rules)}
-            color={error ? "failure" : "default"}
-            type={isPassword && showPassword ? "text" : type}
-            helperText={error || helperText}
-            rightIcon={rightIcon}
-            theme={theme}
-          />
-        </div>
-      ) : (
-        <TextInput {...props} rightIcon={rightIcon} theme={theme} />
-      )}
-    </Label>
+
+      <div className="relative">
+        <input
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          type={inputType}
+          placeholder={placeholder}
+          required={required}
+          className="w-full rounded-md border border-gray-300 bg-transparent px-4 py-2 text-white placeholder:text-gray-400 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+        />
+
+        {isPassword && (
+          <button
+            type="button"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-white"
+            onClick={() => setShowPassword((prev) => !prev)}
+            aria-label="Toggle password visibility"
+          >
+            {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+          </button>
+        )}
+      </div>
+
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+    </div>
   );
 };
 
 export default MyInput;
-
-interface PasswordEyeIconProps {
-  isPassword?: boolean;
-  showPassword?: boolean;
-  onChangeVisibility?: (value: boolean) => void;
-}
-
-const PasswordEyeIcon = ({
-  isPassword,
-  showPassword,
-  onChangeVisibility,
-}: PasswordEyeIconProps) => {
-  return isPassword ? (
-    <div
-      className={"pointer-events-auto cursor-pointer"}
-      onClick={() => {
-        if (onChangeVisibility) {
-          onChangeVisibility(!showPassword);
-        }
-      }}
-    >
-      {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
-    </div>
-  ) : undefined;
-};

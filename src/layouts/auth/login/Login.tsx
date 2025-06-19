@@ -35,72 +35,79 @@ export const Login = () => {
           localStorage.removeItem("redirectBridgeId");
           navigate(`/archive?id=${redirectId}`);
         } else {
-          navigate("/"); // default sahifa
+          navigate("/");
         }
-      }, 1000); // 1 sekunddan keyin o'tkazish
+      }, 1000);
     } else {
       setLoginMessage({ type: "error", text: "Login yoki parol noto‘g‘ri" });
     }
   };
 
-  // Xabarni 3 sekundda yo'qotish
   useEffect(() => {
     if (loginMessage) {
       const timeout = setTimeout(() => setLoginMessage(null), 1000);
       return () => clearTimeout(timeout);
     }
   }, [loginMessage]);
+
   const handleLogoutClick = () => {
     navigate("/");
   };
+
   return (
-    <div className=" mx-auto h-screen px-5 dark:bg-blue-950 ">
+    <div className="flex h-screen w-full items-center justify-center  px-4 dark:bg-blue-950">
       {loginMessage && (
         <div
-          className={`fixed right-0 top-20 z-50 rounded px-4 py-2 text-sm text-white shadow-md transition-all duration-300
-          ${loginMessage.type === "success" ? "bg-green-500" : "bg-red-500"}`}
+          className={`fixed right-4 top-20 z-50 rounded-md px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 sm:top-24 ${
+            loginMessage.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}
         >
           {loginMessage.text}
         </div>
       )}
-      <div className="flex flex-col items-center justify-between ">
-        <a href="/">
-          <img
-            src={logo}
-            alt="Ko'prik qurilish logo"
-            className="mb-11 mt-40 h-28 w-72"
-          />
-        </a>
-        <div className="w-full max-w-md rounded-lg border-amber-100 p-0  shadow-md backdrop-blur">
-          <form onSubmit={handleSubmit}>
-            <MyInput
-              className={"mb-5"}
-              name="username"
-              value={formData.username}
-              onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
-              }
-              placeholder="Enter username"
+
+      <div className="w-full max-w-md rounded-2xl bg-blue-950/60 p-8 shadow-2xl backdrop-blur-lg dark:bg-white/10">
+        <div className="mb-8 flex flex-col items-center">
+          <a href="/">
+            <img
+              src={logo}
+              alt="Ko'prik qurilish logo"
+              className="h-28 w-72 object-contain"
             />
-            <MyInput
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              placeholder="Enter password"
-            />
-            <div className={"align-center mt-5 flex  justify-center gap-4"}>
-              <Button className={""} type="submit">
-                {t("Login")}
-              </Button>
-              <Button className={""} onClick={handleLogoutClick}>
-                {t("Back")}
-              </Button>
-            </div>
-          </form>
+          </a>
         </div>
+        <form onSubmit={handleSubmit}>
+          <MyInput
+            name="username"
+            value={formData.username}
+            onChange={(e) =>
+              setFormData({ ...formData, username: e.target.value })
+            }
+            placeholder="Enter username"
+          />
+          <MyInput
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+            placeholder="Parolingizni kiriting"
+          />
+
+          <div className="mt-6 flex justify-center gap-4">
+            <Button className="bg-cyan-800 text-white" type="submit">
+              {t("Login")}
+            </Button>
+            <Button
+              className="bg-cyan-800 text-white dark:bg-cyan-600"
+              type="submit"
+              onClick={handleLogoutClick}
+            >
+              {t("Back")}
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );
