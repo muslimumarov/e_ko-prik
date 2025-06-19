@@ -1,5 +1,5 @@
-import axios from "axios";
-import useAuthStore from "../../store/useAuthStore";
+import useAuthStore from "../../store/useAuthStore.ts";
+import { api } from "../../core/hooks/apiUrl.ts";
 
 const useLogin = () => {
   const { setTokens } = useAuthStore();
@@ -9,16 +9,16 @@ const useLogin = () => {
     password: string,
   ): Promise<boolean> => {
     try {
-      const res = await axios.post("http://192.168.4.150:3000/api/token/", {
+      const res = await api.post("/token/", {
         username,
         password,
       });
       const { access, refresh } = res.data;
       setTokens(access, refresh);
-      return true; // ✅ login muvaffaqiyatli
+      return true;
     } catch (err) {
       console.error("Login error:", err);
-      return false; // ❌ login xato
+      return false;
     }
   };
 
