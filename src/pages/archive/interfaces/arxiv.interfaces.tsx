@@ -21,6 +21,6 @@ export interface BridgeFilters {
   holat: string;
   search: string;
   date?: string;
-  limit?: number;
+  limit: number;
   offset?: number;
 }

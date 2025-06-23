@@ -105,7 +105,7 @@ const ArchiveDetail = () => {
                   py-2 font-semibold text-black transition-all duration-200 dark:text-white mobil330:text-[12px] "
                 >
                   <ArrowLeft size={16} />
-                  {t("Orqaga")}
+                  {t("Ortga")}
                 </span>
               </motion.a>
             </div>

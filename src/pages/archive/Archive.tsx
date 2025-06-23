@@ -14,6 +14,7 @@ const Archive: React.FC = () => {
     search: "",
     date: "",
     limit: 12,
+    offset: 0, // pagination boshqarish
   });
 
   const [card, setCard] = useState<BridgesResponseArxiv | null>(null);
@@ -28,11 +29,45 @@ const Archive: React.FC = () => {
       });
   }, [filters]);
 
-  const handleClick = (id: number) => navigate(`/archive/${id}`);
-
-  const resetFilters = () => {
-    setFilters({ region: "", holat: "", search: "", date: "", limit: 12 });
+  const handleClick = (id: number) => {
+    sessionStorage.setItem("archive_offset", String(filters.offset)); // sahifaga kirishda offsetni saqlash
+    navigate(`/archive/${id}`);
   };
+
+  const resetFilters = () =>
+    setFilters({
+      region: "",
+      holat: "",
+      search: "",
+      date: "",
+      limit: 12,
+      offset: 0,
+    });
+
+  const handlePageChange = (forward: boolean) => {
+    setFilters((prev) => {
+      const newOffset = forward
+        ? (prev.offset || 0) + (prev.limit || 12)
+        : Math.max(0, (prev.offset || 0) - (prev.limit || 12));
+
+      sessionStorage.setItem("archive_offset", String(newOffset)); // offset saqlash
+
+      return {
+        ...prev,
+        offset: newOffset,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const savedOffset = sessionStorage.getItem("archive_offset");
+    if (savedOffset) {
+      setFilters((prev) => ({
+        ...prev,
+        offset: parseInt(savedOffset, 10),
+      }));
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -50,43 +85,43 @@ const Archive: React.FC = () => {
               className="h-10 w-full rounded-lg border border-gray-300 pl-10 pr-3 shadow-md transition focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={filters.search}
               onChange={(e) =>
-                setFilters((f) => ({ ...f, search: e.target.value }))
+                setFilters((f) => ({ ...f, search: e.target.value, offset: 0 }))
               }
             />
           </div>
         </div>
 
         {/* Filters */}
-        <div className="grid w-full gap-4 p-4 mobil330:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-20 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           <select
-            className="rounded-lg border border-gray-300 bg-white/70 p-2 shadow-sm backdrop-blur-md transition hover:shadow-md"
+            className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={filters.region}
             onChange={(e) =>
-              setFilters((f) => ({ ...f, region: e.target.value }))
+              setFilters((f) => ({ ...f, region: e.target.value, offset: 0 }))
             }
           >
             <option value="">Viloyat tanlang...</option>
-            <option value="1">Toshkent viloyati</option>
-            <option value="2">Toshkent shahri</option>
-            <option value="3">Qoraqolpog'iston Respublikasi</option>
-            <option value="4">Sirdaryo</option>
-            <option value="5">Namangan</option>
+            <option value="1">Buxoro</option>
+            <option value="2">Toshkent viloyati</option>
+            <option value="3">Toshkent shahar</option>
+            <option value="4">Samarqand</option>
+            <option value="5">Navoiy</option>
             <option value="6">Farg'ona</option>
             <option value="7">Andijon</option>
-            <option value="8">Jizzax</option>
-            <option value="9">Samarqand</option>
-            <option value="10">Surxondaryo</option>
-            <option value="11">Qashqadaryo</option>
-            <option value="12">Navoiy</option>
-            <option value="13">Buxoro</option>
+            <option value="8">Namangan</option>
+            <option value="9">Sirdaryo</option>
+            <option value="10">Jizzax</option>
+            <option value="11">Qoraqalpog'iston Respublikasi</option>
+            <option value="12">Surxondaryo</option>
+            <option value="13">Qashqadaryo</option>
             <option value="14">Xorazm</option>
           </select>
 
           <select
-            className="rounded-lg border border-gray-300 bg-white/70 p-2 shadow-sm backdrop-blur-md transition hover:shadow-md"
+            className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={filters.holat}
             onChange={(e) =>
-              setFilters((f) => ({ ...f, holat: e.target.value }))
+              setFilters((f) => ({ ...f, holat: e.target.value, offset: 0 }))
             }
           >
             <option value="">Holat tanlang...</option>
@@ -97,21 +132,19 @@ const Archive: React.FC = () => {
 
           <input
             type="date"
-            className="rounded-lg border border-gray-300 bg-white/70 p-2 shadow-sm backdrop-blur-md transition hover:shadow-md"
+            className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={filters.date || ""}
             onChange={(e) =>
-              setFilters((f) => ({ ...f, date: e.target.value }))
+              setFilters((f) => ({ ...f, date: e.target.value, offset: 0 }))
             }
           />
 
-          <div className="flex justify-end">
-            <button
-              onClick={resetFilters}
-              className="rounded-lg bg-red-500 px-4 py-2 text-white shadow-md transition-all hover:bg-red-600"
-            >
-              Filtrlarni tozalash
-            </button>
-          </div>
+          <button
+            onClick={resetFilters}
+            className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-md transition-all hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+          >
+            Filtrlarni tozalash
+          </button>
         </div>
 
         {/* Results */}
@@ -132,7 +165,7 @@ const Archive: React.FC = () => {
                   className="group cursor-pointer overflow-hidden rounded-xl border border-white/20 shadow-md backdrop-blur-md transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-blue-950"
                 >
                   <img
-                    src={box.images?.image || "/images/IMG_2016.JPG"}
+                    src={box.images?.image || "/images/IMG_2016.jpg"}
                     alt={box.name}
                     className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
@@ -144,6 +177,32 @@ const Archive: React.FC = () => {
                 </div>
               ))}
           </div>
+
+          {/* Pagination */}
+          {card?.count && card.count > filters.limit && (
+            <div className="mt-10 flex items-center justify-center gap-6">
+              <button
+                onClick={() => handlePageChange(false)}
+                disabled={(filters.offset || 0) === 0}
+                className="rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm shadow-md backdrop-blur-md transition hover:bg-gray-100 disabled:opacity-50"
+              >
+                ⬅ Oldingi
+              </button>
+              <span className="text-sm text-gray-500">
+                {(filters.offset || 0) / (filters.limit || 12) + 1} /{" "}
+                {Math.ceil(card.count / (filters.limit || 12))}
+              </span>
+              <button
+                onClick={() => handlePageChange(true)}
+                disabled={
+                  (filters.offset || 0) + (filters.limit || 12) >= card.count
+                }
+                className="rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm shadow-md backdrop-blur-md transition hover:bg-gray-100 disabled:opacity-50"
+              >
+                Keyingi ➡
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </Fragment>

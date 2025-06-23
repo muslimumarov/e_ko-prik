@@ -9,7 +9,7 @@ const App: React.FC = () => {
 
   if (isLoginPage) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen  ">
         <Navbar />
         <Login />
       </div>

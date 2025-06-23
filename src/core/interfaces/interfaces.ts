@@ -61,3 +61,9 @@ export interface holatStatistica {
   Rejalashtirilgan?: number;
   Tugallangan?: number;
 }
+export interface HolatCounts {
+  Jarayonda: number;
+  Rejalashtirilgan: number;
+  Tugallangan: number;
+  [key: string]: number; // 🔧 qo‘shiladi
+}

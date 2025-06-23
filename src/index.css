@@ -5,7 +5,7 @@
   max-width: 1280px;
 }
 body {
-  background-color: #f3dfbd;
+  @apply bg-orange-200 dark:bg-blue-900;
 }
 .all-page::before,
 .home-video {
