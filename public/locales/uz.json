@@ -91,5 +91,9 @@
   "tizimdesc": "Obyektlar bo‘yicha statistik ma’lumotlar, Obyektlarning joylashuv nuqtalari, Obyektlar haqida to‘liq ma’lumot, Faol obyektlarning onlayn translyatsiyasi, Hududlar bo‘yicha obyektlar taqsimoti",
   "xodimDesc": "Jamiyat va tizim tashkilotlari xodimlarining elektron ma'lumotlar bazasini shakllantirish, Xodimlarning davomatini elektron ko‘rinishda yuritish, Xodimlar haqida statistik ma’lumotlar, Muhim sanalar to‘g‘risida ma’lumot, E-bridge platformasiga integratsiyalash",
   "gpsDsc": "Jamiyat va tizim tashkilotlariga tegishli maxsus texnikalar nazoratini kuchaytirish. Texnikalardan belgilangan ish hajmidan tashqari foydalanmaslik. Texnikalarning soz holatda ekanligi to‘g‘risida ma'lumotlar. Masofadan turib texnikalarni boshqarish imkoniyati. E-bridge platformasiga integratsiyalash.",
-  "archiveDesc": "Jamiyat faoliyatiga doir arxiv ma'lumotlarni uzoq vaqt davomida saqlash imkoniyati., Arxiv ma'lumotlar xavfsizligini yuqori darajada ta'minlash., Arxiv ma'lumotlarni oson topish., Arxiv ma'lumotlar asosida doimiy statistik ma'lumotlar., E-bridge platformasiga integratsiyalash."
+  "archiveDesc": "Jamiyat faoliyatiga doir arxiv ma'lumotlarni uzoq vaqt davomida saqlash imkoniyati., Arxiv ma'lumotlar xavfsizligini yuqori darajada ta'minlash., Arxiv ma'lumotlarni oson topish., Arxiv ma'lumotlar asosida doimiy statistik ma'lumotlar., E-bridge platformasiga integratsiyalash.",
+  "vazirligi_transport": "O'zbekiston Respublikasi Transport vazirligi",
+  "vazirligi_qurilish": "O'zbekiston Respublikasi Qurilish va uy-joy kommunal xo'jaligi vazirligi",
+  "qomita_avtoyul": "Avtomobil yo‘llari qo‘mitasi",
+  "hokimliklar": "Viloyat va Tuman hokimliklari"
 }

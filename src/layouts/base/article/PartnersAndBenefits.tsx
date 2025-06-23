@@ -24,24 +24,22 @@ const PartnersAndBenefits = () => {
 
   const partners = [
     {
-      name: t("O'zbekiston respublikasi transport vazirligi"),
+      name: t("vazirligi_transport"),
       logo: transport,
       url: "https://www.mintrans.uz/",
     },
     {
-      name: t(
-        "O'zbekiston Respublikasi Qurilish va uy-joy mmunal xo'jaligi vazirligi",
-      ),
+      name: t("vazirligi_qurilish"),
       logo: qurulish,
       url: "https://mc.uz/oz",
     },
     {
-      name: t("Avtomobil yo‘llari qo‘mitasi"),
+      name: t("qomita_avtoyul"),
       logo: avtomobil,
       url: "https://www.uzavtoyul.uz/uz/",
     },
     {
-      name: t("Viloyat va Tuman hokimliklari"),
+      name: t("hokimliklar"),
       logo: gerb,
       url: "https://www.solarteknik.com",
     },
