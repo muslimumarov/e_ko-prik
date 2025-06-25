@@ -128,9 +128,9 @@ function MyMapPage() {
   const getIconByHolat = useCallback((holat: string) => {
     switch (holat) {
       case "Jarayonda":
-        return IconGreen();
-      case "Tugallangan":
         return IconYellow();
+      case "Tugallangan":
+        return IconGreen();
       case "Rejalashtirilgan":
         return IconRed();
       default:

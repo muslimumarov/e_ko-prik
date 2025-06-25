@@ -64,7 +64,8 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
 
   return (
     <div
-      className={`custom-scrollbar fixed top-[82px] z-[1000] h-[95vh] w-96 overflow-y-auto rounded border border-amber-100 shadow-lg backdrop-blur transition-all duration-700 ease-in-out dark:bg-blue-950 dark:text-amber-100 ${
+      className={`custom-scrollbar fixed top-[75px]  z-[1000010] h-[95vh] w-72 overflow-y-auto rounded-tr-lg   backdrop-blur transition-all   duration-700 ease-in-out dark:bg-blue-950 
+      dark:text-amber-100 sm:w-96 sm:rounded-none ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
       style={{ pointerEvents: "auto", touchAction: "auto" }}

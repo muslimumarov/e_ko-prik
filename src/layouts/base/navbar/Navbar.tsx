@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
             <Button
               onClick={handleAuthClick}
               className="no-copy flex  max-h-10  max-w-[18.125rem] items-center justify-center border-transparent
-                              hover:scale-105  focus:ring-0 "
+                              hover:scale-105"
             >
               {isAuthenticated ? t("Logout") : t("Login")}
             </Button>

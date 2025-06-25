@@ -22,7 +22,7 @@ const DonutChartWrapper = ({ data, position, regionName, onClick }: Props) => {
     data.Tugallangan || 0,
   ];
 
-  const colors = ["#d3504e", "#49dd00", "#FFCE56"];
+  const colors = ["#d3504e", "#FFCE56", "#49dd00"];
 
   const total = values.reduce((a, b) => a + b, 0);
   const iconHtml = `
