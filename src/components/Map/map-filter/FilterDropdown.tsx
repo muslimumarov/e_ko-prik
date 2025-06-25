@@ -30,7 +30,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onChange }) => {
   };
 
   return (
-    <div className="fixed left-14 top-[90px] z-[999999] text-sm sm:left-auto sm:right-[150px] sm:top-[90px]">
+    <div className="fixed left-14 top-[90px] z-[999] text-sm sm:left-auto sm:right-[150px] sm:top-[90px]">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-lg transition-all duration-200 hover:shadow-xl"

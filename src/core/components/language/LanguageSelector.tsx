@@ -22,6 +22,7 @@ const LanguageSelector = () => {
     >
       {LANGUAGES.map((lang) => (
         <Dropdown.Item
+          className="relative z-[999999999999] dark:bg-blue-950"
           key={lang.value}
           onClick={() => i18n.changeLanguage(lang.value as Language)}
         >
