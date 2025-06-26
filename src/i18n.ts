@@ -19,14 +19,7 @@ i18n
     debug: false,
     supportedLngs: SUPPORT_LOCALES,
     detection: {
-      order: [
-        "cookie",
-        "querystring",
-        "htmlTag",
-        "localStorage",
-        "path",
-        "subdomain",
-      ],
+      order: ["cookie"], // faqat cookie’dan o‘qisin
       caches: ["cookie"],
     },
     saveMissing: false,
