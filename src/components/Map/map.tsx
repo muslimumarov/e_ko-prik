@@ -34,7 +34,6 @@ import LocationModal from "./Info-modal/LocationModal";
 import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper";
 import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api";
 import BackToDefaultButton from "./BackMap/BackToDefaultButton";
-import { useModalStore } from "../../store/modalStore.ts";
 import FilterDropdown from "./map-filter/FilterDropdown.tsx";
 
 function MyMapPage() {
@@ -47,7 +46,6 @@ function MyMapPage() {
     null,
   );
   const [holatFilter, setHolatFilter] = useState<string>("all");
-  const { openModal } = useModalStore();
   const mapRef = useRef<L.Map | null>(null);
 
   const DEFAULT_CENTER = useMemo<[number, number]>(
@@ -137,15 +135,15 @@ function MyMapPage() {
         return IconRed();
     }
   }, []);
+
   const getMinZoom = () => {
     if (typeof window !== "undefined" && window.innerWidth < 768) {
-      // 📱 Mobil ekranlarda
       return 4;
     } else {
-      // 🖥 Katta ekranlarda
       return 6.4;
     }
   };
+
   const onEachCountry = useCallback(
     (feature: GeoJSON.Feature, layer: L.Layer) => {
       layer.on({
@@ -202,6 +200,11 @@ function MyMapPage() {
     },
     [],
   );
+
+  // ✅ YANGI: Marker bosilganda locationni ochish funksiyasi
+  const handleMarkerClick = (loc: Location) => {
+    setSelectedLocation(loc);
+  };
 
   return (
     <Fragment>
@@ -286,50 +289,50 @@ function MyMapPage() {
             Rejalashtirilgan: "red",
           }[bridge.holat ?? "Rejalashtirilgan"];
 
-          if (!locations.length) return [];
-          if (locations.length === 1) {
-            const loc = locations[0];
-            return [
-              <Marker
-                key={`marker-${bridge.id}`}
-                position={[loc.latitude, loc.longitude]}
-                icon={getIconByHolat(bridge.holat ?? "")}
-                eventHandlers={{
-                  click: () => {
-                    setSelectedLocation(loc);
-                    openModal();
-                  },
+          const polylinePositions = locations
+            .map((loc) =>
+              loc.latitude && loc.longitude
+                ? [loc.latitude, loc.longitude]
+                : null,
+            )
+            .filter((pos): pos is [number, number] => Array.isArray(pos));
+
+          const polyline =
+            locations.length >= 2 ? (
+              <Polyline
+                key={`polyline-${bridge.id}`}
+                positions={polylinePositions}
+                pathOptions={{
+                  color: holatColor,
+                  weight: 5,
+                  opacity: 1,
                 }}
-              />,
-            ];
+              />
+            ) : null;
+
+          let markerPosition: [number, number] | null = null;
+          let markerLoc: Location | null = null;
+
+          if (locations.length >= 3) {
+            markerPosition = [locations[0].latitude, locations[0].longitude];
+            markerLoc = locations[0];
+          } else {
+            const center = calculatePolylineCenter(locations);
+            if (center) {
+              markerPosition = center;
+              markerLoc = locations[Math.floor(locations.length / 2)];
+            }
           }
 
-          const polylineCenter = calculatePolylineCenter(locations);
-
           return [
-            <Polyline
-              key={`polyline-${bridge.id}`}
-              positions={locations.map((loc) => [
-                loc.latitude - 0.00006,
-                loc.longitude + 0.00002,
-              ])}
-              pathOptions={{ color: holatColor, weight: 5, opacity: 1 }}
-            />,
-            polylineCenter && (
+            polyline,
+            markerPosition && markerLoc && (
               <Marker
-                key={`center-${bridge.id}`}
-                position={polylineCenter}
+                key={`bridge-${bridge.id}-marker`}
+                position={markerPosition}
                 icon={getIconByHolat(bridge.holat ?? "")}
                 eventHandlers={{
-                  click: () => {
-                    const centerLoc = {
-                      ...locations[0],
-                      latitude: polylineCenter[0],
-                      longitude: polylineCenter[1],
-                    };
-                    setSelectedLocation(centerLoc);
-                    openModal();
-                  },
+                  click: () => handleMarkerClick(markerLoc),
                 }}
               />
             ),
