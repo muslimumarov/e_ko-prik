@@ -6,6 +6,7 @@ import {
   Fragment,
   useCallback,
 } from "react";
+import metro from "../../../public/images/metro.png";
 import {
   MapContainer,
   TileLayer,
@@ -113,6 +114,7 @@ function MyMapPage() {
     }),
     [],
   );
+
   const highlightStyle: L.PathOptions = useMemo(
     () => ({
       weight: 2,
@@ -122,6 +124,14 @@ function MyMapPage() {
     }),
     [],
   );
+
+  // ✅ Metro icon
+  const metroIcon = new L.Icon({
+    iconUrl: metro,
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30],
+  });
 
   const getIconByHolat = useCallback((holat: string) => {
     switch (holat) {
@@ -136,13 +146,7 @@ function MyMapPage() {
     }
   }, []);
 
-  const getMinZoom = () => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      return 4;
-    } else {
-      return 6.4;
-    }
-  };
+  const getMinZoom = () => (window.innerWidth < 768 ? 4 : 6.4);
 
   const onEachCountry = useCallback(
     (feature: GeoJSON.Feature, layer: L.Layer) => {
@@ -201,7 +205,6 @@ function MyMapPage() {
     [],
   );
 
-  // ✅ YANGI: Marker bosilganda locationni ochish funksiyasi
   const handleMarkerClick = (loc: Location) => {
     setSelectedLocation(loc);
   };
@@ -241,7 +244,6 @@ function MyMapPage() {
                     Tugallangan: 0,
                     [holatFilter]: holat_counts[holatFilter] ?? 0,
                   };
-
             const total = Object.values(filteredData).reduce(
               (a, b) => a + b,
               0,
@@ -304,7 +306,7 @@ function MyMapPage() {
                 positions={polylinePositions}
                 pathOptions={{
                   color: holatColor,
-                  weight: 5,
+                  weight: 3,
                   opacity: 1,
                 }}
               />
@@ -330,7 +332,11 @@ function MyMapPage() {
               <Marker
                 key={`bridge-${bridge.id}-marker`}
                 position={markerPosition}
-                icon={getIconByHolat(bridge.holat ?? "")}
+                icon={
+                  locations.length >= 3
+                    ? metroIcon
+                    : getIconByHolat(bridge.holat ?? "")
+                }
                 eventHandlers={{
                   click: () => handleMarkerClick(markerLoc),
                 }}
