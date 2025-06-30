@@ -6,7 +6,10 @@ import {
   Fragment,
   useCallback,
 } from "react";
-import metro from "../../../public/images/metro.png";
+import metrogreen from "../../../public/images/greenMetro.png";
+import metrored from "../../../public/images/redMetro.png";
+import metroyellow from "../../../public/images/yellowMetro.png";
+
 import {
   MapContainer,
   TileLayer,
@@ -36,6 +39,7 @@ import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper";
 import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api";
 import BackToDefaultButton from "./BackMap/BackToDefaultButton";
 import FilterDropdown from "./map-filter/FilterDropdown.tsx";
+import { useModalStore } from "../../store/modalStore.ts";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -48,7 +52,7 @@ function MyMapPage() {
   );
   const [holatFilter, setHolatFilter] = useState<string>("all");
   const mapRef = useRef<L.Map | null>(null);
-
+  const { openModal } = useModalStore();
   const DEFAULT_CENTER = useMemo<[number, number]>(
     () => [41.377491, 64.585258],
     [],
@@ -118,22 +122,41 @@ function MyMapPage() {
   const highlightStyle: L.PathOptions = useMemo(
     () => ({
       weight: 2,
-      color: "#ff0000",
+      color: "#0b32ed",
       fillColor: "#e1a9a9",
       fillOpacity: 0.7,
     }),
     [],
   );
 
-  // ✅ Metro icon
-  const metroIcon = new L.Icon({
-    iconUrl: metro,
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    popupAnchor: [0, -30],
-  });
+  const getIconByCountAndHolat = (
+    count: number,
+    holat: string,
+  ): L.Icon | L.DivIcon => {
+    if (count >= 3) {
+      let iconUrl = metrored;
 
-  const getIconByHolat = useCallback((holat: string) => {
+      switch (holat) {
+        case "Jarayonda":
+          iconUrl = metroyellow;
+          break;
+        case "Tugallangan":
+          iconUrl = metrogreen;
+          break;
+        case "Rejalashtirilgan":
+          iconUrl = metrored;
+          break;
+      }
+
+      return new L.Icon({
+        iconUrl,
+        iconSize: [40, 40],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+      });
+    }
+
+    // count 2 yoki undan kam bo‘lsa — divIcon ishlatiladi
     switch (holat) {
       case "Jarayonda":
         return IconYellow();
@@ -144,7 +167,7 @@ function MyMapPage() {
       default:
         return IconRed();
     }
-  }, []);
+  };
 
   const getMinZoom = () => (window.innerWidth < 768 ? 4 : 6.4);
 
@@ -207,6 +230,7 @@ function MyMapPage() {
 
   const handleMarkerClick = (loc: Location) => {
     setSelectedLocation(loc);
+    openModal();
   };
 
   return (
@@ -332,11 +356,10 @@ function MyMapPage() {
               <Marker
                 key={`bridge-${bridge.id}-marker`}
                 position={markerPosition}
-                icon={
-                  locations.length >= 3
-                    ? metroIcon
-                    : getIconByHolat(bridge.holat ?? "")
-                }
+                icon={getIconByCountAndHolat(
+                  locations.length,
+                  bridge.holat ?? "",
+                )}
                 eventHandlers={{
                   click: () => handleMarkerClick(markerLoc),
                 }}
@@ -344,7 +367,6 @@ function MyMapPage() {
             ),
           ];
         })}
-
         <GeoJSON
           data={uzb as GeoJSON.GeoJsonObject}
           onEachFeature={onEachCountry}
