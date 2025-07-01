@@ -130,14 +130,30 @@ const Archive: React.FC = () => {
             <option value="Rejalashtirilgan">Rejalashtirilgan</option>
           </select>
 
-          <input
-            type="date"
-            className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={filters.date || ""}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, date: e.target.value, offset: 0 }))
-            }
-          />
+          <div className="relative w-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <input
+              type="date"
+              className="w-full rounded-lg border border-gray-300 bg-white/60 p-2 pl-10 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              value={filters.date || ""}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, date: e.target.value, offset: 0 }))
+              }
+            />
+          </div>
 
           <button
             onClick={resetFilters}
