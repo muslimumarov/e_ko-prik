@@ -7,6 +7,7 @@ import {
 } from "./interfaces/arxiv.interfaces";
 import { GetBridgeCard } from "./arxiv-api/arxiv-api";
 import CustomDateInput from "../../core/components/CustomDateInput/CustomDateInput.tsx";
+import { Datepicker } from "flowbite-react";
 
 const Archive: React.FC = () => {
   const [filters, setFilters] = useState<BridgeFilters>({
@@ -131,10 +132,14 @@ const Archive: React.FC = () => {
             <option value="Rejalashtirilgan">Rejalashtirilgan</option>
           </select>
 
-          <CustomDateInput
-            value={filters.date || ""}
-            onChange={(val) =>
-              setFilters((f) => ({ ...f, date: val, offset: 0 }))
+          <Datepicker
+            title="Sana tanlang"
+            onSelectedDateChanged={(date) =>
+              setFilters((f) => ({
+                ...f,
+                date: date?.toISOString().split("T")[0] || "",
+                offset: 0,
+              }))
             }
           />
           <button
