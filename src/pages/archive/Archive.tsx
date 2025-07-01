@@ -6,7 +6,6 @@ import {
   BridgeFilters,
 } from "./interfaces/arxiv.interfaces";
 import { GetBridgeCard } from "./arxiv-api/arxiv-api";
-import CustomDateInput from "../../core/components/CustomDateInput/CustomDateInput.tsx";
 import { Datepicker } from "flowbite-react";
 
 const Archive: React.FC = () => {
