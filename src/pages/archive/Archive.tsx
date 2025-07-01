@@ -6,6 +6,7 @@ import {
   BridgeFilters,
 } from "./interfaces/arxiv.interfaces";
 import { GetBridgeCard } from "./arxiv-api/arxiv-api";
+import CustomDateInput from "../../core/components/CustomDateInput/CustomDateInput.tsx";
 
 const Archive: React.FC = () => {
   const [filters, setFilters] = useState<BridgeFilters>({
@@ -130,31 +131,12 @@ const Archive: React.FC = () => {
             <option value="Rejalashtirilgan">Rejalashtirilgan</option>
           </select>
 
-          <div className="relative w-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <input
-              type="date"
-              className="w-full rounded-lg border border-gray-300 bg-white/60 p-2 pl-10 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-              value={filters.date || ""}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, date: e.target.value, offset: 0 }))
-              }
-            />
-          </div>
-
+          <CustomDateInput
+            value={filters.date || ""}
+            onChange={(val) =>
+              setFilters((f) => ({ ...f, date: val, offset: 0 }))
+            }
+          />
           <button
             onClick={resetFilters}
             className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-md transition-all hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
