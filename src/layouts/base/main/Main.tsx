@@ -20,9 +20,10 @@ const Main: React.FC = () => {
     {
       title: t("monitoring"),
       description: t("monitor"),
-      path: "/monitoring",
+      path: "http://90.156.199.181:8088/",
       img: "/images/monitoring.4eab7f5f.png",
       isPublic: false,
+      isExternal: true,
     },
     {
       title: t("E-Xodim"),

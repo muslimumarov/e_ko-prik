@@ -29,7 +29,7 @@ const MainBoxList: React.FC<Props> = ({ boxes }) => {
     }
 
     if (box.isExternal) {
-      window.open(box.path, "_blank");
+      window.location.href = box.path;
     } else {
       navigate(box.path);
     }
