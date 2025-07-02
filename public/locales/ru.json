@@ -111,5 +111,17 @@
   "qomita_avtoyul": "Комитет автомобильных дорог",
   "hokimliklar": "Хокимияты областей и районов",
   "Ortga": "Назад",
-  "test": "Сайт работает в тестовом режиме"
+  "test": "Сайт работает в тестовом режиме",
+  "total": "Всего",
+  "bridge_statistics": "Статистика строительства мостов, принадлежащих KO'PRIKQURILISH AJ по всей Республике",
+  "statistics": "Статистика",
+  "statuss": {
+    "all": "Все",
+    "Tugallangan": "Завершено",
+    "Rejalashtirilgan": "Запланировано",
+    "Jarayonda": "В процессе"
+  },
+  "whole_uzbekistan": "Вся Узбекистан",
+  "filter": "Фильтр",
+  "selectByStatus": "Выберите по статусу"
 }

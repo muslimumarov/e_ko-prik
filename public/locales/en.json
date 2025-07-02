@@ -109,5 +109,16 @@
   "qomita_avtoyul": "Committee of Automobile Roads",
   "hokimliklar": "Regional and District Administrations",
   "Ortga": "Back",
-  "test": "The site is operating in test mode"
+  "test": "The site is operating in test mode",
+  "total": "Total",
+  "bridge_statistics": "Bridge construction statistics belonging to KO'PRIKQURILISH AJ across the entire Republic",
+  "statistics": "Statistics",
+  "statuss": {
+    "all": "All",
+    "Tugallangan": "Completed",
+    "Rejalashtirilgan": "Planned",
+    "Jarayonda": "In Progress"
+  },
+  "whole_uzbekistan": "All of Uzbekistan",
+  "selectByStatus": "Select by status"
 }

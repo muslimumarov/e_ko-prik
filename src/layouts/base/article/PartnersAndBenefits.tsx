@@ -125,30 +125,29 @@ const PartnersAndBenefits = () => {
 
         <div className="mt-20 rounded-xl border bg-gradient-to-br from-[#003366] to-[#002952] p-8">
           <h2 className="mb-8 text-center text-3xl font-bold text-white dark:text-gray-100">
-            {t("Statistika")}
+            {t("statistics")}
           </h2>
-
           <div className="overflow-x-auto">
             <table className="w-full text-white " ref={ref}>
               <thead>
                 <tr className="grid grid-cols-1 gap-2 border-b border-white/20 md:grid-cols-4">
                   <th className="p-4 text-left text-lime-300 dark:text-lime-400">
-                    {t("Tugallangan")}:{" "}
+                    {t("completed")}:{" "}
                     <CountUp end={stats?.Tugallangan ?? 0} duration={4.1} />
                   </th>
                   <th className="p-4 text-left text-emerald-400 dark:text-emerald-300">
-                    {t("Jarayonda")}:{" "}
+                    {t("in_progress")}:{" "}
                     <CountUp end={stats?.Jarayonda ?? 0} duration={4.1} />
                   </th>
                   <th className="p-4 text-left text-rose-400 dark:text-rose-300">
-                    {t("rejalashtirilgan")}:{" "}
+                    {t("completed")}:{" "}
                     <CountUp
                       end={stats?.Rejalashtirilgan ?? 0}
                       duration={4.1}
                     />
                   </th>
                   <th className="p-4 text-left font-semibold text-cyan-300 drop-shadow-md dark:text-cyan-400">
-                    {t("umumiy")}:{" "}
+                    {t("total")}:{" "}
                     <CountUp
                       end={
                         (stats?.Rejalashtirilgan ?? 0) +
@@ -163,8 +162,7 @@ const PartnersAndBenefits = () => {
             </table>
 
             <p className="mt-5 text-center text-gray-200 dark:text-gray-300">
-              Butun Respublika bo'yicha KO'PRIKQURILISH AJ ga tegishli ko'prik
-              qurulishlari statistikasi
+              {t("bridge_statistics")}
             </p>
           </div>
         </div>

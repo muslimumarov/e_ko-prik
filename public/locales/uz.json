@@ -97,5 +97,17 @@
   "qomita_avtoyul": "Avtomobil yo‘llari qo‘mitasi",
   "hokimliklar": "Viloyat va Tuman hokimliklari",
   "Ortga": "Ortga",
-  "test": "Sayt test rejimida ishlamoqda"
+  "test": "Sayt test rejimida ishlamoqda",
+  "total": "Umumiy",
+  "bridge_statistics": "Butun Respublika bo'yicha KO'PRIKQURILISH AJ ga tegishli ko'prik qurulishlari statistikasi",
+  "statistics": "Statistika",
+  "statuss": {
+    "all": "Barchasi",
+    "Tugallangan": "Tugallangan",
+    "Rejalashtirilgan": "Rejalashtirilgan",
+    "Jarayonda": "Jarayonda"
+  },
+  "whole_uzbekistan": "Butun O'zbekiston",
+  "filter": "Filter",
+  "selectByStatus": "Holat bo'yicha tanlang"
 }

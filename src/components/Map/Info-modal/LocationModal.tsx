@@ -91,7 +91,10 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
           t("region"),
           `${bridge.region?.name || ""}, ${bridge.district?.name || ""}`,
         )}
-        {dataItem(t("status"), bridge.holat)}
+        {dataItem(
+          t("status"),
+          bridge.holat ? t(`statuss.${bridge.holat}`) : t("noData"),
+        )}
         {dataItem(t("customer"), bridge.buyrutmachi)}
         {dataItem(t("pudratchi"), bridge.pudratchi)}
         {dataItem(t("loyihachi"), bridge.loyihachi)}

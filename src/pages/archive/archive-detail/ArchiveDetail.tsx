@@ -159,44 +159,6 @@ const ArchiveDetail = () => {
                 transition={{ delay: 0.4 }}
               >
                 <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  {t("Joylashuv")}
-                </h2>
-                {bridge.locations.length > 0 ? (
-                  bridge.locations.map((location, index) => (
-                    <motion.div
-                      key={location.id}
-                      className="space-y-2"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                    >
-                      <p className={"dark:text-gray-200"}>
-                        <span className="font-medium dark:text-gray-200">
-                          {t("Nomi")}:
-                        </span>{" "}
-                        {location.name || "N/A"}
-                      </p>
-                      <p className={"dark:text-gray-200"}>
-                        <span className="font-medium dark:text-gray-200">
-                          {t("Koordinatalar")}:
-                        </span>{" "}
-                        {location.latitude}, {location.longitude}
-                      </p>
-                    </motion.div>
-                  ))
-                ) : (
-                  <p className={"dark:text-white"}>
-                    {t("Joylashuv maʼlumotlari mavjud emas")}
-                  </p>
-                )}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
                   {t("Loyha Fayllarini Yuklash")}
                 </h2>
 
