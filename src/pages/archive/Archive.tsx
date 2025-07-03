@@ -132,6 +132,7 @@ const Archive: React.FC = () => {
           </select>
 
           <Datepicker
+            placeholder="Sana bo‘yicha tanlang"
             title="Sana tanlang"
             value={filters.date || undefined}
             onSelectedDateChanged={(date) =>
