@@ -133,6 +133,7 @@ const Archive: React.FC = () => {
 
           <Datepicker
             title="Sana tanlang"
+            value={filters.date || undefined}
             onSelectedDateChanged={(date) =>
               setFilters((f) => ({
                 ...f,
@@ -141,6 +142,7 @@ const Archive: React.FC = () => {
               }))
             }
           />
+
           <button
             onClick={resetFilters}
             className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-md transition-all hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"

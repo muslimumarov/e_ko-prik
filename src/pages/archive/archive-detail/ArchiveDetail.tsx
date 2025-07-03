@@ -13,6 +13,7 @@ const ArchiveDetail = () => {
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchBridgeDetails = async () => {
       try {
@@ -63,7 +64,7 @@ const ArchiveDetail = () => {
     );
 
   return (
-    <div className="relative  min-h-screen">
+    <div className="relative min-h-screen">
       {bridge.images.length > 0 && (
         <div className="fixed inset-0 -z-10 overflow-hidden">
           <img
@@ -78,14 +79,11 @@ const ArchiveDetail = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="container  relative mx-auto h-auto px-4 py-6"
+        className="container relative mx-auto h-auto px-4 py-6"
       >
-        <motion.div
-          // whileHover={{ scale: 1.01 }}
-          className=" relative top-24 mb-24 overflow-hidden  rounded-lg bg-white bg-opacity-90 shadow-xl backdrop-blur-sm"
-        >
+        <motion.div className="relative top-24 mb-24 overflow-hidden rounded-lg bg-white bg-opacity-90 shadow-xl backdrop-blur-sm">
           <div className="border-b bg-amber-50 bg-gradient-to-r px-6 py-4 dark:bg-blue-950">
-            <div className="flex   justify-between">
+            <div className="flex justify-between">
               <motion.h1
                 initial={{ x: -10 }}
                 animate={{ x: 0 }}
@@ -94,22 +92,20 @@ const ArchiveDetail = () => {
               >
                 {bridge.name}
               </motion.h1>
-              <motion.a
-                className={"no-copy"}
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span
                   onClick={() => navigate(-1)}
-                  className="sm:text-md dark:borer-white  mb-6 inline-flex cursor-pointer items-center  gap-2 rounded-xl border border-gray-600 px-4
-                  py-2 font-semibold text-black transition-all duration-200 dark:text-white mobil330:text-[12px] "
+                  className="sm:text-md mb-6 inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-600 px-4 py-2 font-semibold text-black transition-all duration-200 dark:text-white mobil330:text-[12px]"
                 >
                   <ArrowLeft size={16} />
                   {t("Ortga")}
                 </span>
-              </motion.a>
+              </motion.div>
             </div>
-            <div className="mt-2 flex items-center  text-gray-600 dark:text-white">
+            <div className="mt-2 flex items-center text-gray-600 dark:text-white">
               <motion.span whileHover={{ scale: 1.05 }} className="mr-4">
                 <span className="font-bold">{t("Hudud")}:</span>{" "}
                 {bridge.region?.name}
@@ -177,7 +173,6 @@ const ArchiveDetail = () => {
                         <Download size={18} /> {t("Asosiy Hujjat")}
                       </a>
                     )}
-
                     {bridge.vaqtinchalik_yol_sxemasi && (
                       <a
                         href={bridge.vaqtinchalik_yol_sxemasi}
@@ -185,6 +180,21 @@ const ArchiveDetail = () => {
                       >
                         <Download size={18} /> {t("Vaqtinchalik Yo‘l Sxemasi")}
                       </a>
+                    )}
+                    {bridge.boshlash_vaqti && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="mb-6"
+                      >
+                        <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
+                          {t("constructionStartDate")}
+                        </h2>
+                        <p className="whitespace-pre-line font-bold text-gray-700 dark:text-gray-200">
+                          {bridge.boshlash_vaqti}
+                        </p>
+                      </motion.div>
                     )}
                   </motion.div>
                 ) : (
@@ -233,7 +243,7 @@ const ArchiveDetail = () => {
                       <img
                         src={img.image}
                         alt={`${t("Ko‘prik")} ${bridge.name}`}
-                        className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105 "
+                        className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
                       />
                     </motion.div>
                   ))}
