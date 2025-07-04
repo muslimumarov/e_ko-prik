@@ -3,13 +3,14 @@ import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { CustomDate } from "../../core/components/CustomDateInput/CustomDate";
 import { useArchiveData } from "./arxiv-items/useArchiveData.tsx";
+import { useTranslation } from "react-i18next";
 
 const Archive: React.FC = () => {
   const { filters, setFilters, card, resetFilters, handlePageChange } =
     useArchiveData();
 
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const handleClick = (id: number) => {
     sessionStorage.setItem("archive_offset", String(filters.offset));
     sessionStorage.setItem("archive_filters", JSON.stringify(filters));
@@ -22,13 +23,13 @@ const Archive: React.FC = () => {
         {/* Header */}
         <div className="my-14 flex flex-col items-center justify-between gap-4 md:flex-row">
           <h1 className="animate-fade-in-up text-center text-4xl font-bold text-[#f35a02] dark:text-white sm:text-5xl">
-            Arxiv Ma'lumotlar
+            {t("Arxiv Ma'lumotlar")}
           </h1>
           <div className="relative w-full max-w-xs animate-fade-in">
             <FiSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
             <input
               type="text"
-              placeholder="Qidiruv..."
+              placeholder={t("Qidiruv...")}
               className="h-10 w-full rounded-lg border border-gray-300 pl-10 pr-3 shadow-md transition focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={filters.search}
               onChange={(e) =>
@@ -48,21 +49,21 @@ const Archive: React.FC = () => {
               setFilters((f) => ({ ...f, region: e.target.value, offset: 0 }))
             }
           >
-            <option value="">Viloyat tanlang...</option>
-            <option value="1">Buxoro</option>
-            <option value="2">Toshkent viloyati</option>
-            <option value="3">Toshkent shahar</option>
-            <option value="4">Samarqand</option>
-            <option value="5">Navoiy</option>
-            <option value="6">Farg'ona</option>
-            <option value="7">Andijon</option>
-            <option value="8">Namangan</option>
-            <option value="9">Sirdaryo</option>
-            <option value="10">Jizzax</option>
-            <option value="11">Qoraqalpog'iston Respublikasi</option>
-            <option value="12">Surxondaryo</option>
-            <option value="13">Qashqadaryo</option>
-            <option value="14">Xorazm</option>
+            <option value="">{t("Viloyat tanlang...")}</option>
+            <option value="1">{t("Buxoro")}</option>
+            <option value="2">{t("Toshkent viloyati")}</option>
+            <option value="3">{t("Toshkent shahar")}</option>
+            <option value="4">{t("Samarqand")}</option>
+            <option value="5">{t("Navoiy")}</option>
+            <option value="6">{t("Farg'ona")}</option>
+            <option value="7">{t("Andijon")}</option>
+            <option value="8">{t("Namangan")}</option>
+            <option value="9">{t("Sirdaryo")}</option>
+            <option value="10">{t("Jizzax")}</option>
+            <option value="11">{t("Qoraqalpog'iston Respublikasi")}</option>
+            <option value="12">{t("Surxondaryo")}</option>
+            <option value="13">{t("Qashqadaryo")}</option>
+            <option value="14">{t("Xorazm")}</option>
           </select>
 
           {/* Holat */}
@@ -73,15 +74,15 @@ const Archive: React.FC = () => {
               setFilters((f) => ({ ...f, holat: e.target.value, offset: 0 }))
             }
           >
-            <option value="">Holat tanlang...</option>
-            <option value="Tugallangan">Tugallangan</option>
-            <option value="Jarayonda">Jarayonda</option>
-            <option value="Rejalashtirilgan">Rejalashtirilgan</option>
+            <option value="">{t("Holat tanlang...")}</option>
+            <option value="Tugallangan">{t("Tugallangan")}</option>
+            <option value="Jarayonda">{t("Jarayonda")}</option>
+            <option value="Rejalashtirilgan">{t("Rejalashtirilgan")}</option>
           </select>
 
           {/* Sana */}
           <CustomDate
-            placeholder="Sanani tanlang"
+            placeholder={t("Sanani tanlang")}
             value={filters.date || ""}
             onSelectedDateChanged={(_, formatted) =>
               setFilters((f) => {
@@ -96,7 +97,7 @@ const Archive: React.FC = () => {
             onClick={resetFilters}
             className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-md transition-all hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
           >
-            Filtrlarni tozalash
+            {t("Filtrlarni tozalash")}
           </button>
         </div>
 
@@ -105,7 +106,7 @@ const Archive: React.FC = () => {
           {Array.isArray(card?.results) && card.results.length === 0 && (
             <div className="p-10 text-center text-lg text-gray-400">
               <div className="text-3xl">):</div>
-              <p>Hech narsa topilmadi</p>
+              <p>{t("Hech narsa topilmadi")}</p>
             </div>
           )}
 
@@ -139,7 +140,7 @@ const Archive: React.FC = () => {
                 disabled={(filters.offset || 0) === 0}
                 className="rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm shadow-md backdrop-blur-md transition hover:bg-gray-100 disabled:opacity-50"
               >
-                ⬅ Oldingi
+                ⬅ {t("Oldingi")}
               </button>
               <span className="text-sm text-gray-500">
                 {(filters.offset || 0) / (filters.limit || 12) + 1} /{" "}
@@ -152,7 +153,7 @@ const Archive: React.FC = () => {
                 }
                 className="rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm shadow-md backdrop-blur-md transition hover:bg-gray-100 disabled:opacity-50"
               >
-                Keyingi ➡
+                {t("Keyingi")} ➡
               </button>
             </div>
           )}
