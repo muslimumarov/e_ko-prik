@@ -1,74 +1,20 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import {
-  BridgesResponseArxiv,
-  BridgeFilters,
-} from "./interfaces/arxiv.interfaces";
-import { GetBridgeCard } from "./arxiv-api/arxiv-api";
-import { Datepicker } from "flowbite-react";
+import { CustomDate } from "../../core/components/CustomDateInput/CustomDate";
+import { useArchiveData } from "./arxiv-items/useArchiveData.tsx";
 
 const Archive: React.FC = () => {
-  const [filters, setFilters] = useState<BridgeFilters>({
-    region: "",
-    holat: "",
-    search: "",
-    date: "",
-    limit: 12,
-    offset: 0, // pagination boshqarish
-  });
+  const { filters, setFilters, card, resetFilters, handlePageChange } =
+    useArchiveData();
 
-  const [card, setCard] = useState<BridgesResponseArxiv | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    GetBridgeCard(filters)
-      .then((data) => setCard(data))
-      .catch((err) => {
-        console.error("API xatolik:", err);
-        setCard({ count: 0, next: null, previous: null, results: [] });
-      });
-  }, [filters]);
-
   const handleClick = (id: number) => {
-    sessionStorage.setItem("archive_offset", String(filters.offset)); // sahifaga kirishda offsetni saqlash
+    sessionStorage.setItem("archive_offset", String(filters.offset));
+    sessionStorage.setItem("archive_filters", JSON.stringify(filters));
     navigate(`/archive/${id}`);
   };
-
-  const resetFilters = () =>
-    setFilters({
-      region: "",
-      holat: "",
-      search: "",
-      date: "",
-      limit: 12,
-      offset: 0,
-    });
-
-  const handlePageChange = (forward: boolean) => {
-    setFilters((prev) => {
-      const newOffset = forward
-        ? (prev.offset || 0) + (prev.limit || 12)
-        : Math.max(0, (prev.offset || 0) - (prev.limit || 12));
-
-      sessionStorage.setItem("archive_offset", String(newOffset)); // offset saqlash
-
-      return {
-        ...prev,
-        offset: newOffset,
-      };
-    });
-  };
-
-  useEffect(() => {
-    const savedOffset = sessionStorage.getItem("archive_offset");
-    if (savedOffset) {
-      setFilters((prev) => ({
-        ...prev,
-        offset: parseInt(savedOffset, 10),
-      }));
-    }
-  }, []);
 
   return (
     <Fragment>
@@ -94,6 +40,7 @@ const Archive: React.FC = () => {
 
         {/* Filters */}
         <div className="mb-20 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+          {/* Region */}
           <select
             className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={filters.region}
@@ -118,6 +65,7 @@ const Archive: React.FC = () => {
             <option value="14">Xorazm</option>
           </select>
 
+          {/* Holat */}
           <select
             className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={filters.holat}
@@ -131,19 +79,19 @@ const Archive: React.FC = () => {
             <option value="Rejalashtirilgan">Rejalashtirilgan</option>
           </select>
 
-          <Datepicker
-            placeholder="Sana bo‘yicha tanlang"
-            title="Sana tanlang"
-            value={filters.date || undefined}
-            onSelectedDateChanged={(date) =>
-              setFilters((f) => ({
-                ...f,
-                date: date?.toISOString().split("T")[0] || "",
-                offset: 0,
-              }))
+          {/* Sana */}
+          <CustomDate
+            placeholder="Sanani tanlang"
+            value={filters.date || ""}
+            onSelectedDateChanged={(_, formatted) =>
+              setFilters((f) => {
+                if (f.date === formatted) return f; // o'zgarmagan bo'lsa, render qilma
+                return { ...f, date: formatted, offset: 0 };
+              })
             }
           />
 
+          {/* Filtr tozalash */}
           <button
             onClick={resetFilters}
             className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-md transition-all hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"

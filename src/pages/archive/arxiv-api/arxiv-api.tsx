@@ -12,7 +12,7 @@ export const GetBridgeCard = async (
   if (filters.region) params.append("region", filters.region);
   if (filters.holat) params.append("holat", filters.holat);
   if (filters.search) params.append("search", filters.search);
-  if (filters.date) params.append("date", filters.date);
+  if (filters.date) params.append("boshlash_vaqti", filters.date);
   params.append("limit", filters.limit?.toString() || "12");
   if (filters.offset) params.append("offset", filters.offset.toString());
 
