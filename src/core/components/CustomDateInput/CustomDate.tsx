@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parseISO } from "date-fns";
+import { FaCalendarAlt } from "react-icons/fa";
 
 interface CustomDateProps {
   value?: string; // yyyy-mm-dd
@@ -17,6 +18,7 @@ export const CustomDate: React.FC<CustomDateProps> = ({
   onSelectedDateChanged,
 }) => {
   const parsedDate = value ? parseISO(value) : null;
+  const dateRef = useRef<any>(null);
 
   const handleChange = (date: Date | null) => {
     const formatted = date ? format(date, "yyyy-MM-dd") : "";
@@ -24,17 +26,32 @@ export const CustomDate: React.FC<CustomDateProps> = ({
   };
 
   return (
-    <div className="flex flex-col">
-      {title && <label className="mb-1 text-sm font-medium">{title}</label>}
+    <div className="flex flex-col gap-1">
+      {title && (
+        <label className="text-sm font-semibold text-gray-700">{title}</label>
+      )}
+
       <DatePicker
         selected={parsedDate}
         onChange={handleChange}
+        ref={dateRef}
         dateFormat="dd.MM.yyyy"
-        placeholderText={placeholder || "Sanani tanlang"}
-        className="rounded-lg border border-gray-300 bg-white/60 p-2 text-sm shadow-sm backdrop-blur-md transition duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400"
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
+        customInput={
+          <div
+            onClick={() => dateRef.current.setOpen(true)}
+            className="flex items-center justify-between gap-3 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-md transition hover:shadow-lg active:ring-2 active:ring-orange-500"
+          >
+            <span className={parsedDate ? "text-gray-900" : "text-gray-400"}>
+              {parsedDate
+                ? format(parsedDate, "dd.MM.yyyy")
+                : placeholder || "Sanani tanlang"}
+            </span>
+            <FaCalendarAlt className="text-orange-500" />
+          </div>
+        }
       />
     </div>
   );

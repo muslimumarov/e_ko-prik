@@ -85,7 +85,7 @@ const Archive: React.FC = () => {
             value={filters.date || ""}
             onSelectedDateChanged={(_, formatted) =>
               setFilters((f) => {
-                if (f.date === formatted) return f; // o'zgarmagan bo'lsa, render qilma
+                if (f.date === formatted) return f;
                 return { ...f, date: formatted, offset: 0 };
               })
             }
