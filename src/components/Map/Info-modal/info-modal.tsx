@@ -11,7 +11,7 @@ interface Props {
   bridge?: BridgeData;
 }
 
-const LocationModal: React.FC<Props> = ({ location, bridge }) => {
+const InfoModal: React.FC<Props> = ({ location, bridge }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isOpen, closeModal } = useModalStore();
@@ -29,7 +29,6 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
     navigate(`/archive/${bridge.id}`);
     // closeModal();
   };
-  console.log(bridge.id);
 
   const dataItem = (label: string, value?: string | null) => (
     <p>
@@ -132,4 +131,4 @@ const LocationModal: React.FC<Props> = ({ location, bridge }) => {
   );
 };
 
-export default LocationModal;
+export default InfoModal;

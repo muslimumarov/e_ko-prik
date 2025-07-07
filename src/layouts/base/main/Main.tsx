@@ -4,7 +4,7 @@ import SearchInput from "../../../components/searchInput/SearchInput.tsx";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import MainBoxList from "./MainBoxList.tsx";
-import PartnersAndBenefits from "../article/PartnersAndBenefits.tsx";
+import Article from "../article/Article.tsx";
 
 const Main: React.FC = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ const Main: React.FC = () => {
     {
       title: t("interactiveMap"),
       description: t("xarita"),
-      path: "/map/myMap",
+      path: "/map/interactiveMap",
       img: "images/xaritaUzb.png",
       isPublic: true,
     },
@@ -78,7 +78,7 @@ const Main: React.FC = () => {
           <Outlet />
         </div>
       </div>
-      <PartnersAndBenefits />
+      <Article />
     </div>
   );
 };

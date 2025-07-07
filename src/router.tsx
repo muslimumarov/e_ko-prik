@@ -7,9 +7,9 @@ import ArchiveDetail from "./pages/archive/archive-detail/ArchiveDetail";
 import Exodim from "./pages/employee/Employee";
 import Eombor from "./pages/warehouse/Warehouse";
 import Camera from "./pages/camera/Camera";
-import PartnersAndBenefits from "./layouts/base/article/PartnersAndBenefits";
+import Article from "./layouts/base/article/Article.tsx";
 import Main from "./layouts/base/main/Main";
-import Layout from "./layouts/base/Layaut.tsx";
+import Layout from "./layouts/base/main/Layaut.tsx";
 import PrivateRoute from "./layouts/base/Private/PrivateRoute.tsx";
 
 function Route() {
@@ -20,7 +20,7 @@ function Route() {
       children: [
         { index: true, element: <Main /> },
         { path: "map", element: <InteractiveMap /> },
-        { path: "map/myMap", element: <MyMapPage /> },
+        { path: "map/interactiveMap", element: <MyMapPage /> },
 
         {
           path: "monitoring",
@@ -63,7 +63,7 @@ function Route() {
             </PrivateRoute>
           ),
         },
-        { path: "partners", element: <PartnersAndBenefits /> },
+        { path: "partners", element: <Article /> },
       ],
     },
   ];

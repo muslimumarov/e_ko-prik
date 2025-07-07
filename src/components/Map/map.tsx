@@ -1,22 +1,17 @@
 import {
+  Fragment,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-  Fragment,
-  useCallback,
 } from "react";
-import metrogreen from "../../../public/images/greenMetro.png";
-import metrored from "../../../public/images/redMetro.png";
-import metroyellow from "../../../public/images/yellowMetro.png";
-
 import {
-  MapContainer,
-  TileLayer,
   GeoJSON,
-  useMap,
+  MapContainer,
   Marker,
   Polyline,
+  TileLayer,
   ZoomControl,
 } from "react-leaflet";
 import L, { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
@@ -26,20 +21,23 @@ import {
   Location,
   StatisticaResponse,
 } from "../../core/interfaces/interfaces";
-import regionCenters from "./kordinatalar/Kordinat";
+import regionCenters from "./coordinates/coordinates.ts";
 import uzb from "../../core/data/uzb2.json";
-import StatisticPanel from "./umumiy-holat/StatisticPanel";
-import {
-  IconGreen,
-  IconRed,
-  IconYellow,
-} from "../../assets/icons/iconLocation";
-import LocationModal from "./Info-modal/LocationModal";
+import StatisticPanel from "./statistic-panel/StatisticPanel";
+import InfoModal from "./Info-modal/info-modal.tsx";
 import DonutChartWrapper from "./progres-diagramma/DonutChartWrapper";
 import { getBridgeData, getStatisticsRegion } from "../../core/hooks/api";
-import BackToDefaultButton from "./BackMap/BackToDefaultButton";
+import AllofUzbekistan from "./AllUzbekistan/AllofUzbekistan.tsx";
 import FilterDropdown from "./map-filter/FilterDropdown.tsx";
 import { useModalStore } from "../../store/modalStore.ts";
+import {
+  calculatePolylineCenter,
+  defaultStyle,
+  getMinZoom,
+  highlightStyle,
+  IconStatus,
+  MapZoomer,
+} from "./map-item/MapItems.tsx";
 
 function MyMapPage() {
   const [statistics, setStatistics] = useState<StatisticaResponse>([]);
@@ -66,7 +64,6 @@ function MyMapPage() {
     const savedLocation = localStorage.getItem("selectedLocation");
     if (savedLocation) setSelectedLocation(JSON.parse(savedLocation));
   }, []);
-
   useEffect(() => {
     const fetchBridges = async () => {
       if (selectedRegion && statistics.length > 0) {
@@ -109,67 +106,14 @@ function MyMapPage() {
     }
   }, [selectedLocation]);
 
-  const defaultStyle: L.PathOptions = useMemo(
-    () => ({
-      weight: 1,
-      color: "#3388ff",
-      fillColor: "#cccccc",
-      fillOpacity: 0.6,
-    }),
-    [],
-  );
-
-  const highlightStyle: L.PathOptions = useMemo(
-    () => ({
-      weight: 2,
-      color: "#0b32ed",
-      fillColor: "#e1a9a9",
-      fillOpacity: 0.7,
-    }),
-    [],
-  );
-
-  const getIconByCountAndHolat = (
-    count: number,
-    holat: string,
-  ): L.Icon | L.DivIcon => {
-    if (count >= 3) {
-      let iconUrl = metrored;
-
-      switch (holat) {
-        case "Jarayonda":
-          iconUrl = metroyellow;
-          break;
-        case "Tugallangan":
-          iconUrl = metrogreen;
-          break;
-        case "Rejalashtirilgan":
-          iconUrl = metrored;
-          break;
-      }
-
-      return new L.Icon({
-        iconUrl,
-        iconSize: [40, 40],
-        iconAnchor: [15, 30],
-        popupAnchor: [0, -30],
-      });
+  useEffect(() => {
+    if (selectedRegion && mapRef.current) {
+      const center = regionCenters[selectedRegion];
+      if (center) mapRef.current.flyTo(center, 9, { duration: 0.5 });
+    } else if (!selectedRegion && mapRef.current) {
+      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 0.5 });
     }
-
-    // count 2 yoki undan kam bo‘lsa — divIcon ishlatiladi
-    switch (holat) {
-      case "Jarayonda":
-        return IconYellow();
-      case "Tugallangan":
-        return IconGreen();
-      case "Rejalashtirilgan":
-        return IconRed();
-      default:
-        return IconRed();
-    }
-  };
-
-  const getMinZoom = () => (window.innerWidth < 768 ? 4 : 6.4);
+  }, [selectedRegion]);
 
   const onEachCountry = useCallback(
     (feature: GeoJSON.Feature, layer: L.Layer) => {
@@ -191,41 +135,12 @@ function MyMapPage() {
     [defaultStyle, highlightStyle],
   );
 
-  const MapZoomer: React.FC<{ bounds: LatLngBoundsExpression }> = ({
-    bounds,
-  }) => {
-    const map = useMap();
-    useEffect(() => {
-      map.flyToBounds(bounds, { duration: 0.8, easeLinearity: 0.25 });
-    }, [map, bounds]);
-    return null;
-  };
-
   const selectBridge = useMemo(
     () =>
       bridges.find((bridge) =>
         bridge.locations.some((loc) => loc.id === selectedLocation?.id),
       ),
     [bridges, selectedLocation],
-  );
-
-  useEffect(() => {
-    if (selectedRegion && mapRef.current) {
-      const center = regionCenters[selectedRegion];
-      if (center) mapRef.current.flyTo(center, 9, { duration: 0.5 });
-    } else if (!selectedRegion && mapRef.current) {
-      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 0.5 });
-    }
-  }, [selectedRegion]);
-
-  const calculatePolylineCenter = useCallback(
-    (locations: Location[]): [number, number] | null => {
-      if (!locations.length) return null;
-      const latSum = locations.reduce((sum, loc) => sum + loc.latitude, 0);
-      const lngSum = locations.reduce((sum, loc) => sum + loc.longitude, 0);
-      return [latSum / locations.length, lngSum / locations.length];
-    },
-    [],
   );
 
   const handleMarkerClick = (loc: Location) => {
@@ -288,7 +203,7 @@ function MyMapPage() {
           })}
 
         {selectedRegion && (
-          <BackToDefaultButton
+          <AllofUzbekistan
             center={DEFAULT_CENTER}
             zoom={DEFAULT_ZOOM}
             onClick={() => {
@@ -303,7 +218,6 @@ function MyMapPage() {
             }}
           />
         )}
-
         <StatisticPanel />
         {zoomTo && <MapZoomer bounds={zoomTo} />}
 
@@ -335,10 +249,8 @@ function MyMapPage() {
                 }}
               />
             ) : null;
-
           let markerPosition: [number, number] | null = null;
           let markerLoc: Location | null = null;
-
           if (locations.length >= 3) {
             markerPosition = [locations[0].latitude, locations[0].longitude];
             markerLoc = locations[0];
@@ -349,17 +261,13 @@ function MyMapPage() {
               markerLoc = locations[Math.floor(locations.length / 2)];
             }
           }
-
           return [
             polyline,
             markerPosition && markerLoc && (
               <Marker
                 key={`bridge-${bridge.id}-marker`}
                 position={markerPosition}
-                icon={getIconByCountAndHolat(
-                  locations.length,
-                  bridge.holat ?? "",
-                )}
+                icon={IconStatus(locations.length, bridge.holat ?? "")}
                 eventHandlers={{
                   click: () => handleMarkerClick(markerLoc),
                 }}
@@ -372,8 +280,7 @@ function MyMapPage() {
           onEachFeature={onEachCountry}
         />
       </MapContainer>
-
-      <LocationModal location={selectedLocation} bridge={selectBridge} />
+      <InfoModal location={selectedLocation} bridge={selectBridge} />
     </Fragment>
   );
 }

@@ -1,9 +1,9 @@
 // Layout.tsx
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./navbar/Navbar.tsx";
-import Footer from "./footer/Footer.tsx";
-import TestLoader from "../../TestModeBanner.tsx";
+import Navbar from "../navbar/Navbar.tsx";
+import Footer from "../footer/Footer.tsx";
+import TestLoader from "../../../TestModeBanner.tsx";
 
 const Layout: React.FC = () => {
   return (

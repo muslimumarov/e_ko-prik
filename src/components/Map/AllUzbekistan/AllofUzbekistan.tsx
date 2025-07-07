@@ -8,7 +8,7 @@ type BackToDefaultButtonProps = {
   zoom: number;
   onClick: () => void;
 };
-const BackToDefaultButton: React.FC<BackToDefaultButtonProps> = ({
+const AllofUzbekistan: React.FC<BackToDefaultButtonProps> = ({
   center,
   zoom,
   onClick,
@@ -32,4 +32,4 @@ const BackToDefaultButton: React.FC<BackToDefaultButtonProps> = ({
   );
 };
 
-export default BackToDefaultButton;
+export default AllofUzbekistan;

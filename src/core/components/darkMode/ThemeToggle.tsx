@@ -6,8 +6,12 @@ const ThemeToggle = () => {
   const { mode, toggleMode } = useThemeMode();
 
   return (
-    <span className={"cursor-pointer"} onClick={() => toggleMode()}>
-      {mode === ThemeMode.DARK ? <SunIcon size={22} /> : <MoonIcon size={22} />}
+    <span className={"cursor-pointer "} onClick={() => toggleMode()}>
+      {mode === ThemeMode.DARK ? (
+        <SunIcon size={22} />
+      ) : (
+        <MoonIcon color={"white"} size={22} />
+      )}
     </span>
   );
 };

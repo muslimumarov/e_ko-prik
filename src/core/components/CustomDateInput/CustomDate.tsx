@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 import { FaCalendarAlt } from "react-icons/fa";
 
 interface CustomDateProps {
-  value?: string; // yyyy-mm-dd
+  value?: string;
   title?: string;
   placeholder?: string;
   onSelectedDateChanged: (date: Date | null, formatted: string) => void;

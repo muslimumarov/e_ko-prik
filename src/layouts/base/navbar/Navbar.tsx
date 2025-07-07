@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 
   const { t } = useTranslation();
   return (
-    <header className="fixed left-0 top-0 z-[9999] w-full bg-white/10 shadow-md backdrop-blur dark:bg-blue-950">
+    <header className="fixed left-0 top-0 z-[9999] w-full bg-blue-950 shadow-md backdrop-blur">
       <div className="container mx-auto flex justify-between px-4 py-3">
         <div className="flex w-full items-center justify-between">
           <div className="no-copy">

@@ -1,5 +1,5 @@
-import useAuthStore from "../../store/useAuthStore.ts";
-import { api } from "../../core/hooks/apiUrl.ts";
+import useAuthStore from "../../../store/useAuthStore.ts";
+import { api } from "../../../core/hooks/apiUrl.ts";
 
 const useLogin = () => {
   const { setTokens } = useAuthStore();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MyInput from "../../../core/components/form/MyInput.tsx";
 import { Button } from "flowbite-react";
 import { useTranslation } from "react-i18next";
-import useLogin from "../apiAuth.ts";
+import useLogin from "./apiAuth.ts";
 import logo from "../../../../public/images/Logo-Gold.png";
 import { useNavigate } from "react-router-dom";
 

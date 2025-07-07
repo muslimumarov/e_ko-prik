@@ -5,6 +5,7 @@ import { BridgeData } from "../../../core/interfaces/interfaces.ts";
 import { motion } from "framer-motion";
 import { ArrowLeft, Download } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { CardCaption } from "../../../core/components/card";
 
 const ArchiveDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -240,11 +241,7 @@ const ArchiveDetail = () => {
                       whileHover={{ scale: 1.05 }}
                       className="overflow-hidden rounded-lg border shadow-md dark:text-gray-200"
                     >
-                      <img
-                        src={img.image}
-                        alt={`${t("Ko‘prik")} ${bridge.name}`}
-                        className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
-                      />
+                      <CardCaption src={img.image} />
                     </motion.div>
                   ))}
                 </div>
