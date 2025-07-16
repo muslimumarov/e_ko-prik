@@ -38,7 +38,6 @@
   "andijon": "Andijan Region",
   "fargona": "Fergana Region",
   "namangan": "Namangan Region",
-  "samarqand": "Samarkand Region",
   "buxoro": "Bukhara Region",
   "navoiy": "Navoi Region",
   "qashqadaryo": "Kashkadarya Region",
@@ -47,22 +46,6 @@
   "jizzax": "Jizzakh Region",
   "sirdaryo": "Syrdarya Region",
   "qoraqalpogiston": "Republic of Karakalpakstan",
-  "regions": {
-    "Toshkent viloyati": "Tashkent region",
-    "Toshkent shahar": "Tashkent city",
-    "Andijon": "Andijan region",
-    "Farg'ona": "Fergana region",
-    "Namangan": "Namangan region",
-    "Samarqand": "Samarkand region",
-    "Buxoro": "Bukhara region",
-    "Navoiy": "Navoi region",
-    "Qashqadaryo": "Kashkadarya region",
-    "Surxondaryo": "Surkhandarya region",
-    "Xorazm": "Khorezm region",
-    "Jizzax": "Jizzakh region",
-    "Sirdaryo": "Syrdarya region",
-    "Qoraqalpog'iston Respublikasi": "Republic of Karakalpakstan"
-  },
   "Hudud": "Region",
   "Tuman": "District",
   "Asosiy ma'lumotlar": "Main information",
@@ -126,6 +109,7 @@
   "Tugallangan": "Completed",
   "Jarayonda": "In progress",
   "Rejalashtirilgan": "Planned",
+  "loyihachi": "Desinger",
   "Sanani tanlang": "Select date",
   "Filtrlarni tozalash": "Clear filters",
   "Qidiruv...": "Search...",
@@ -146,5 +130,7 @@
   "Qoraqalpog'iston Respublikasi": "Republic of Karakalpakstan",
   "Surxondaryo": "Surkhandarya",
   "Qashqadaryo": "Kashkadarya",
-  "Xorazm": "Khorezm"
+  "Xorazm": "Khorezm",
+  "Ijtimoiy tarmoqlar": "Social networks",
+  "Ishonch telefoni": "Hotline"
 }

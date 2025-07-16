@@ -35,22 +35,6 @@
   "tugallangan": "Qurilish tugallangan sana",
   "Vaqtinchalik": "Vaqtinchalik yo'l sxemasi",
   "Smeta": "Loyiha smeta hujjatlari",
-  "regions": {
-    "Toshkent viloyati": "Toshkent viloyati",
-    "Toshkent shahar": "Toshkent shahri",
-    "Andijon": "Andijon viloyati",
-    "Farg'ona": "Farg‘ona viloyati",
-    "Namangan": "Namangan viloyati",
-    "Samarqand": "Samarqand viloyati",
-    "Buxoro": "Buxoro viloyati",
-    "Navoiy": "Navoiy viloyati",
-    "Qashqadaryo": "Qashqadaryo viloyati",
-    "Surxondaryo": "Surxondaryo viloyati",
-    "Xorazm": "Xorazm viloyati",
-    "Jizzax": "Jizzax viloyati",
-    "Sirdaryo": "Sirdaryo viloyati",
-    "Qoraqalpog'iston Respublikasi": "Qoraqalpog‘iston Res..."
-  },
   "Hudud": "Hudud",
   "Tuman": "Tuman",
   "Asosiy ma'lumotlar": "Asosiy ma'lumotlar",
@@ -59,6 +43,7 @@
   "Loyiha": "Loyiha",
   "Pudratchi": "Pudratchi",
   "Joylashuv": "Joylashuv",
+  "Ijtimoiy tarmoqlar": "Ijtimoiy tarmoqlar",
   "Nomi": "Nomi",
   "Koordinatalar": "Koordinatalar",
   "Joylashuv haqida ma'lumot mavjud emas": "Joylashuv haqida ma'lumot mavjud emas",
@@ -135,5 +120,6 @@
   "Qoraqalpog'iston Respublikasi": "Qoraqalpog'iston Respublikasi",
   "Surxondaryo": "Surxondaryo",
   "Qashqadaryo": "Qashqadaryo",
-  "Xorazm": "Xorazm"
+  "Xorazm": "Xorazm",
+  "Ishonch telefoni": "Ishonch telefoni"
 }

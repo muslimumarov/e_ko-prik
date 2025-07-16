@@ -1,10 +1,21 @@
+// SearchInput.tsx
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const SearchInput: React.FC = () => {
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const SearchInput: React.FC<Props> = ({ value, onChange }) => {
   const { t } = useTranslation();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Sahifa yangilanmasin
+  };
+
   return (
-    <form className="mx-auto max-w-md">
+    <form onSubmit={handleSubmit} className="mx-auto max-w-md">
       <label
         htmlFor="default-search"
         className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -32,17 +43,19 @@ const SearchInput: React.FC = () => {
         <input
           type="search"
           id="default-search"
-          className=" text-md block w-80 rounded-lg border border-gray-300 bg-white/10  p-4 ps-10 text-sm  text-black
-    placeholder:text-black focus:border-blue-500 focus:ring-amber-200 dark:border-gray-600 dark:bg-blue-950 dark:text-white  dark:placeholder:text-white
-     dark:focus:ring-blue-50 md:w-96"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="text-md block w-80 rounded-lg border border-gray-300 bg-white/10 p-4 ps-10 text-sm text-black
+            placeholder:text-black focus:border-blue-500 focus:ring-amber-200 dark:border-gray-600 dark:bg-blue-950 dark:text-white dark:placeholder:text-white
+            dark:focus:ring-blue-50 md:w-96"
           placeholder={t("search")}
           required
         />
         <button
           type="submit"
-          className="absolute bottom-2.5 end-2.5 rounded-lg bg-cyan-700  px-4 py-2
-    text-sm font-medium text-white hover:scale-105 hover:bg-cyan-800 focus:outline-none  focus:ring-0
-   dark:bg-cyan-600 dark:hover:bg-cyan-700"
+          className="absolute bottom-2.5 end-2.5 rounded-lg bg-cyan-700 px-4 py-2
+            text-sm font-medium text-white hover:scale-105 hover:bg-cyan-800 focus:outline-none focus:ring-0
+            dark:bg-cyan-600 dark:hover:bg-cyan-700"
         >
           {t("search")}
         </button>

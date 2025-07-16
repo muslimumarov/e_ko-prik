@@ -123,13 +123,38 @@ function MyMapPage() {
         mouseout: (e: LeafletMouseEvent) =>
           (e.target as L.Path).setStyle(defaultStyle),
         click: (e: LeafletMouseEvent) => {
+          console.log("feature:", feature); // mavjud
           const regionName = feature.properties?.NAME_1;
-          if (!regionName) return;
+
+          console.log("regionName:", regionName); // 👉 bu yerda nima chiqadi?
+
+          if (!regionName) {
+            console.warn("Viloyat nomi topilmadi");
+            return;
+          }
+
+          const found = statistics.find(
+            (item) =>
+              item.region_name.trim().toLowerCase() ===
+              regionName.trim().toLowerCase(),
+          );
+
+          const coords = regionCenters[regionName];
+
+          if (found && coords) {
+            console.log("Viloyat:", regionName);
+            console.log("ID:", found.region_id);
+            console.log("Koordinata:", coords);
+          } else {
+            console.warn("ID yoki koordinata topilmadi:", regionName);
+          }
+
           setSelectedRegion(regionName);
           const polygon = e.target as L.Polygon;
           setZoomTo(polygon.getBounds());
         },
       });
+
       (layer as L.Path).setStyle(defaultStyle);
     },
     [defaultStyle, highlightStyle],

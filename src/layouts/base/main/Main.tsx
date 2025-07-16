@@ -1,59 +1,22 @@
 // Main.tsx
 import React from "react";
-import SearchInput from "../../../components/searchInput/SearchInput.tsx";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import SearchInput from "../../../components/searchInput/SearchInput.tsx";
 import MainBoxList from "./MainBoxList.tsx";
 import Article from "../article/Article.tsx";
+import { useBoxes } from "./main-items.tsx";
 
 const Main: React.FC = () => {
   const { t } = useTranslation();
+  const allBoxes = useBoxes();
+  const [searchTerm, setSearchTerm] = React.useState("");
 
-  const boxes = [
-    {
-      title: t("interactiveMap"),
-      description: t("xarita"),
-      path: "/map/interactiveMap",
-      img: "images/xaritaUzb.png",
-      isPublic: true,
-    },
-    {
-      title: t("monitoring"),
-      description: t("monitor"),
-      path: "http://90.156.199.181:8088/",
-      img: "/images/monitoring.4eab7f5f.png",
-      isPublic: false,
-      isExternal: true,
-    },
-    {
-      title: t("E-Xodim"),
-      description: t("xodim"),
-      path: "https://hrm.kuprikqurilish.uz/",
-      img: "images/recruitment.png",
-      isExternal: true,
-    },
-    {
-      title: t("archive"),
-      description: t("arxiv"),
-      path: "/archive",
-      img: "/images/arxiv2.png",
-      isPublic: true,
-    },
-    {
-      title: t("E-Ombor"),
-      description: t("ombor"),
-      path: "/warehouse",
-      img: "/images/ombor.png",
-      isPublic: false,
-    },
-    {
-      title: t("surveillanceCameras"),
-      description: t("camera"),
-      path: "/camera",
-      img: "/images/camera2.png",
-      isPublic: false,
-    },
-  ];
+  const filteredBoxes = allBoxes.filter(
+    (box) =>
+      box.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      box.description.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <div>
@@ -63,18 +26,21 @@ const Main: React.FC = () => {
           alt="img"
           className=" absolute inset-0 z-0 size-full object-cover"
         />
-        <div className="container  relative z-40 mx-auto my-40 px-4">
+        <div className="container relative z-40 mx-auto my-40 px-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="max-w-2xl">
-              <h1 className=" font-black text-amber-400 mobil330:mb-3 mobil330:text-3xl sm:text-4xl lg:text-6xl">
+              <h1 className="font-black text-amber-400 mobil330:mb-3 mobil330:text-3xl sm:text-4xl lg:text-6xl">
                 {t("E-Bridge")}
               </h1>
             </div>
             <div className="max-w-2xl">
-              <SearchInput />
+              <SearchInput value={searchTerm} onChange={setSearchTerm} />
             </div>
           </div>
-          <MainBoxList boxes={boxes} />
+
+          {/* 🔍 Faqat qidiruvga mos kelgan boxlar */}
+          <MainBoxList boxes={filteredBoxes} />
+
           <Outlet />
         </div>
       </div>
