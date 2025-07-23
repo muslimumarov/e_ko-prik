@@ -78,7 +78,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onChange }) => {
                   className="accent-blue-600"
                 />
                 <span className="text-sm text-gray-700 dark:text-white sm:text-base">
-                  {value}
                   {t(`statuss.${value}`)}
                 </span>
               </label>
