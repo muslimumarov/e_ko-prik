@@ -193,7 +193,7 @@ function MyMapPage() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FilterDropdown onChange={setHolatFilter} />
-        <ZoomControl position="topleft" />
+        <ZoomControl dark:bg-dark-950 position="topleft" />
 
         {!selectedRegion &&
           statistics.map(({ region_name, holat_counts }) => {
