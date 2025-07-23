@@ -112,24 +112,26 @@ const Archive: React.FC = () => {
 
           <div className="grid grid-cols-1 gap-6 px-5 pb-7 sm:grid-cols-2 md:grid-cols-4">
             {Array.isArray(card?.results) &&
-              card.results.map((box) => (
-                <div
-                  key={box.id}
-                  onClick={() => handleClick(box.id)}
-                  className="group cursor-pointer overflow-hidden rounded-xl border border-white/20 shadow-md backdrop-blur-md transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-blue-950"
-                >
-                  <img
-                    src={box.images?.image || "/images/IMG_2016.jpg"}
-                    alt={box.name}
-                    className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <h2 className="p-4 text-black transition-colors duration-300 group-hover:text-orange-500 dark:text-[#f35a02]">
-                    {box.name.length > 70
-                      ? box.name.slice(0, 70) + "..."
-                      : box.name}
-                  </h2>
-                </div>
-              ))}
+              card.results
+                .filter((box) => box.id !== 46)
+                .map((box) => (
+                  <div
+                    key={box.id}
+                    onClick={() => handleClick(box.id)}
+                    className="group cursor-pointer overflow-hidden rounded-xl border border-white/20 shadow-md backdrop-blur-md transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-blue-950"
+                  >
+                    <img
+                      src={box.images?.image || "/images/IMG_2016.jpg"}
+                      alt={box.name}
+                      className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <h2 className="p-4 text-black transition-colors duration-300 group-hover:text-orange-500 dark:text-[#f35a02]">
+                      {box.name.length > 70
+                        ? box.name.slice(0, 70) + "..."
+                        : box.name}
+                    </h2>
+                  </div>
+                ))}
           </div>
 
           {/* Pagination */}

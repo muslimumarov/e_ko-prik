@@ -37,11 +37,17 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onChange }) => {
     <div className="fixed left-14 top-[90px] z-[999] text-sm sm:left-auto sm:right-[150px] sm:top-[90px]">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-lg transition-all duration-200 hover:shadow-xl"
+        className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-lg transition-all duration-200 hover:shadow-xl dark:bg-blue-950"
       >
-        <FiFilter />
-        <span className="font-medium sm:inline">{t("filter")}</span>
-        {open ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        <FiFilter className={"dark:text-white"} />
+        <span className="font-medium dark:text-white sm:inline">
+          {t("filter")}
+        </span>
+        {open ? (
+          <IoIosArrowUp className={"dark:text-white"} />
+        ) : (
+          <IoIosArrowDown className={"dark:text-white"} />
+        )}
       </button>
 
       <div
@@ -49,12 +55,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onChange }) => {
           open
             ? "mt-3 scale-100 opacity-100"
             : "pointer-events-none scale-95 opacity-0"
-        } w-[260px] transform space-y-5 rounded-xl bg-white p-5 shadow-2xl transition-all duration-300 sm:w-[280px] ${
+        } w-[260px] transform space-y-5 rounded-xl bg-white p-5 shadow-2xl transition-all duration-300 dark:bg-blue-950 sm:w-[280px] ${
           open ? "left-0 sm:right-0" : "left-0 sm:right-0"
         }`}
       >
         <div>
-          <p className="mb-2 text-sm font-semibold text-gray-700 sm:text-base">
+          <p className="mb-2 text-sm font-semibold text-gray-700 dark:text-white sm:text-base">
             {t("selectByStatus")}
           </p>
           <div className="space-y-2">
@@ -71,7 +77,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onChange }) => {
                   onChange={() => handleSelect(value)}
                   className="accent-blue-600"
                 />
-                <span className="text-sm text-gray-700 sm:text-base">
+                <span className="text-sm text-gray-700 dark:text-white sm:text-base">
+                  {value}
                   {t(`statuss.${value}`)}
                 </span>
               </label>
