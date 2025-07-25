@@ -25,7 +25,7 @@ const AllofUzbekistan: React.FC<BackToDefaultButtonProps> = ({
     <button
       onClick={handleClick}
       className="fixed top-[90px] z-[1000] cursor-pointer rounded border border-amber-100 px-3
-            py-2  text-black backdrop-blur dark:bg-blue-950 dark:text-amber-200 mobil330:right-3 sm:right-80"
+            py-2  text-black backdrop-blur dark:bg-blue-950 dark:text-white mobil330:right-3 sm:right-80"
     >
       📌 {t("whole_uzbekistan")}
     </button>

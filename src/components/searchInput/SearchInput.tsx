@@ -25,7 +25,7 @@ const SearchInput: React.FC<Props> = ({ value, onChange }) => {
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
           <svg
-            className="size-4 text-amber-200 dark:text-gray-400"
+            className="size-4 text-black dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
