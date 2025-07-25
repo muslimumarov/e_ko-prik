@@ -18,7 +18,7 @@ body {
 }
 .home-video {
   object-fit: cover;
-  filter: brightness(80%) contrast(100%);
+  /*filter: brightness(80%) contrast(100%);*/
 }
 .no-copy {
   user-select: none;
