@@ -29,7 +29,7 @@ const Main: React.FC = () => {
         <div className="container relative z-40 mx-auto my-40 px-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="max-w-2xl">
-              <h1 className="font-black text-amber-400 mobil330:mb-3 mobil330:text-3xl sm:text-4xl lg:text-6xl">
+              <h1 className="font-black text-amber-400 mobil330:mb-3 mobil330:text-3xl sm:text-4xl lg:text-5xl">
                 {t("E-Bridge")}
               </h1>
             </div>

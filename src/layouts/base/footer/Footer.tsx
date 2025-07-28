@@ -94,7 +94,7 @@ const Footer = () => {
                     <FaTelegram className="text-xl" />
                   </a>
                   <a
-                    href="https://www.facebook.com/csec.uz"
+                    href="https://www.facebook.com/share/1C5XbJzT52/?mibextid=wwXIfr"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex size-10 items-center justify-center rounded-full bg-blue-700/50 text-white transition-transform hover:scale-110 hover:shadow-md"

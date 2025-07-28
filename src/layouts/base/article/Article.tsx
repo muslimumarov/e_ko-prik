@@ -140,7 +140,7 @@ const Article = () => {
                     <CountUp end={stats?.Jarayonda ?? 0} duration={4.1} />
                   </th>
                   <th className="p-4 text-left text-rose-400 dark:text-rose-300">
-                    {t("completed")}:{" "}
+                    {t("planned")}:{" "}
                     <CountUp
                       end={stats?.Rejalashtirilgan ?? 0}
                       duration={4.1}

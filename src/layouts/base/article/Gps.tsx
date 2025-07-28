@@ -11,7 +11,7 @@ const GpsPromo = () => {
   const navigate = useNavigate();
 
   const box = {
-    isPublic: false, // bu yerda ruxsat kerakmi-yo‘qmi belgilaysan
+    isPublic: true,
   };
 
   const handleClick = () => {
