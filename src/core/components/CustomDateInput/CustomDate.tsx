@@ -42,9 +42,9 @@ export const CustomDate: React.FC<CustomDateProps> = ({
         customInput={
           <div
             onClick={() => dateRef.current.setOpen(true)}
-            className="flex items-center justify-between gap-3 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-md transition hover:shadow-lg active:ring-2 active:ring-orange-500"
+            className="flex items-center justify-between gap-3 rounded-lg border border-gray-300 bg-white/60 px-4 py-2 text-sm shadow-md transition hover:shadow-lg active:ring-2 active:ring-orange-500"
           >
-            <span className={parsedDate ? "text-gray-900" : "text-gray-400"}>
+            <span className="text-gray-900">
               {parsedDate
                 ? format(parsedDate, "dd.MM.yyyy")
                 : placeholder || "Sanani tanlang"}
