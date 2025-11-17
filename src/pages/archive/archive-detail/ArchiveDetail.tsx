@@ -132,8 +132,8 @@ const ArchiveDetail = () => {
                   {[
                     { label: t("Holati"), value: bridge.holat },
                     { label: t("Buyurtmachi"), value: bridge.buyrutmachi },
-                    { label: t("Loyiha"), value: bridge.loyiha },
                     { label: t("Pudratchi"), value: bridge.pudratchi },
+                    { label: t("Loyihachi"), value: bridge.loyihachi },
                   ].map((item, index) => (
                     <motion.p
                       key={index}
@@ -148,14 +148,34 @@ const ArchiveDetail = () => {
                     </motion.p>
                   ))}
                 </div>
+                {bridge.boshlash_vaqti && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="mb-6"
+                  >
+                    <span className="block text-lg font-medium  dark:text-gray-200">
+                      {t("constructionStartDate")}
+                    </span>
+                    <span className="whitespace-pre-line font-bold  dark:text-gray-200">
+                      {bridge.boshlash_vaqti}
+                    </span>
+                    <span className="block text-lg font-medium  dark:text-gray-200">
+                      {t("tugallangan")}
+                    </span>
+                    <span className="whitespace-pre-line font-bold     dark:text-gray-200">
+                      {bridge.tugash_vaqti}
+                    </span>
+                  </motion.div>
+                )}
               </motion.div>
-
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
+                <h2 className="mb-3 text-lg font-semibold  dark:text-gray-200">
                   {t("Loyha Fayllarini Yuklash")}
                 </h2>
 
@@ -174,6 +194,14 @@ const ArchiveDetail = () => {
                         <Download size={18} /> {t("Asosiy Hujjat")}
                       </a>
                     )}
+                    {bridge.loyiha && (
+                      <a
+                        href={bridge.loyiha}
+                        className="flex items-center gap-2 text-black underline dark:text-amber-200"
+                      >
+                        <Download size={18} /> {t("Loyiha")}
+                      </a>
+                    )}
                     {bridge.vaqtinchalik_yol_sxemasi && (
                       <a
                         href={bridge.vaqtinchalik_yol_sxemasi}
@@ -181,21 +209,6 @@ const ArchiveDetail = () => {
                       >
                         <Download size={18} /> {t("Vaqtinchalik Yo‘l Sxemasi")}
                       </a>
-                    )}
-                    {bridge.boshlash_vaqti && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                        className="mb-6"
-                      >
-                        <h2 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200">
-                          {t("constructionStartDate")}
-                        </h2>
-                        <p className="whitespace-pre-line font-bold text-gray-700 dark:text-gray-200">
-                          {bridge.boshlash_vaqti}
-                        </p>
-                      </motion.div>
                     )}
                   </motion.div>
                 ) : (

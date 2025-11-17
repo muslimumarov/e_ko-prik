@@ -19,15 +19,15 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
   if (!isOpen || !location || !bridge) return null;
 
   const handleClick = () => {
-    // const token = localStorage.getItem("token");
-    //
-    // if (!token) {
-    //   localStorage.setItem("redirectBridgeId", bridge.id?.toString() || "");
-    //   return navigate("/login");
-    // }
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      localStorage.setItem("redirectBridgeId", bridge.id?.toString() || "");
+      return navigate("/login");
+    }
 
     navigate(`/archive/${bridge.id}`);
-    // closeModal();
+    closeModal();
   };
 
   const dataItem = (label: string, value?: string | null) => (
@@ -40,26 +40,26 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
     </p>
   );
 
-  const linkItem = (label: string, url?: string | null) => (
-    <p>
-      <strong>{label}:</strong>
-      <br />
-      {url ? (
-        <a
-          className="text-[#744817] underline dark:text-amber-200"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t("Hujjatga Havola")}
-        </a>
-      ) : (
-        <span className="text-[#744817] dark:text-amber-200">
-          {t("noData")}
-        </span>
-      )}
-    </p>
-  );
+  // const linkItem = (label: string, url?: string | null) => (
+  //     <p>
+  //         <strong>{label}:</strong>
+  //         <br/>
+  //         {url ? (
+  //             <a
+  //                 className="text-[#744817] underline dark:text-amber-200"
+  //                 href={url}
+  //                 target="_blank"
+  //                 rel="noopener noreferrer"
+  //             >
+  //                 {t("Hujjatga Havola")}
+  //             </a>
+  //         ) : (
+  //             <span className="text-[#744817] dark:text-amber-200">
+  //       {t("noData")}
+  //     </span>
+  //         )}
+  //     </p>
+  // );
 
   return (
     <div
@@ -100,8 +100,28 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
         {dataItem(t("technicalParameters"), bridge.texnik_parametrlari)}
         {dataItem(t("constructionStartDate"), bridge.boshlash_vaqti)}
         {dataItem(t("tugallangan"), bridge.tugash_vaqti)}
-        {linkItem(t("mainDocument"), bridge.asos_hujjat)}
-        {linkItem(t("Vaqtinchalik"), bridge.vaqtinchalik_yol_sxemasi)}
+        {/*{linkItem(t("mainDocument"), bridge.asos_hujjat)}*/}
+        {/*{linkItem(t("Vaqtinchalik"), bridge.vaqtinchalik_yol_sxemasi)}*/}
+
+        <p>
+          <button
+            onClick={handleClick}
+            className="flex items-center gap-1 text-left font-bold text-[#f35a02] hover:underline"
+          >
+            {t("mainDocument")}
+            <ArrowRight size={18} />
+          </button>
+        </p>
+
+        <p>
+          <button
+            onClick={handleClick}
+            className="flex items-center gap-1 text-left font-bold text-[#f35a02] hover:underline"
+          >
+            {t("Vaqtinchalik")}
+            <ArrowRight size={18} />
+          </button>
+        </p>
 
         <p>
           <button

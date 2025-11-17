@@ -57,6 +57,7 @@ function MyMapPage() {
   );
   const DEFAULT_ZOOM = 6;
 
+  // --- API fetchlar ---
   useEffect(() => {
     getStatisticsRegion().then(setStatistics).catch(console.error);
     const savedRegion = localStorage.getItem("selectedRegion");
@@ -64,57 +65,50 @@ function MyMapPage() {
     const savedLocation = localStorage.getItem("selectedLocation");
     if (savedLocation) setSelectedLocation(JSON.parse(savedLocation));
   }, []);
+
   useEffect(() => {
+    if (!selectedRegion || statistics.length === 0) return;
+
     const fetchBridges = async () => {
-      if (selectedRegion && statistics.length > 0) {
-        const found = statistics.find(
-          (item) => item.region_name === selectedRegion,
-        );
-        if (found) {
-          if (found.region_id !== regionId || holatFilter) {
-            setRegionId(found.region_id);
-            try {
-              const res = await getBridgeData(found.region_id);
-              const filtered =
-                holatFilter === "all"
-                  ? res
-                  : res.filter((b) => b.holat === holatFilter);
-              setBridges(filtered);
-            } catch (error) {
-              console.error(error);
-            }
-          }
+      const found = statistics.find(
+        (item) => item.region_name === selectedRegion,
+      );
+      if (!found) return;
+
+      if (found.region_id !== regionId || holatFilter) {
+        setRegionId(found.region_id);
+        try {
+          const res = await getBridgeData(found.region_id);
+          const filtered =
+            holatFilter === "all"
+              ? res
+              : res.filter((b) => b.holat === holatFilter);
+          setBridges(filtered);
+        } catch (err) {
+          console.error(err);
         }
       }
     };
-    fetchBridges();
-  }, [selectedRegion, statistics, holatFilter]);
 
+    fetchBridges();
+  }, [selectedRegion, statistics, holatFilter, regionId]);
+
+  // --- LocalStorage ---
   useEffect(() => {
     if (selectedRegion) localStorage.setItem("selectedRegion", selectedRegion);
     else localStorage.removeItem("selectedRegion");
   }, [selectedRegion]);
 
   useEffect(() => {
-    if (selectedLocation) {
+    if (selectedLocation)
       localStorage.setItem(
         "selectedLocation",
         JSON.stringify(selectedLocation),
       );
-    } else {
-      localStorage.removeItem("selectedLocation");
-    }
+    else localStorage.removeItem("selectedLocation");
   }, [selectedLocation]);
 
-  useEffect(() => {
-    if (selectedRegion && mapRef.current) {
-      const center = regionCenters[selectedRegion];
-      if (center) mapRef.current.flyTo(center, 9, { duration: 0.5 });
-    } else if (!selectedRegion && mapRef.current) {
-      mapRef.current.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 0.5 });
-    }
-  }, [selectedRegion]);
-
+  // --- Har bir viloyat ustiga bosish handler ---
   const onEachCountry = useCallback(
     (feature: GeoJSON.Feature, layer: L.Layer) => {
       layer.on({
@@ -123,14 +117,22 @@ function MyMapPage() {
         mouseout: (e: LeafletMouseEvent) =>
           (e.target as L.Path).setStyle(defaultStyle),
         click: (e: LeafletMouseEvent) => {
-          console.log("feature:", feature); // mavjud
           const regionName = feature.properties?.NAME_1;
+          if (!regionName) return;
 
-          console.log("regionName:", regionName); // 👉 bu yerda nima chiqadi?
+          const polygon = e.target as L.Polygon;
+          const bounds = polygon.getBounds();
 
-          if (!regionName) {
-            console.warn("Viloyat nomi topilmadi");
-            return;
+          if (regionName === "Toshkent shahar") {
+            mapRef.current?.fitBounds(bounds, {
+              maxZoom: 12,
+              animate: true,
+              duration: 0.8,
+            });
+          } else {
+            const center = regionCenters[regionName];
+            if (center && mapRef.current)
+              mapRef.current.flyTo(center, 9, { animate: true, duration: 0.8 });
           }
 
           const found = statistics.find(
@@ -138,28 +140,41 @@ function MyMapPage() {
               item.region_name.trim().toLowerCase() ===
               regionName.trim().toLowerCase(),
           );
-
-          const coords = regionCenters[regionName];
-
-          if (found && coords) {
-            console.log("Viloyat:", regionName);
-            console.log("ID:", found.region_id);
-            console.log("Koordinata:", coords);
-          } else {
-            console.warn("ID yoki koordinata topilmadi:", regionName);
-          }
-
+          if (found) setRegionId(found.region_id);
           setSelectedRegion(regionName);
-          const polygon = e.target as L.Polygon;
-          setZoomTo(polygon.getBounds());
+
+          setZoomTo(bounds);
         },
       });
-
       (layer as L.Path).setStyle(defaultStyle);
     },
-    [defaultStyle, highlightStyle],
+    [statistics],
   );
 
+  // --- DonutChartWrapper click handler ---
+  const handleDonutClick = useCallback((region_name: string) => {
+    const center = regionCenters[region_name];
+    if (!center || !mapRef.current) return;
+
+    const zoomLevel = region_name === "Toshkent shahar" ? 12 : 9;
+    mapRef.current.setView(center, zoomLevel, {
+      animate: true,
+      duration: 0.8,
+      easeLinearity: 0.25,
+    });
+    setSelectedRegion(region_name);
+  }, []);
+
+  // --- Marker click handler ---
+  const handleMarkerClick = useCallback(
+    (loc: Location) => {
+      setSelectedLocation(loc);
+      openModal();
+    },
+    [openModal],
+  );
+
+  // --- Bridges select ---
   const selectBridge = useMemo(
     () =>
       bridges.find((bridge) =>
@@ -168,10 +183,100 @@ function MyMapPage() {
     [bridges, selectedLocation],
   );
 
-  const handleMarkerClick = (loc: Location) => {
-    setSelectedLocation(loc);
-    openModal();
-  };
+  // --- DonutChartWrapperlar ---
+  const donutCharts = useMemo(() => {
+    if (!statistics || statistics.length === 0) return null;
+
+    return statistics.map(({ region_name, holat_counts }) => {
+      const center = regionCenters[region_name];
+      if (!center) return null;
+
+      const filteredData: HolatCounts =
+        holatFilter === "all"
+          ? holat_counts
+          : {
+              Jarayonda: 0,
+              Rejalashtirilgan: 0,
+              Tugallangan: 0,
+              [holatFilter]: holat_counts[holatFilter] ?? 0,
+            };
+
+      const total = Object.values(filteredData).reduce((a, b) => a + b, 0);
+      if (total === 0) return null;
+
+      return (
+        <DonutChartWrapper
+          key={region_name}
+          position={center}
+          regionName={region_name}
+          data={filteredData}
+          onClick={() => handleDonutClick(region_name)}
+        />
+      );
+    });
+  }, [statistics, holatFilter, handleDonutClick]);
+
+  // --- Bridges va Markers memo ---
+  const bridgeElements = useMemo(() => {
+    return bridges.flatMap((bridge) => {
+      const sortedLocations = [...bridge.locations].sort((a, b) => a.id - b.id);
+      const polylinePositions = sortedLocations
+        .map((loc) =>
+          loc.latitude && loc.longitude ? [loc.latitude, loc.longitude] : null,
+        )
+        .filter((pos): pos is [number, number] => Array.isArray(pos));
+
+      const polyline =
+        sortedLocations.length >= 2 ? (
+          <Polyline
+            key={`polyline-${bridge.id}`}
+            positions={polylinePositions}
+            pathOptions={{
+              color: {
+                Jarayonda: "#f35a02",
+                Tugallangan: "green",
+                Rejalashtirilgan: "red",
+              }[bridge.holat ?? "Rejalashtirilgan"],
+              weight: 3,
+              opacity: 1,
+            }}
+          />
+        ) : null;
+
+      let markerPosition: [number, number] | null = null;
+      let markerLoc: Location | null = null;
+      const count = sortedLocations.length;
+
+      if (count === 1) {
+        const loc = sortedLocations[0];
+        markerPosition = [loc.latitude, loc.longitude];
+        markerLoc = loc;
+      } else if (count === 2) {
+        const center = calculatePolylineCenter(sortedLocations);
+        if (center) {
+          markerPosition = center;
+          markerLoc = sortedLocations[0];
+        }
+      } else if (count >= 3) {
+        const mid = Math.floor(count / 2);
+        const loc = sortedLocations[mid];
+        markerPosition = [loc.latitude, loc.longitude];
+        markerLoc = loc;
+      }
+
+      return [
+        polyline,
+        markerPosition && markerLoc && (
+          <Marker
+            key={`bridge-${bridge.id}-marker`}
+            position={markerPosition}
+            icon={IconStatus(sortedLocations.length, bridge.holat ?? "")}
+            eventHandlers={{ click: () => handleMarkerClick(markerLoc) }}
+          />
+        ),
+      ];
+    });
+  }, [bridges, handleMarkerClick]);
 
   return (
     <Fragment>
@@ -195,37 +300,7 @@ function MyMapPage() {
         <FilterDropdown onChange={setHolatFilter} />
         <ZoomControl dark:bg-dark-950 position="topleft" />
 
-        {!selectedRegion &&
-          statistics.map(({ region_name, holat_counts }) => {
-            const center = regionCenters[region_name];
-            if (!center) return null;
-            const filteredData: HolatCounts =
-              holatFilter === "all"
-                ? holat_counts
-                : {
-                    Jarayonda: 0,
-                    Rejalashtirilgan: 0,
-                    Tugallangan: 0,
-                    [holatFilter]: holat_counts[holatFilter] ?? 0,
-                  };
-            const total = Object.values(filteredData).reduce(
-              (a, b) => a + b,
-              0,
-            );
-            if (total === 0) return null;
-            return (
-              <DonutChartWrapper
-                key={region_name}
-                position={center}
-                regionName={region_name}
-                data={filteredData}
-                onClick={() => {
-                  setSelectedRegion(region_name);
-                  mapRef.current?.setView(center, 9);
-                }}
-              />
-            );
-          })}
+        {!selectedRegion && donutCharts}
 
         {selectedRegion && (
           <AllofUzbekistan
@@ -237,69 +312,16 @@ function MyMapPage() {
               setBridges([]);
               setZoomTo(null);
               mapRef.current?.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
-                duration: 0.5,
+                duration: 0.8,
                 easeLinearity: 0.25,
               });
             }}
           />
         )}
+
         <StatisticPanel />
         {zoomTo && <MapZoomer bounds={zoomTo} />}
-
-        {bridges.flatMap((bridge) => {
-          const locations = bridge.locations;
-          const holatColor = {
-            Jarayonda: "#f35a02",
-            Tugallangan: "green",
-            Rejalashtirilgan: "red",
-          }[bridge.holat ?? "Rejalashtirilgan"];
-
-          const polylinePositions = locations
-            .map((loc) =>
-              loc.latitude && loc.longitude
-                ? [loc.latitude, loc.longitude]
-                : null,
-            )
-            .filter((pos): pos is [number, number] => Array.isArray(pos));
-
-          const polyline =
-            locations.length >= 2 ? (
-              <Polyline
-                key={`polyline-${bridge.id}`}
-                positions={polylinePositions}
-                pathOptions={{
-                  color: holatColor,
-                  weight: 3,
-                  opacity: 1,
-                }}
-              />
-            ) : null;
-          let markerPosition: [number, number] | null = null;
-          let markerLoc: Location | null = null;
-          if (locations.length >= 3) {
-            markerPosition = [locations[0].latitude, locations[0].longitude];
-            markerLoc = locations[0];
-          } else {
-            const center = calculatePolylineCenter(locations);
-            if (center) {
-              markerPosition = center;
-              markerLoc = locations[Math.floor(locations.length / 2)];
-            }
-          }
-          return [
-            polyline,
-            markerPosition && markerLoc && (
-              <Marker
-                key={`bridge-${bridge.id}-marker`}
-                position={markerPosition}
-                icon={IconStatus(locations.length, bridge.holat ?? "")}
-                eventHandlers={{
-                  click: () => handleMarkerClick(markerLoc),
-                }}
-              />
-            ),
-          ];
-        })}
+        {bridgeElements}
         <GeoJSON
           data={uzb as GeoJSON.GeoJsonObject}
           onEachFeature={onEachCountry}

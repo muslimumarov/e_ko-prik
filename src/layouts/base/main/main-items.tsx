@@ -32,6 +32,7 @@ export const useBoxes = () => {
       path: "/archive",
       img: "/images/arxiv2.png",
       isPublic: true,
+      isExternal: true,
     },
     {
       title: t("E-Ombor"),
