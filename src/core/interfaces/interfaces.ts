@@ -34,6 +34,8 @@ export interface BridgeData {
   boshlash_vaqti: string | null;
   tugash_vaqti?: string | null;
   asos_hujjat?: string | null;
+  obyektdagi_xodimlar_soni: string | null;
+  obyektdagi_texnikalar_soni: string | null;
   buyrutmachi?: string;
   texnik_parametrlari: string | null;
   obyektning_umumiy_summasi?: string | null; // optional, agar kerak bo'lsa
@@ -61,9 +63,11 @@ export interface holatStatistica {
   Rejalashtirilgan?: number;
   Tugallangan?: number;
 }
+
 export interface HolatCounts {
   Jarayonda: number;
   Rejalashtirilgan: number;
   Tugallangan: number;
+
   [key: string]: number; // 🔧 qo‘shiladi
 }

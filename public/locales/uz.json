@@ -121,5 +121,12 @@
   "Surxondaryo": "Surxondaryo",
   "Qashqadaryo": "Qashqadaryo",
   "Xorazm": "Xorazm",
-  "Ishonch telefoni": "Ishonch telefoni"
+  "Ishonch telefoni": "Ishonch telefoni",
+  "statusS": {
+    "Tugallangan": "Tugallangan",
+    "Jarayonda": "Jarayonda",
+    "Rejalashtirilgan": "Rejalashtirilgan"
+  },
+  "obyektdagi_xodimlar_soni": "Obyektdagi xodimlar soni",
+  "obyektdagi_texnikalar_soni": "Obyektdagi texnikalar soni"
 }

@@ -134,5 +134,12 @@
   "Hech narsa topilmadi": "Ничего не найдено",
   "Arxiv Ma'lumotlar": "Архивные данные",
   "Ijtimoiy tarmoqlar": "Социальные сети",
-  "Ishonch telefoni": "Телефон доверия"
+  "Ishonch telefoni": "Телефон доверия",
+  "statusS": {
+    "Tugallangan": "Завершено",
+    "Jarayonda": "В процессе",
+    "Rejalashtirilgan": "Запланировано"
+  },
+  "obyektdagi_xodimlar_soni": "Количество работников на объекте",
+  "obyektdagi_texnikalar_soni": "Количество техники на объекте"
 }

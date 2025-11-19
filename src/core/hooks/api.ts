@@ -1,24 +1,54 @@
 import { BridgeData, StatisticaResponse } from "../interfaces/interfaces.ts";
 import { api } from "./apiUrl.ts";
 
-// bridge ma'lumotlarini olish
+// ============================
+// 🔹 Bridge ma'lumotlarini olish
+// ============================
 export const getBridgeData = async (
   regionId: number,
 ): Promise<BridgeData[]> => {
-  const res = await api.get<{ bridges: BridgeData[] }>(
-    `/region-bridges/${regionId}/`,
-  );
-  return res.data.bridges;
+  try {
+    const res = await api.get<{ bridges: BridgeData[] }>(
+      `/region-bridges/${regionId}/`,
+    );
+
+    console.log("Bridge Data Response:", res.data);
+
+    return res.data.bridges || [];
+  } catch (err: any) {
+    console.error("getBridgeData ERROR:", err.response?.data || err.message);
+    return [];
+  }
 };
 
-// hudud statistikasi
-export const getStatisticsRegion = async (): Promise<StatisticaResponse> => {
-  const response = await api.get("/bridge-region-holat-statistics/");
-  return response.data;
-};
+// ============================
+// 🔹 Hudud statistikasi
+// ============================
+export const getStatisticsRegion =
+  async (): Promise<StatisticaResponse | null> => {
+    try {
+      const res = await api.get("/bridge-region-holat-statistics/");
+      console.log("Region Statistics Response:", res.data);
+      return res.data;
+    } catch (err: any) {
+      console.error(
+        "getStatisticsRegion ERROR:",
+        err.response?.data || err.message,
+      );
+      return null;
+    }
+  };
 
-// ko‘prik holat statistikasi
-export const getBridgeHolat = async (): Promise<StatisticaResponse> => {
-  const res = await api.get("/bridge-holat-statistics/");
-  return res.data;
+// ============================
+// 🔹 Ko‘prik holat statistikasi
+// ============================
+export const getBridgeHolat = async (): Promise<StatisticaResponse | null> => {
+  try {
+    const res = await api.get("/bridge-holat-statistics/");
+    console.log("Bridge Holat Statistics Response:", res.data);
+    return res.data;
+  } catch (err: any) {
+    console.error("getBridgeHolat ERROR:", err.response?.data || err.message);
+    return null;
+  }
 };

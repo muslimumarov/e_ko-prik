@@ -5,6 +5,7 @@ import CardCaption from "../../../core/components/card/CardCaption.tsx";
 import { ArrowRight, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useModalStore } from "../../../store/modalStore.ts";
+import useAuthStore from "../../../store/useAuthStore.ts";
 
 interface Props {
   location: Location | null;
@@ -15,17 +16,19 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isOpen, closeModal } = useModalStore();
+  const { isAuthenticated } = useAuthStore();
 
   if (!isOpen || !location || !bridge) return null;
 
   const handleClick = () => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!isAuthenticated) {
+      // Agar login bo'lmagan bo'lsa, bridge id saqlaymiz va login sahifasiga yo'naltiramiz
       localStorage.setItem("redirectBridgeId", bridge.id?.toString() || "");
-      return navigate("/login");
+      navigate("/login");
+      return;
     }
 
+    // Login bo'lsa to'g'ridan-to'g'ri arxivga o'tamiz
     navigate(`/archive/${bridge.id}`);
     closeModal();
   };
@@ -40,31 +43,9 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
     </p>
   );
 
-  // const linkItem = (label: string, url?: string | null) => (
-  //     <p>
-  //         <strong>{label}:</strong>
-  //         <br/>
-  //         {url ? (
-  //             <a
-  //                 className="text-[#744817] underline dark:text-amber-200"
-  //                 href={url}
-  //                 target="_blank"
-  //                 rel="noopener noreferrer"
-  //             >
-  //                 {t("Hujjatga Havola")}
-  //             </a>
-  //         ) : (
-  //             <span className="text-[#744817] dark:text-amber-200">
-  //       {t("noData")}
-  //     </span>
-  //         )}
-  //     </p>
-  // );
-
   return (
     <div
-      className={`custom-scrollbar fixed top-[75px]  z-[1000] h-[95vh] w-[295px] overflow-y-auto rounded-tr-lg   backdrop-blur transition-all   duration-700 ease-in-out dark:bg-blue-950 
-      dark:text-amber-100 sm:w-96 sm:rounded-none ${
+      className={`custom-scrollbar fixed top-[75px] z-[1000] h-[95vh] w-[295px] overflow-y-auto rounded-tr-lg backdrop-blur transition-all duration-700 ease-in-out dark:bg-blue-950 dark:text-amber-100 sm:w-96 sm:rounded-none ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
       style={{ pointerEvents: "auto", touchAction: "auto" }}
@@ -98,10 +79,22 @@ const InfoModal: React.FC<Props> = ({ location, bridge }) => {
         {dataItem(t("pudratchi"), bridge.pudratchi)}
         {dataItem(t("loyihachi"), bridge.loyihachi)}
         {dataItem(t("technicalParameters"), bridge.texnik_parametrlari)}
+        {dataItem(
+          t("obyektdagi_xodimlar_soni"),
+          bridge.obyektdagi_xodimlar_soni,
+        )}
+        {dataItem(
+          t("obyektdagi_texnikalar_soni"),
+          bridge.obyektdagi_texnikalar_soni,
+        )}
+        <a
+          className={"text-blue-600 underline dark:text-amber-400 "}
+          href="https://gps.kuprikqurilish.uz/replay"
+        >
+          GPS tizimiga havola <ArrowRight className={"inline"} size={18} />
+        </a>
         {dataItem(t("constructionStartDate"), bridge.boshlash_vaqti)}
         {dataItem(t("tugallangan"), bridge.tugash_vaqti)}
-        {/*{linkItem(t("mainDocument"), bridge.asos_hujjat)}*/}
-        {/*{linkItem(t("Vaqtinchalik"), bridge.vaqtinchalik_yol_sxemasi)}*/}
 
         <p>
           <button

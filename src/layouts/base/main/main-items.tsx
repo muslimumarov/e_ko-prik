@@ -1,6 +1,15 @@
 import { useTranslation } from "react-i18next";
 
-export const useBoxes = () => {
+export interface BoxItem {
+  title: string;
+  description: string;
+  path: string;
+  img: string;
+  isPublic?: boolean;
+  isExternal?: boolean;
+}
+
+export const useBoxes = (): BoxItem[] => {
   const { t } = useTranslation();
 
   return [
@@ -8,7 +17,7 @@ export const useBoxes = () => {
       title: t("interactiveMap"),
       description: t("xarita"),
       path: "/map/interactiveMap",
-      img: "images/xaritaUzb.png",
+      img: "/images/xaritaUzb.png",
       isPublic: true,
     },
     {
@@ -16,14 +25,15 @@ export const useBoxes = () => {
       description: t("monitor"),
       path: "http://90.156.199.181:8088/",
       img: "/images/monitoring.4eab7f5f.png",
-      isPublic: false,
+      isPublic: true,
       isExternal: true,
     },
     {
       title: t("E-Xodim"),
       description: t("xodim"),
       path: "https://hrm.kuprikqurilish.uz/",
-      img: "images/recruitment.png",
+      img: "/images/recruitment.png",
+      isPublic: true,
       isExternal: true,
     },
     {
@@ -31,15 +41,14 @@ export const useBoxes = () => {
       description: t("arxiv"),
       path: "/archive",
       img: "/images/arxiv2.png",
-      isPublic: true,
-      isExternal: true,
+      isPublic: false,
     },
     {
       title: t("E-Ombor"),
       description: t("ombor"),
       path: "/warehouse",
       img: "/images/ombor.png",
-      isPublic: false,
+      isPublic: true,
     },
     {
       title: t("surveillanceCameras"),

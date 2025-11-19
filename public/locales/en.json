@@ -132,5 +132,12 @@
   "Qashqadaryo": "Kashkadarya",
   "Xorazm": "Khorezm",
   "Ijtimoiy tarmoqlar": "Social networks",
-  "Ishonch telefoni": "Hotline"
+  "Ishonch telefoni": "Hotline",
+  "statusS": {
+    "Tugallangan": "Completed",
+    "Jarayonda": "In progress",
+    "Rejalashtirilgan": "Planned"
+  },
+  "obyektdagi_xodimlar_soni": "Number of personnel on site",
+  "obyektdagi_texnikalar_soni": "Number of equipment on site"
 }

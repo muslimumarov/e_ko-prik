@@ -25,7 +25,7 @@ export const IconRed = () =>
 export const IconYellow = () =>
   divIcon({
     html: renderToStaticMarkup(
-      <div dangerouslySetInnerHTML={{ __html: getSvg("#f35a02") }} />,
+      <div dangerouslySetInnerHTML={{ __html: getSvg("#e14b00") }} />,
     ),
     className: "",
     iconSize: [34, 34],

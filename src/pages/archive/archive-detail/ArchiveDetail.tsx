@@ -98,11 +98,14 @@ const ArchiveDetail = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <span
-                  onClick={() => navigate(-1)}
+                  onClick={() => {
+                    // Marker ID saqlangan localStorage bo‘lsa, shuni saqlab qolamiz
+                    localStorage.setItem("redirectToMap", "true");
+                    navigate("/map/interactiveMap"); // hozirgi sahifani har doim xaritaga yo'naltiramiz
+                  }}
                   className="sm:text-md mb-6 inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-600 px-4 py-2 font-semibold text-black transition-all duration-200 dark:text-white mobil330:text-[12px]"
                 >
-                  <ArrowLeft size={16} />
-                  {t("Ortga")}
+                  <ArrowLeft size={16} /> {t("Ortga")}
                 </span>
               </motion.div>
             </div>
@@ -130,7 +133,7 @@ const ArchiveDetail = () => {
                 </h2>
                 <div className="space-y-2 dark:text-gray-200">
                   {[
-                    { label: t("Holati"), value: bridge.holat },
+                    { label: t("Holati"), value: t(`statusS.${bridge.holat}`) },
                     { label: t("Buyurtmachi"), value: bridge.buyrutmachi },
                     { label: t("Pudratchi"), value: bridge.pudratchi },
                     { label: t("Loyihachi"), value: bridge.loyihachi },

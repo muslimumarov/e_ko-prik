@@ -40,7 +40,7 @@ import {
 } from "./map-item/MapItems.tsx";
 
 function MyMapPage() {
-  const [statistics, setStatistics] = useState<StatisticaResponse>([]);
+  const [statistics, setStatistics] = useState<StatisticaResponse | null>(null);
   const [regionId, setRegionId] = useState<number | null>(null);
   const [zoomTo, setZoomTo] = useState<LatLngBoundsExpression | null>(null);
   const [bridges, setBridges] = useState<BridgeData[]>([]);
@@ -51,6 +51,7 @@ function MyMapPage() {
   const [holatFilter, setHolatFilter] = useState<string>("all");
   const mapRef = useRef<L.Map | null>(null);
   const { openModal } = useModalStore();
+
   const DEFAULT_CENTER = useMemo<[number, number]>(
     () => [41.377491, 64.585258],
     [],
@@ -59,15 +60,19 @@ function MyMapPage() {
 
   // --- API fetchlar ---
   useEffect(() => {
-    getStatisticsRegion().then(setStatistics).catch(console.error);
+    getStatisticsRegion()
+      .then((data) => setStatistics(data || []))
+      .catch(console.error);
+
     const savedRegion = localStorage.getItem("selectedRegion");
     if (savedRegion) setSelectedRegion(savedRegion);
+
     const savedLocation = localStorage.getItem("selectedLocation");
     if (savedLocation) setSelectedLocation(JSON.parse(savedLocation));
   }, []);
 
   useEffect(() => {
-    if (!selectedRegion || statistics.length === 0) return;
+    if (!selectedRegion || !statistics || statistics.length === 0) return;
 
     const fetchBridges = async () => {
       const found = statistics.find(
@@ -107,8 +112,43 @@ function MyMapPage() {
       );
     else localStorage.removeItem("selectedLocation");
   }, [selectedLocation]);
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedLocationId");
+    if (savedId && bridges.length > 0) {
+      const loc = bridges
+        .flatMap((b) => b.locations)
+        .find((l) => l.id.toString() === savedId);
+      if (loc) {
+        setSelectedLocation(loc);
+        openModal(); // 🟢 modalni qayta ochish
+      }
+    }
+  }, [bridges, openModal]);
+  useEffect(() => {
+    const savedLocationId = localStorage.getItem("selectedLocationId");
+    if (!savedLocationId || !bridges.length) return;
 
-  // --- Har bir viloyat ustiga bosish handler ---
+    const locId = Number(savedLocationId);
+
+    // Bridge va location topamiz
+    const bridgeWithLoc = bridges.find((b) =>
+      b.locations.some((l) => l.id === locId),
+    );
+    const location = bridgeWithLoc?.locations.find((l) => l.id === locId);
+
+    if (location && mapRef.current) {
+      setSelectedLocation(location); // modalni ochish uchun
+      openModal(); // modalni ochish
+
+      // Xaritani markerga yaqinlashtirish
+      mapRef.current.flyTo([location.latitude, location.longitude], 10, {
+        animate: true,
+        duration: 0.8,
+      });
+    }
+  }, [bridges, openModal]);
+
+  // --- Viloyat ustiga bosish handler ---
   const onEachCountry = useCallback(
     (feature: GeoJSON.Feature, layer: L.Layer) => {
       layer.on({
@@ -135,14 +175,15 @@ function MyMapPage() {
               mapRef.current.flyTo(center, 9, { animate: true, duration: 0.8 });
           }
 
-          const found = statistics.find(
+          const found = statistics?.find(
             (item) =>
               item.region_name.trim().toLowerCase() ===
               regionName.trim().toLowerCase(),
           );
           if (found) setRegionId(found.region_id);
-          setSelectedRegion(regionName);
 
+          setSelectedRegion(regionName);
+          localStorage.removeItem("selectedLocationId"); // 🟢 shu qo‘shildi
           setZoomTo(bounds);
         },
       });
@@ -169,6 +210,7 @@ function MyMapPage() {
   const handleMarkerClick = useCallback(
     (loc: Location) => {
       setSelectedLocation(loc);
+      localStorage.setItem("selectedLocationId", loc.id.toString()); // 🟢 shu qo‘shiladi
       openModal();
     },
     [openModal],
