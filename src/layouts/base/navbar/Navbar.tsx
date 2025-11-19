@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   const handleAuthClick = () => {
     if (isAuthenticated) {
       logout();
-      navigate("login");
+      navigate("/");
     } else {
       navigate("login");
     }
